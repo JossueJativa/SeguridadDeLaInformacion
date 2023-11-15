@@ -12,6 +12,12 @@
 > - settings.py //Este trae todo lo que el proyecto necesita para funcionar, es decir las aplicaciones, las bases de datos, el lenguaje, etc </br>
 > - urls.py //Sirve para poner el path de donde se va a encontrar la pagina web hecha </br>
 > - views.py //Sirve para hacer las vistas, donde se toman como clases, el nombre de la clase se debe poner en el urls.py </br>
+> - modles.py //Todas las migraciones que se van a hacer a las bases de datos
+> - middleware.py //Toda la parte de seguridad del proyecto 
+> - test.py //Parte de testeo del proyecto
+> - admin.py //Parte de administracion del proyecto y vistas que solo puede hacer el administrador
+> - forms.py //Parte de los formularios que se van a hacer en el proyecto
+> - apps.py //Parte de las aplicaciones que se van a hacer en el proyecto
 
 ## Carpetas importantes del proyecto
 > - static //Esta carpeta sirve para guardar todos los estilos, script e imagenes con sus respectivas carpetas </br>
