@@ -22,6 +22,7 @@
 ## Carpetas importantes del proyecto
 > - static //Esta carpeta sirve para guardar todos los estilos, script e imagenes con sus respectivas carpetas </br>
 > - templates //Esta carpeta se encarga de guardar todos los html que se hace del sistema </br>
+> - media //Esta carpeta sirve para encargarse unicamente de audios, videos e imagenes para sobre escribir </br>
 
 ## Funcionalidad del envAct
 > - env\Script\activate //Sirve para activar el entorno virtual para windows
