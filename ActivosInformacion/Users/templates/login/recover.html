@@ -1,0 +1,24 @@
+{% extends 'layoutUser.html' %}
+{% load static %}
+
+{% block body %}
+    <form action="">
+        <div class="center-login">
+            <h1>Login</h1>
+        </div>
+
+        <div class="container-input">
+            <input type="text" placeholder="Email" id="email"><br>
+        </div>
+
+        <div class="container-button">
+            <button type="submit" class="btn btn-primary">Send Code Verification</button>
+        </div>
+
+        <div class="container-link">
+            <p>Don't have accout: <span><a href="{% url 'user:register' %}">Register</a></span></p>
+            <p>Back to <span><a href="{% url 'user:login' %}">login</a></span></p>
+        </div>
+    </form>
+
+{% endblock %}
