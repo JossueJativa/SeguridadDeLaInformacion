@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login as django_login, logout
 from django.urls import reverse
 
-from Users.models import User, TeamRoles
+from Users.models import User, Department, WorkPosition
 
 # Create your views here.
 def login(request):
@@ -36,15 +36,18 @@ def login(request):
     return render(request, "login/login.html")
 
 def register(request):
+    department = Department.objects.all()
+    workposition = WorkPosition.objects.all()
     if request.method == "POST":
         firstname = request.POST.get("firstname")
         lastname = request.POST.get("lastname")
         username = request.POST.get("username")
         email = request.POST.get("email")
         identity = request.POST.get("identity")
-        jobtype = request.POST.get("jobtype")
+        depart = request.POST.get("depart")
         password = request.POST.get("password")
         confirm = request.POST.get("confirm")
+        workpost = request.POST.get("workpost")
 
         try:
             user = User.objects.get(email=email)
@@ -65,7 +68,7 @@ def register(request):
                 "lastname": lastname,
                 "username": username,
                 "identity": identity,
-                "jobtype": jobtype,
+                "department": department,
             })
 
         if password != confirm:
@@ -78,27 +81,29 @@ def register(request):
                 "username": username,
                 "email": email,
                 "identity": identity,
-                "jobtype": jobtype,
+                "department": department,
             })
         
-        teamRole = TeamRoles.objects.create(
-            name=jobtype
-        )
-        teamRole.save()
+        depart = Department.objects.get(pk=depart)
+        workpost = WorkPosition.objects.get(pk=workpost)
 
         user = User.objects.create_user(
             username=username, 
             email=email, 
-            password=password
+            password=password,
+            department=depart,
+            workPosition = workpost
         )
         user.first_name = firstname
         user.last_name = lastname
         user.identity = identity
-        user.teamRole = teamRole
         user.save()
 
         return render(request, "login/login.html")
-    return render(request, "login/register.html")
+    return render(request, "login/register.html", {
+        "department": department,
+        "workposition": workposition,
+    })
 
 def recover(request):
     return render(request, "login/recover.html")

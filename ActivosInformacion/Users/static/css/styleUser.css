@@ -34,7 +34,7 @@ body, html {
     text-align: center;
 }
 
-.container-input input{
+.container-input .input-info{
     width: 60%;
     padding: 2%;
     margin: 1%;

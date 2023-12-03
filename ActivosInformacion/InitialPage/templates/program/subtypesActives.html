@@ -1,0 +1,36 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="text-title">
+        <h1>Subtypes Actives</h1>
+    </div>
+
+    <div class="searchType">
+        <label for="inpSearch">Search by name: </label>
+        <input class="box-ingreso" type="search" id="inpSearch">
+    </div>
+
+    <div class="table-responsive">
+        <table class="table" id="searchtable">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">SubTypes actives names</th>
+                    <th scope="col">SubTypes actives descriptions</th>
+                    <th scope="col">Types active relation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in subtypesactives %}
+                <tr>
+                    <th scope="row">{{ dato.id }}</th>
+                    <td>{{ dato.name }}</td>
+                    <td>{{ dato.description }}</td>
+                    <td>{{ dato.typeActive.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

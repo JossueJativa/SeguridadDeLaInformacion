@@ -1,0 +1,30 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="text-title">
+        <h1>Types Actives</h1>
+        <input type="text" name="" id="inpSearch">
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Types of actives names</th>
+                    <th scope="col">Types of actives descriptions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in typesactives %}
+                <tr>
+                    <th scope="row">{{ dato.id }}</th>
+                    <td>{{ dato.name }}</td>
+                    <td>{{ dato.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
