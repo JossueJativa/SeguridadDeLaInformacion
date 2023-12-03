@@ -6,7 +6,7 @@ document.getElementById("inpSearch").addEventListener("input", e => {
     const tr = tabla.getElementsByTagName("tr");
   
     for (let i = 1; i < tr.length; i++) {
-      const td = tr[i].getElementsByTagName("td")[1];
+      const td = tr[i].getElementsByTagName("td")[0];
   
       if (td) {
         const txtValue = td.textContent || td.innerText;

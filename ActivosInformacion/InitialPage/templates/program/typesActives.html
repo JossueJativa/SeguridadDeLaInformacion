@@ -4,11 +4,15 @@
 {% block body %}
     <div class="text-title">
         <h1>Types Actives</h1>
-        <input type="text" name="" id="inpSearch">
+    </div>
+
+    <div class="searchType">
+        <label for="inpSearch">Search by name: </label>
+        <input class="box-ingreso" type="search" id="inpSearch">
     </div>
 
     <div class="table-responsive">
-        <table class="table">
+        <table class="table" id="searchtable">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">ID</th>
