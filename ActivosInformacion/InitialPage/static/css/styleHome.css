@@ -10,10 +10,11 @@ body, html {
 }
 
 .side-bar{
-    position: absolute;
+    position: fixed;
     width: 13%;
     height: 100%;
     background-color: #2B3035;
+    padding-top: 5%;
 }
 
 .side-bar-item{
@@ -38,6 +39,7 @@ body, html {
     height: 100%;
     background-color: #fff;
     float: right;
+    padding-top: 5%;
 }
 
 .dropdown .invisibleButton{
@@ -63,7 +65,6 @@ body, html {
     color: #231f1f;
     text-align: center;
     line-height: 50px;
-    cursor: pointer;
 }
 
 .searchType{
@@ -72,4 +73,85 @@ body, html {
     width: 100%;
     padding-bottom: 1%;
     border-bottom: 1px solid #3C4148;
+}
+
+.create-button{
+    position: relative;
+    width: 50%;
+    height: 50px;
+    background-color: #2B3035;
+    border-bottom: 1px solid #3C4148;
+    color: #fff;
+    text-align: justify;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+.dropdown-menu{
+    z-index: 1000;
+}
+
+.dropdown-menu.show{
+    background-color: #2B3035;
+    color: white;
+}
+
+.dropdown-menu.show .dropdown-item{
+    color: white;
+}
+
+.dropdown-menu.show .dropdown-item:hover{
+    background-color: #3C4148;
+    color: white;
+}
+
+.position-button-end{
+    position: relative;
+    margin-left: 0%;
+}
+
+.box-ingreso{
+    border-color: aqua;
+    border-radius: 5px;
+    border-style: solid;
+    margin: 1%;
+}
+
+.simplebutton{
+    cursor: pointer;
+    margin-left: 5%;
+}
+
+/*Responsive*/
+@media screen and (max-width: 768px) {
+    .side-bar{
+        width: 25%;
+        padding-top: 9%;
+    }
+
+    .complementwindow{
+        width: 80%;
+        height: 100%;
+        padding-top: 10%;
+    }
+
+    .text-title{
+        line-height: 100%;
+    }
+
+    .searchType{
+        padding-bottom: 0%;
+        margin: 2%;
+    }
+
+    .create-button{
+        width: 100%;
+        height: 100%;
+        border-bottom: none;
+        line-height: 100%;
+    }
+
+    .position-button-end{
+        margin: 2%;
+    }
 }

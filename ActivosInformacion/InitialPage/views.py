@@ -13,6 +13,7 @@ def home(request):
     
 def typesActives(request):
     if request.user.is_authenticated:
+        # if request.method == "POST":
         typesactives = TypesActives.objects.all()
         return render(request, "program/typesActives.html",{
             "typesactives": typesactives
@@ -22,9 +23,31 @@ def typesActives(request):
     
 def subtypesActives(request):
     if request.user.is_authenticated:
+        if request.method == "POST":
+            namesubtype = request.POST.get("namesubtype")
+            descriptionsubtype = request.POST.get("descriptionsubtype")
+            typesactive = request.POST.get("typesactive")
+
+            typesactive = TypesActives.objects.get(pk=typesactives)
+
+            subtypeactive = SubtypesActives.objects.create(
+                name=namesubtype,
+                description=descriptionsubtype,
+                typesactive=typesactive
+            )
+            subtypeactive.save()
+
+            subtypesactives = SubtypesActives.objects.all()
+            typesactives = TypesActives.objects.all()
+            return render(request, "program/subtypesActives.html",{
+                "subtypesactives": subtypesactives,
+                "typesactives": typesactives
+            })
         subtypesactives = SubtypesActives.objects.all()
+        typesactives = TypesActives.objects.all()
         return render(request, "program/subtypesActives.html",{
             "subtypesactives": subtypesactives,
+            "typesactives": typesactives
         })
     else:
         return HttpResponseRedirect(reverse("user:login"))

@@ -3,12 +3,42 @@
 
 {% block body %}
     <div class="text-title">
-        <h1>Types Actives</h1>
+        <h1>Types Assets</h1>
     </div>
 
     <div class="searchType">
         <label for="inpSearch">Search by name: </label>
-        <input class="box-ingreso" type="search" id="inpSearch">
+        <input class="box-ingreso" type="search" id="inpSearch"><br>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary position-button-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Create subtype Assets
+        </button>
+        
+        <!-- Modal -->
+        <form action="{% url 'home:typesActives' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Subtype Assets</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="namesubtype">Name for subtype assets:</label>
+                            <input class="box-ingreso" type="text" id="namesubtype" name="namesubtype" required><br>
+                            <label for="descriptionsubtype">Description for subtype assets:</label>
+                            <input class="box-ingreso" type="text" id="descriptionsubtype" name="descriptionsubtype" required><br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Create</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="table-responsive">
@@ -16,8 +46,8 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Types of actives names</th>
-                    <th scope="col">Types of actives descriptions</th>
+                    <th scope="col">Types of Assets names</th>
+                    <th scope="col">Types of Assets descriptions</th>
                 </tr>
             </thead>
             <tbody>

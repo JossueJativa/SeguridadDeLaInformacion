@@ -10,7 +10,7 @@
     <title>Document</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="{% url 'home:home' %}">
             Security
@@ -39,25 +39,22 @@
         <div class="side-bar-container">
             <div class="side-bar-item">
                 <div class="dropdown">
-                    <button class="invisibleButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Information of actives
+                    <button class="btn btn-secondary invisibleButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Assets Information
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'home:typesActives' %}">Actives types</a></li>
                         <li><a class="dropdown-item" href="{% url 'home:subtypesActives' %}">Subactives types</a></li>
-                        <li><a class="dropdown-item" href="#">Goals</a></li>
-                        <li><a class="dropdown-item" href="#">Teams Roles</a></li>
                     </ul>
                 </div>
             </div>
+
             <div class="side-bar-item">
-                <a href="{% url 'home:home' %}">Home</a>
-            </div>
-            <div class="side-bar-item">
-                <a href="{% url 'home:home' %}">Home</a>
-            </div>
-            <div class="side-bar-item">
-                <a href="{% url 'home:home' %}">Home</a>
+                <a class="dropdown-item" href="">
+                    <div class="simplebutton">
+                        Company Assets
+                    </div>
+                </a>
             </div>
         </div>
     </div>
