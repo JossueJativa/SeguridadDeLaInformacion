@@ -10,4 +10,6 @@ urlpatterns = [
     path("origin/", views.origin, name="origin"),
     path("editOrigin/", views.editOrigin, name="editOrigin"),
     path("deleteOrigin/<int:id>", views.deleteOrigin, name="deleteOrigin"),
+    path("companytype/", views.companyType, name="companyType"),
+    path('get_subtypes/', views.get_subtypes, name='get_subtypes'),
 ]

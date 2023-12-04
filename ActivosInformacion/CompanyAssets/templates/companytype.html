@@ -1,0 +1,185 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="text-title">
+        <h1>Company Assets type</h1>
+    </div>
+
+    <div class="searchType">
+        <label for="inpSearch">Search by name: </label>
+        <input class="box-ingreso" type="search" id="inpSearch">
+
+        <label for="inpSearch">Search by asset type: </label>
+        <input class="box-ingreso" type="search" id="inpSearchAsset"><br>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary position-button-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Create Assets Origin
+        </button>
+        
+        <!-- Modal -->
+        <form action="{% url 'Assets:companyType' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Types Assets company</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="companyassets">Company assets: </label>
+                            <select class="box-ingreso" name="companyassets" id="companyassets">
+                                {% for dato in companyassets %}
+                                    <option value="{{ dato.id }}">{{ dato.name }}</option>
+                                {% endfor %}
+                            </select><br>
+                            <label for="assettype">Assets type: </label>
+                            <select class="box-ingreso" name="assettype" id="assettype">
+                                {% for dato in types %}
+                                    <option value="{{ dato.id }}">{{ dato.name }}</option>
+                                {% endfor %}
+                            </select><br>
+                            <label for="subtype">Subtype: </label>
+                                <select class="box-ingreso" name="subtype" id="subtype">
+                                    {% for dato in subtypes %}
+                                        <option value="{{ dato.id }}">{{ dato.name }}</option>
+                                    {% endfor %}
+                            </select><br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Create</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table" id="searchtable">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Company Asset name</th>
+                    <th scope="col">Subtype</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in companytype %}
+                <tr>
+                    <th scope="row">{{ dato.id }}</th>
+                    <td>{{ dato.companyassets.name }}</td>
+                    <td>{{ dato.subtype.name }}</td>
+                    <td>{{ dato.type.name }}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning position-button-end" data-bs-toggle="modal" data-bs-target="#editModal{{ dato.id }}">
+                            Edit
+                        </button>
+                        <form action="{% url 'Assets:editOrigin' %}" method="post">
+                            {% csrf_token %}
+                            <div class="modal fade edit-modal" id="editModal{{ dato.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel{{ dato.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Types Assets company</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label for="companyassets">Company assets: </label>
+                                            <select class="box-ingreso" name="companyassets" id="companyassets">
+                                                {% for company in companyassets %}
+                                                    {% if company.id == dato.companyassets.id %}
+                                                        <option value="{{ company.id }}" selected>{{ company.name }}</option>
+                                                    {% else %}
+                                                        <option value="{{ company.id }}">{{ company.name }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select><br>
+                                            <label for="assettype">Assets type: </label>
+                                            <select class="box-ingreso" name="assettype" id="assettype">
+                                                {% for type in types %}
+                                                    {% if type.id == dato.type.id %}
+                                                        <option value="{{ type.id }}" selected>{{ type.name }}</option>
+                                                    {% else %}
+                                                        <option value="{{ type.id }}">{{ type.name }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select><br>
+                                            <label for="subtype">Subtype: </label>
+                                            <select class="box-ingreso" name="subtype" id="subtype">
+                                                {% for subtype in subtypes %}
+                                                    {% if subtype.id == dato.subtype.id %}
+                                                        <option value="{{ subtype.id }}" selected>{{ subtype.name }}</option>
+                                                    {% else %}
+                                                        <option value="{{ subtype.id }}">{{ subtype.name }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select><br>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success">Create</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{% url 'Assets:deleteOrigin' dato.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function populateSubtypes() {
+                const assetTypeDropdown = document.getElementById('assettype');
+                const subtypeDropdown = document.getElementById('subtype');
+                const assetTypeId = assetTypeDropdown.value;
+
+                // Make an AJAX request
+                fetch(`/companyassets/get_subtypes/?asset_type_id=${assetTypeId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear previous options
+                        subtypeDropdown.innerHTML = '';
+
+                        // Add new options
+                        data.forEach(subtype => {
+                            const option = document.createElement('option');
+                            option.value = subtype.id;
+                            option.textContent = subtype.name;
+                            subtypeDropdown.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            // Trigger the initial population
+            populateSubtypes();
+
+            // Trigger the population when the asset type changes
+            const assetTypeDropdown = document.getElementById('assettype');
+            assetTypeDropdown.addEventListener('change', populateSubtypes);
+
+            // Trigger the population when the modal is shown
+            const editModals = document.querySelectorAll('.edit-modal');
+            editModals.forEach(modal => {
+                modal.addEventListener('shown.bs.modal', populateSubtypes);
+            });
+        });
+    </script>        
+{% endblock %}

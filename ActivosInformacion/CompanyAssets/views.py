@@ -1,7 +1,10 @@
 from audioop import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from CompanyAssets.models import Origin, CompanyAssets
+from CompanyAssets.models import Origin, CompanyAssets, CompanyAssetsTypes
+from InitialPage.models import TypesActives, SubtypesActives
+
+from django.http import JsonResponse
 
 # Create your views here.
 def companyassets(request):
@@ -144,3 +147,92 @@ def deleteOrigin(request, id):
         })
     else:
         return HttpResponseRedirect(reverse("user:login"))
+    
+def companyType(request):
+    if request.user.is_authenticated:
+        if request.method =="POST":
+            companyassets = request.POST.get("companyassets")
+            assettype = request.POST.get("assettype")
+            subtype = request.POST.get("subtype")
+
+            companyassets = CompanyAssets.objects.get(pk=companyassets)
+            assettype = TypesActives.objects.get(pk=assettype)
+            subtype = SubtypesActives.objects.get(pk=subtype)
+
+            companytype = CompanyAssetsTypes(
+                companyassets=companyassets,
+                type=assettype,
+                subtype=subtype
+            )
+            companytype.save()
+
+            companytype = CompanyAssetsTypes.objects.all()
+            companyassets = CompanyAssets.objects.all()
+            types = TypesActives.objects.all()
+            subtypes = SubtypesActives.objects.all()
+            return render(request, "companytype.html",{
+                "companytype": companytype,
+                "companyassets": companyassets,
+                "types": types,
+                "subtypes": subtypes
+            })
+        else:
+            companytype = CompanyAssetsTypes.objects.all()
+            companyassets = CompanyAssets.objects.all()
+            types = TypesActives.objects.all()
+            subtypes = SubtypesActives.objects.all()
+            return render(request, "companytype.html",{
+                "companytype": companytype,
+                "companyassets": companyassets,
+                "types": types,
+                "subtypes": subtypes
+            })
+    else:
+        return HttpResponseRedirect(reverse("user:login"))
+    
+def editcompanyType(request):
+    if request.user.is_authenticated:
+        if request.method =="POST":
+            id = request.POST.get("id")
+            companyassets = request.POST.get("companyassets")
+            assettype = request.POST.get("assettype")
+            subtype = request.POST.get("subtype")
+
+            companyassets = CompanyAssets.objects.get(pk=companyassets)
+            assettype = TypesActives.objects.get(pk=assettype)
+            subtype = SubtypesActives.objects.get(pk=subtype)
+
+            companytype = CompanyAssetsTypes.objects.get(pk=id)
+            companytype.companyassets = companyassets
+            companytype.type = assettype
+            companytype.subtype = subtype
+            companytype.save()
+
+            companytype = CompanyAssetsTypes.objects.all()
+            companyassets = CompanyAssets.objects.all()
+            types = TypesActives.objects.all()
+            subtypes = SubtypesActives.objects.all()
+            return render(request, "companytype.html",{
+                "companytype": companytype,
+                "companyassets": companyassets,
+                "types": types,
+                "subtypes": subtypes
+            })
+        else:
+            companytype = CompanyAssetsTypes.objects.all()
+            companyassets = CompanyAssets.objects.all()
+            types = TypesActives.objects.all()
+            subtypes = SubtypesActives.objects.all()
+            return render(request, "companytype.html",{
+                "companytype": companytype,
+                "companyassets": companyassets,
+                "types": types,
+                "subtypes": subtypes
+            })
+    else:
+        return HttpResponseRedirect(reverse("user:login"))
+    
+def get_subtypes(request):
+    asset_type_id = request.GET.get('asset_type_id')
+    subtypes = SubtypesActives.objects.filter(typeActive=asset_type_id).values('id', 'name')
+    return JsonResponse(list(subtypes), safe=False)
