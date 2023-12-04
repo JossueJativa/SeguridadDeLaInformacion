@@ -40,6 +40,7 @@ def editsTypesActives(request):
             name = request.POST.get("name")
             description = request.POST.get("description")
             id = request.POST.get("id")
+            
 
             typesactive = TypesActives.objects.get(pk=id)
             typesactive.name = name
@@ -76,12 +77,12 @@ def subtypesActives(request):
             descriptionsubtype = request.POST.get("descriptionsubtype")
             typesactive = request.POST.get("typesactive")
 
-            typesactive = TypesActives.objects.get(id=int(typesactives))
+            typesactive = TypesActives.objects.get(id=typesactive)
 
             subtypeactive = SubtypesActives.objects.create(
                 name=namesubtype,
                 description=descriptionsubtype,
-                typesactive=typesactive
+                typeActive=typesactive
             )
             subtypeactive.save()
 
@@ -104,17 +105,15 @@ def subtypesActives(request):
 def editsSubtypesActives(request):
     if request.user.is_authenticated:
         if request.method == "POST":
-            namesubtype = request.POST.get("namesubtype")
-            descriptionsubtype = request.POST.get("descriptionsubtype")
+            namesubtype = request.POST.get("name")
+            descriptionsubtype = request.POST.get("description")
             typesactive = request.POST.get("typesactive")
             id = request.POST.get("id")
-
-            typesactive = TypesActives.objects.get(pk=typesactives)
 
             subtypeactive = SubtypesActives.objects.get(pk=id)
             subtypeactive.name = namesubtype
             subtypeactive.description = descriptionsubtype
-            subtypeactive.typesactive = typesactive
+            subtypeactive.typeActive = TypesActives.objects.get(pk=typesactive)
             subtypeactive.save()
 
             subtypesactives = SubtypesActives.objects.all()

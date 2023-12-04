@@ -3,7 +3,7 @@
 
 {% block body %}
     <div class="text-title">
-        <h1>Subtypes Assets</h1>
+        <h1>Company Assets</h1>
     </div>
 
     <div class="searchType">
@@ -15,11 +15,11 @@
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary position-button-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Create Subtype Assets
+            Create Company Assets
         </button>
         
         <!-- Modal -->
-        <form action="{% url 'home:subtypesActives' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'Assets:companyassets' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -29,13 +29,25 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <label for="namesubtype">Name for subtype assets:</label>
-                            <input class="box-ingreso" type="text" id="namesubtype" name="namesubtype" required><br>
+                            <label for="name">Name for subtype assets:</label>
+                            <input class="box-ingreso" type="text" id="name" name="name" required><br>
                             <label for="descriptionsubtype">Description for subtype assets:</label>
-                            <input class="box-ingreso" type="text" id="descriptionsubtype" name="descriptionsubtype" required><br>
-                            <label for="typesactive">Types assets relation:</label>
-                            <select class="box-ingreso" name="typesactive" id="typesactive">
-                                {% for dato in typesactives %}
+                            <input class="box-ingreso" type="text" id="description" name="description" required><br>
+                            <label for="ubication">Ubication for subtype assets:</label>
+                            <input class="box-ingreso" type="text" id="ubication" name="ubication" required><br>
+                            <label for="quantity">Quantity for subtype assets:</label>
+                            <input class="box-ingreso" type="number" id="quantity" name="quantity" required><br>
+                            <label for="notes">Notes for subtype assets:</label>
+                            <input class="box-ingreso" type="text" id="notes" name="notes" required><br>
+                            <label for="typeofasset">Select assets type</label>
+                            <select class="box-ingreso" name="typeofasset" id="typeofasset">
+                                <option value="Private">Private</option>
+                                <option value="Public">Public</option>
+                                <option value="Classified">Classified</option>
+                            </select><br>
+                            <label for="typesorigin">Types assets relation:</label>
+                            <select class="box-ingreso" name="typesorigin" id="typesorigin">
+                                {% for dato in origin %}
                                 <option value="{{ dato.id }}">{{ dato.name }}</option>
                                 {% endfor %}
                             </select><br>
@@ -55,18 +67,86 @@
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">SubTypes Assets names</th>
-                    <th scope="col">SubTypes Assets descriptions</th>
-                    <th scope="col">Types Assets relation</th>
+                    <th scope="col">Company Assets names</th>
+                    <th scope="col">Company Assets descriptions</th>
+                    <th scope="col">Company Asset origin</th>
+                    <th scope="col">Company Assets ubication</th>
+                    <th scope="col">Company Asset quantity</th>
+                    <th scope="col">Company Asset notes</th>
+                    <th scope="col">Company Asset type</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
-                {% for dato in subtypesactives %}
+                {% for dato in companyassets %}
                 <tr>
                     <th scope="row">{{ dato.id }}</th>
                     <td>{{ dato.name }}</td>
                     <td>{{ dato.description }}</td>
-                    <td>{{ dato.typeActive.name }}</td>
+                    <td>{{ dato.origin.name }}</td>
+                    <td>{{ dato.ubication }}</td>
+                    <td>{{ dato.quantity }}</td>
+                    <td>{{ dato.notes }}</td>
+                    <td>{{ dato.typeofasset }}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning position-button-end" data-bs-toggle="modal" data-bs-target="#editModal{{ dato.id }}">
+                            Edit
+                        </button>
+                        <form action="{% url 'Assets:editCompanyAssets' %}" method="post">
+                            {% csrf_token %}
+                            <div class="modal fade" id="editModal{{ dato.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel{{ dato.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Subtype Assets</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label for="name">ID: </label>
+                                            <input class="box-ingreso" type="text" id="id" name="id" value="{{ dato.id }}" readonly><br>
+                                            <label for="name">Name for subtype assets:</label>
+                                            <input class="box-ingreso" type="text" id="name" name="name" value="{{ dato.name }}" required><br>
+                                            <label for="descriptionsubtype">Description for subtype assets:</label>
+                                            <input class="box-ingreso" type="text" id="description" name="description" value="{{ dato.description }}" required><br>
+                                            <label for="ubication">Ubication for subtype assets:</label>
+                                            <input class="box-ingreso" type="text" id="ubication" name="ubication" value="{{ dato.ubication }}" required><br>
+                                            <label for="quantity">Quantity for subtype assets:</label>
+                                            <input class="box-ingreso" type="number" id="quantity" name="quantity" value="{{ dato.quantity }}" required><br>
+                                            <label for="notes">Notes for subtype assets:</label>
+                                            <input class="box-ingreso" type="text" id="notes" name="notes" value="{{ dato.notes }}" required><br>
+                                            <label for="typeofasset">Select assets type</label>
+                                            <select class="box-ingreso" name="typeofasset" id="typeofasset">
+                                                <option value="Private" {% if existing_value == 'Private' %} selected {% endif %}>Private</option>
+                                                <option value="Public" {% if existing_value == 'Public' %} selected {% endif %}>Public</option>
+                                                <option value="Classified" {% if existing_value == 'Classified' %} selected {% endif %}>Classified</option>
+                                            </select><br>
+                                            <label for="typesorigin">Types assets relation:</label>
+                                            <select class="box-ingreso" name="typesorigin" id="typesorigin">
+                                                {% for types in origin %}
+                                                    {% if types.id == dato.origin.id %}
+                                                        <option value="{{ types.id }}" selected>{{ types.name }}</option>
+                                                    {% else %}
+                                                        <option value="{{ types.id }}">{{ types.name }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select><br>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success">Create</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{% url 'Assets:deleteCompanyAssets' dato.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
