@@ -50,9 +50,21 @@
             </div>
 
             <div class="side-bar-item">
+                <div class="dropdown">
+                    <button class="btn btn-secondary invisibleButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        About company
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'Assets:companyassets' %}">Company Assets</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Assets:origin' %}">Origin</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="side-bar-item">
                 <a class="dropdown-item" href="">
                     <div class="simplebutton">
-                        Company Assets
+                        Create User
                     </div>
                 </a>
             </div>
