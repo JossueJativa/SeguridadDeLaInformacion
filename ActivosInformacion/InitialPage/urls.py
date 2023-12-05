@@ -11,4 +11,7 @@ urlpatterns = [
     path('subtypesActives/', views.subtypesActives, name='subtypesActives'),
     path('editsSubtypesActives/', views.editsSubtypesActives, name='editsSubtypesActives'),
     path('deleteSubtypesActives/<int:id>', views.deleteSubtypesActives, name='deleteSubtypesActives'),
+    path('clasifyactives/', views.clasifyactives, name='clasifyactives'),
+    path('editsClasifyActives/', views.editsClasifyActives, name='editsClasifyActives'),
+    path('deleteClasifyActives/<int:id>', views.deleteClasifyActives, name='deleteClasifyActives'),
 ]

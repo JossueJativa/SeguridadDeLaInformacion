@@ -39,3 +39,9 @@ class ActivesDependecies(models.Model):
     Interviewed = models.ForeignKey(User, on_delete=models.CASCADE)
     companyassetsindependent = models.ForeignKey(CompanyAssets, on_delete=models.CASCADE, related_name='companyassetsindependent')
     companyassetsdependent = models.ForeignKey(CompanyAssets, on_delete=models.CASCADE, related_name='companyassetsdependent')
+
+class ClasifyActives(models.Model):
+    value = models.IntegerField(default=0)
+    damage = models.CharField(default="Negligible", max_length=20)
+    critery = models.CharField(default="Irrelevant for practical purposes", max_length=50)
+    companyAssets = models.ForeignKey(CompanyAssets, on_delete=models.CASCADE, null=True)
