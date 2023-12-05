@@ -1,0 +1,126 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="text-title">
+        <h1>Company Unity</h1>
+    </div>
+
+    <div class="searchType">
+        <label for="inpSearch">Search by name: </label>
+        <input class="box-ingreso" type="search" id="inpSearch"><br>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary position-button-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Create Unity
+        </button>
+        
+        <!-- Modal -->
+        <form action="{% url 'Assets:companyassetsunity' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Company Unity</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="name">Select company asset: </label>
+                            <select class="box-ingreso" name="companyassets" id="companyassets">
+                                {% for dato in companyassets %}
+                                <option value="{{ dato.id }}">{{ dato.name }}</option>
+                                {% endfor %}
+                            </select><br>
+                            <label for="responsableunity">Select Unity: </label>
+                            <select class="box-ingreso" name="responsableunity" id="responsableunity">
+                                {% for dato in responsableunity %}
+                                <option value="{{ dato.id }}">{{ dato.name }}</option>
+                                {% endfor %}
+                            </select><br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Create</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table" id="searchtable">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Company Asset</th>
+                    <th scope="col">Unity</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in companyunity %}
+                <tr>
+                    <th scope="row">{{ dato.id }}</th>
+                    <td>{{ dato.companyassets.name }}</td>
+                    <td>{{ dato.responsableunity.name }}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning position-button-end" data-bs-toggle="modal" data-bs-target="#editModal{{ dato.id }}">
+                            Edit
+                        </button>
+                        <form action="{% url 'Assets:editResponsableUnity' %}" method="post">
+                            {% csrf_token %}
+                            <div class="modal fade" id="editModal{{ dato.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel{{ dato.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Subtype Assets</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label for="name">ID: </label>
+                                            <input class="box-ingreso" type="text" id="id" name="id" value="{{ dato.id }}" readonly><br>
+                                            <label for="name">Select company asset: </label>
+                                            <select class="box-ingreso" name="companyassets" id="companyassets">
+                                                {% for dato2 in companyassets %}
+                                                    {% if dato2.id == dato.companyassets.id %}
+                                                    <option value="{{ dato2.id }}" selected>{{ dato2.name }}</option>
+                                                    {% else %}
+                                                    <option value="{{ dato2.id }}">{{ dato2.name }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select><br>
+                                            <label for="responsableunity">Select Unity: </label>
+                                            <select class="box-ingreso" name="responsableunity" id="responsableunity">
+                                                {% for dato2 in responsableunity %}
+                                                    {% if dato2.id == dato.responsableunity.id %}
+                                                    <option value="{{ dato2.id }}" selected>{{ dato2.name }}</option>
+                                                    {% else %}
+                                                    <option value="{{ dato2.id }}">{{ dato2.name }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select><br>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success">Create</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{% url 'Assets:deleteResponsableUnity' dato.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

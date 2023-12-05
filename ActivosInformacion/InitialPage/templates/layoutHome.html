@@ -58,16 +58,26 @@
                         <li><a class="dropdown-item" href="{% url 'Assets:origin' %}">Origin</a></li>
                         <li><a class="dropdown-item" href="{% url 'Assets:companyassets' %}">Company Assets</a></li>
                         <li><a class="dropdown-item" href="{% url 'Assets:companyType' %}">Assets types Company</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Assets:responsableunity' %}">Company Unity</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Assets:companyassetsunity' %}">Unity Responsability</a></li>
+                        <li><a class="dropdown-item" href="{% url 'Assets:dependentassets' %}">Dependences Assets</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="side-bar-item">
-                <a class="dropdown-item" href="">
-                    <div class="simplebutton">
-                        Create User
-                    </div>
-                </a>
+                <div class="dropdown">
+                    <button class="btn btn-secondary invisibleButton" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Workers
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'workers:userpage' %}">User</a></li>
+                        <li><a class="dropdown-item" href="{% url 'workers:departments' %}">Departments</a></li>
+                        <li><a class="dropdown-item" href="{% url 'workers:workpositions' %}">Works positions</a></li>
+                        <li><a class="dropdown-item" href="{% url 'workers:responsabilities' %}">Responsabilities</a></li>
+                        <li><a class="dropdown-item" href="{% url 'workers:userresponsabilities' %}">User responsabilities</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

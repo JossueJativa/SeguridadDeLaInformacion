@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Users',
     'InitialPage',
     'CompanyAssets',
+    'Workers',
 ]
 
 MIDDLEWARE = [

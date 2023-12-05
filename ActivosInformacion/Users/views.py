@@ -69,6 +69,7 @@ def register(request):
                 "username": username,
                 "identity": identity,
                 "department": department,
+                "workposition": workposition,
             })
 
         if password != confirm:
@@ -82,6 +83,7 @@ def register(request):
                 "email": email,
                 "identity": identity,
                 "department": department,
+                "workposition": workposition,
             })
         
         depart = Department.objects.get(pk=depart)

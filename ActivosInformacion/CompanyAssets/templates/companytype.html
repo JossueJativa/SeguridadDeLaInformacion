@@ -81,7 +81,7 @@
                         <button type="button" class="btn btn-warning position-button-end" data-bs-toggle="modal" data-bs-target="#editModal{{ dato.id }}">
                             Edit
                         </button>
-                        <form action="{% url 'Assets:editOrigin' %}" method="post">
+                        <form action="{% url 'Assets:editCompanyType' %}" method="post">
                             {% csrf_token %}
                             <div class="modal fade edit-modal" id="editModal{{ dato.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel{{ dato.id }}" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -91,6 +91,8 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
+                                            <label for="id">Id: </label>
+                                            <input class="box-ingreso" type="text" name="id" value="{{dato.id}}" readonly/><br>
                                             <label for="companyassets">Company assets: </label>
                                             <select class="box-ingreso" name="companyassets" id="companyassets">
                                                 {% for company in companyassets %}
@@ -132,7 +134,7 @@
                         </form>
                     </td>
                     <td>
-                        <form action="{% url 'Assets:deleteOrigin' dato.id %}" method="post">
+                        <form action="{% url 'Assets:deleteCompanyType' dato.id %}" method="post">
                             {% csrf_token %}
                             <input type="submit" value="Delete" class="btn btn-danger">
                         </form>
