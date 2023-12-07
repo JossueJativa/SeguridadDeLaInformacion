@@ -3,5 +3,5 @@ from django.shortcuts import render
 from django.urls import reverse
 
 # Create your views here.
-def home(request):
-    return render(request, "home/home.html")
+def enterAsset(request):
+    return render(request, "home/enterAsset.html")
