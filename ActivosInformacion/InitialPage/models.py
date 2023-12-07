@@ -1,5 +1,5 @@
 from django.db import models
-from Users.models import Users
+from Users.models import User
 
 # Create your models here.
 class Workload(models.Model):
@@ -24,8 +24,19 @@ class Assets(models.Model):
     ubicationTipe = models.CharField(max_length=20)
     ubication = models.CharField(max_length=20)
     quantity = models.IntegerField()
-    Characteristic = models.TextField(max_length=50)
+    characteristic = models.TextField(max_length=50)
     tipe = models.ForeignKey(TypeAssets, on_delete=models.CASCADE)
     responsableArea = models.ForeignKey(Departments, null=False, on_delete=models.CASCADE)
-    responsableUser = models.ForeignKey(Users, null=False, on_delete=models.CASCADE)
-    
+    responsableUser = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+
+class AssetsDependence(models.Model):
+    percentaje = models.IntegerField()
+    asset = models.ForeignKey(Assets, on_delete=models.CASCADE, related_name='assetIndepend')
+    responsableUser = models.ForeignKey(User, on_delete=models.CASCADE)
+    assetDepend = models.ForeignKey(Assets, on_delete=models.CASCADE, related_name='assetDepend')
+
+class AssetsValue(models.Model):
+    cuantityValue = models.IntegerField()
+    cualityValue = models.CharField(max_length=15)
+    description = models.CharField(max_length=15)
+    dimentionValue = models.CharField(max_length=20)
