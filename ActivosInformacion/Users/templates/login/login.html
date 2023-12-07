@@ -2,31 +2,5 @@
 {% load static %}
 
 {% block body %}
-    {% if error_message %}
-        <div class="alert alert-danger" role="alert">
-            {{ error_message }}
-        </div>
-    {% endif %}
-
-    <form action="{% url 'user:login' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="center-login">
-            <h1>Login</h1>
-        </div>
-
-        <div class="container-input">
-            <input class="input-info" type="text" placeholder="Email" id="email" name="email" value="{{email}}"><br>
-            <input class="input-info" type="password" placeholder="Password" id="password" name="password">
-        </div>
-
-        <div class="container-button">
-            <button type="submit" class="btn btn-primary">Login</button>
-        </div>
-
-        <div class="container-link">
-            <p>Don't have accout: <span><a href="{% url 'user:register' %}">Register</a></span></p>
-            <p>Forgot the password: <span><a href="{% url 'user:recover' %}">Recover</a></span></p>
-        </div>
-    </form>
 
 {% endblock %}
