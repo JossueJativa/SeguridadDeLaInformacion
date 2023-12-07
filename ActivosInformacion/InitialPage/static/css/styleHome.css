@@ -147,3 +147,48 @@ html, body{
     margin-left: 10%;
     padding-bottom: 5%;
 }
+
+/*Responsive*/
+@media screen and (max-width: 1024px){
+    .logo-left{
+        margin-left: 2%;
+    }
+
+    .logo-left .logo{
+        display: none;
+    }
+
+    .logo-left .line-1{
+        display: none;
+    }
+
+    .dropdownbutton {
+        width: 50%;
+        padding: 8%;
+        margin-left: 50%;
+    }
+
+    .dropdownbutton .show-info-user{
+        display: none;
+    }
+
+    .logo-left .textalingh{
+        left: -12%;
+    }
+
+    .dropdown-content{
+        width: 15%;
+    }
+
+    #side-bar .sidebar{
+        width: 26%;
+    }
+
+    #side-bar .sidebar .box-actions .principal-name .name{
+        display: none;
+    }
+
+    #side-bar .sidebar .box-actions .actions{
+        font-size: 70%;
+    }
+}
