@@ -52,7 +52,7 @@ html, body{
 }
 
 .mag-secure{
-    color: linear-gradient( 92.05deg, rgba(75, 87, 255, 1) 0%, rgba(75, 170, 247, 1) 100% );
+    color: #4b5dfe;
     font-family: "IbmPlexSans-SemiBold", sans-serif;
     font-size: 200%;
     font-weight: 600;

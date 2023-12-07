@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styleForm.css' %}">
     <link rel="stylesheet" href="{% static 'css/styleHome.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <title>Document</title>
@@ -67,14 +68,14 @@
                     </span>
                 </p>
 
-                <a href="" class="actions">
+                <a href="" class="actions" {% block action1 %} {% endblock %}>
                     Ingresar
                     <span class="material-symbols-outlined">
                         double_arrow
                     </span>
                 </a>
 
-                <a href="" class="actions">
+                <a href="" class="actions" {% block action2 %} {% endblock %}>
                     Administración
                     <span class="material-symbols-outlined">
                         double_arrow
@@ -92,14 +93,14 @@
                     </span>
                 </p>
 
-                <a href="" class="actions">
+                <a href="" class="actions" {% block action3 %} {% endblock %}>
                     Ingresar
                     <span class="material-symbols-outlined">
                         double_arrow
                     </span>
                 </a>
 
-                <a href="" class="actions">
+                <a href="" class="actions" {% block action4 %} {% endblock %}>
                     Administración
                     <span class="material-symbols-outlined">
                         double_arrow
@@ -117,14 +118,14 @@
                     </span>
                 </p>
 
-                <a href="" class="actions">
+                <a href="" class="actions" {% block action5 %} {% endblock %}>
                     Ingresar
                     <span class="material-symbols-outlined">
                         double_arrow
                     </span>
                 </a>
 
-                <a href="" class="actions">
+                <a href="" class="actions" {% block action6 %} {% endblock %}>
                     Administración
                     <span class="material-symbols-outlined">
                         double_arrow
