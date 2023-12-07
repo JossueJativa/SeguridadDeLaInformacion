@@ -5,3 +5,6 @@ from django.urls import reverse
 # Create your views here.
 def enterAsset(request):
     return render(request, "home/enterAsset.html")
+
+def enterUsers(request):
+    return render(request, "home/enterUsers.html")

@@ -5,4 +5,5 @@ app_name = "home"
 
 urlpatterns = [
     path('', views.enterAsset, name='enterAsset'),
+    path('enterUsers/', views.enterUsers, name='enterUsers'),
 ]

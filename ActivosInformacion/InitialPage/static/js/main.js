@@ -4,6 +4,19 @@ function toggleDropdown() {
   dropdownContent.style.display = (dropdownContent.style.display === "none" || dropdownContent.style.display === "") ? "flex" : "none";
 }
 
+function toggleCampoAdicional() {
+  var campoAdicional = document.getElementById('campoAdicional');
+
+  // Si el toggle está activado, muestra el campo adicional; de lo contrario, ocúltalo.
+  campoAdicional.style.display = document.getElementById('state').checked ? 'block' : 'none';
+}
+
+function toggleCampoAdicional2() {
+  var campoAdicional = document.getElementById('campoAdicional2');
+
+  // Si el toggle está activado, muestra el campo adicional; de lo contrario, ocúltalo.
+  campoAdicional.style.display = document.getElementById('state2').checked ? 'block' : 'none';
+}
 
 document.getElementById("inpSearch").addEventListener("input", e => {
     const searchInput = e.target.value.toLowerCase();

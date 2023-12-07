@@ -6,7 +6,171 @@
 {% block body %}
 
 <div class="form-container">
-    hola
+    <div class="title">Ingresar Activo</div>
+    <div class="underline-text">Caracterización</div>
+
+    <div class="input-form">
+        <label for="origin">Origen</label><br>
+        <input class="input-information" type="text" id="origin" name="origin" placeholder="Ingresar el origen">
+    </div>
+
+    <div class="input-form">
+        <label for="code">Código</label><br>
+        <input class="input-information" type="text" id="code" name="code" placeholder="Ingresar el código">
+    </div>
+
+    <div class="input-form">
+        <label for="name">Nombre</label><br>
+        <input class="input-information" type="text" id="name" name="name" placeholder="Ingresar el nombre">
+    </div>
+
+    <div class="input-form">
+        <label for="type">Tipo</label><br>
+        <select name="type" id="type" class="input-information">
+            <option value="">Selecciona el tipo</option>
+        </select>
+    </div>
+
+    <div class="input-form">
+        <label for="subtype">Subtipo</label><br>
+        <select name="subtype" id="subtype" class="input-information">
+            <option value="">Selecciona el tipo</option>
+        </select>
+    </div>
+
+    <div class="input-form">
+        <label for="responsableArea">Area responsable
+            <a href="#" class="add-component">
+                <span class="material-symbols-outlined">
+                    add
+                </span>
+                <span class="text-add">Nuevo</span>
+            </a>
+        </label><br>
+        <select name="responsableArea" id="responsableArea" class="input-information">
+            <option value="">Selecciona el area responsable</option>
+        </select>
+    </div>
+
+    <div class="input-form">
+        <label for="responsableArea">Persona responsable
+            <a href="#" class="add-component">
+                <span class="material-symbols-outlined">
+                    add
+                </span>
+                <span class="text-add">Nuevo</span>
+            </a>
+        </label><br>
+        <select name="responsableArea" id="responsableArea" class="input-information">
+            <option value="">Selecciona el persona responsable</option>
+        </select>
+    </div>
+
+    <div class="input-form">
+        <label for="ubicationType">Tipo de ubicación</label><br>
+        <select name="ubicationType" id="ubicationType" class="input-information">
+            <option value="">Selecciona el tipo de ubicación</option>
+        </select>
+    </div>
+
+    <div class="input-form">
+        <label for="ubication">Ubicación</label><br>
+        <input class="input-information" type="text" id="ubication" name="ubication" placeholder="Ingresar la ubicación">
+    </div>
+
+    <div class="input-form">
+        <label for="quantity">Cantidad</label><br>
+        <input class="input-information" type="number" id="quantity" name="quantity" placeholder="Ingresar la cantidad">
+    </div>
+
+    <div class="input-form">
+        <label for="characteristic">Caracteristica</label><br>
+        <input class="input-information" type="text" id="characteristic" name="characteristic" placeholder="Ingresar la cantidad">
+    </div>
+
+    <div class="toggle-text">
+        <label for="state">Estado</label><br>
+        <label class="switch">
+            <input type="checkbox" id="state" name="state" class="offset" onchange="toggleCampoAdicional()">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <div id="campoAdicional" class="hidden">
+        <div class="underline-text">Dependencias</div>
+
+        <div class="input-form">
+            <label for="dependency">Porcentaje de dependencia</label><br>
+            <input class="input-information" type="text" id="dependency" name="dependency" placeholder="Ingresar el origen">
+        </div>
+
+        <div class="input-form">
+            <label for="descriptionDependency">Descripción de dependencia</label><br>
+            <input class="input-information" type="text" id="descriptionDependency" name="descriptionDependency" placeholder="Ingresar el origen">
+        </div>
+
+        <div class="input-form">
+            <label for="responsableUser">Usuario responsable
+                <a href="#" class="add-component">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+                    <span class="text-add">Nuevo</span>
+                </a>
+            </label><br>
+            <select name="responsableUser" id="responsableUser" class="input-information">
+                <option value="">Selecciona el usuario responsable</option>
+            </select>
+        </div>
+
+        <div class="input-form">
+            <label for="dependsOf">
+                Depende de
+            </label><br>
+            <select name="dependsOf" id="dependsOf" class="input-information">
+                <option value="">Selecciona el area responsable</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="toggle-text">
+        <label for="state2">¿Deseas valorar el activo?</label><br>
+        <label class="switch">
+            <input type="checkbox" id="state2" name="state2" class="offset" onchange="toggleCampoAdicional2()">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <div id="campoAdicional2" class="hidden">
+        <div class="underline-text">Valoración</div>
+
+        <div class="input-form">
+            <label for="dependsOf">Dimensión de valoracion</label><br>
+            <select name="dependsOf" id="dependsOf" class="input-information">
+                <option value="">Selecciona la dimensión</option>
+            </select>
+        </div>
+
+        <div class="input-form">
+            <label for="dependency">Valor asignado (1-10)</label><br>
+            <input class="input-information" type="number" id="dependency" name="dependency" placeholder="Ingresar el origen" min="1" max="10">
+        </div>
+
+        <div class="input-form">
+            <label for="cualitative">Valor cualitativo</label><br>
+            <input class="input-information" type="number" id="cualitative" name="cualitative" placeholder="Valor cualitativo" style="opacity: 50%; cursor: default;" readonly>
+        </div>
+
+        <div class="input-form">
+            <label for="descriptionValue">Descripción</label><br>
+            <input class="input-information" type="number" id="dependency" name="dependency" placeholder="Descripción" style="opacity: 50%; cursor: default;" readonly>
+        </div>
+    </div>
+
+    <div class="buttons-end">
+        <button type="reset" class="buttoncancel">Cancelar</button>
+        <button type="submit" class="buttonsave">Guardar</button>
+    </div>
 </div>
 
 {% endblock %}
