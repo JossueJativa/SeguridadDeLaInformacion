@@ -8,3 +8,6 @@ def enterAsset(request):
 
 def enterUsers(request):
     return render(request, "home/enterUsers.html")
+
+def enterDepartment(request):
+    return render(request, "home/enterDepartment.html")
