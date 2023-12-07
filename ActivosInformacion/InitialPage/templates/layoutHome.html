@@ -134,7 +134,11 @@
             </div>
         </div>
     </section>
-    {% block body %} {% endblock %}
+
+    <section id="bodyform">
+        {% block body %} {% endblock %}
+    </section>
+    
     <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

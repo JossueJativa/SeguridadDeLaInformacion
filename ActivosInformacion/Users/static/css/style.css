@@ -185,3 +185,81 @@ html, body{
   top: 100%;
   margin-bottom: 10%;
 }
+
+/*Responsive*/
+
+@media screen and (max-width: 1024px){
+
+  .box-logo{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5%;
+    margin: 5%;
+  }
+
+  .box-logo .line-1{
+    display: none;
+  }
+
+  .box-logo .logo{
+    display: none;
+  }
+
+  .mag-secure{
+    font-size: 200%;
+  }
+
+  .cibersecurity{
+    font-size: 150%;
+  }
+
+  .form-login{
+    width: 100%;
+    height: 50%;
+  }
+
+  .text-login{
+    font-size: 150%;
+  }
+
+  .input-form{
+    width: 100%;
+    height: 50%;
+  }
+
+  .input-form input{
+    font-size: 100%;
+  }
+
+  .icon1{
+    left: 80%;
+    top: 29%;
+  }
+
+  .icon2{
+    left: 80%;
+    top: 59%;
+  }
+
+  .buttons-align-between{
+    width: 100%;
+    height: 50%;
+  }
+
+  .button-login{
+    font-size: 100%;
+  }
+
+  .button-register{
+    font-size: 100%;
+  }
+
+  .locker{
+    width: 100%;
+    left: 75%;
+    top: 100%;
+  }
+}
