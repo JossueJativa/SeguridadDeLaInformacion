@@ -5,9 +5,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styleHome.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <title>Document</title>
 </head>
 <body>
+    <header>
+        <nav class="navbar">
+            <div class="logo-left">
+                <svg class="logo" width="138" height="153" viewBox="0 0 138 153" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M75.3204 6.50211L126.19 20.0674C129.911 21.0596 132.5 24.4294 132.5 28.2804V79.4556C132.5 96.5076 123.978 112.431 109.79 121.89L73.465 146.107C70.6098 148.01 66.8902 148.01 64.035 146.107L27.7103 121.89C13.5222 112.431 5 96.5076 5 79.4556V28.2804C5 24.4294 7.58896 21.0596 11.3099 20.0674L62.1796 6.50211C66.4846 5.35409 71.0154 5.35409 75.3204 6.50211Z" stroke="url(#paint0_linear_5_12)" stroke-width="10" stroke-linecap="round"></path>
+                    <path d="M47.5 72.75L62.9974 88.2474C63.8273 89.0773 65.1727 89.0773 66.0026 88.2474L94.25 60" stroke="url(#paint1_linear_5_12)" stroke-width="10" stroke-linecap="round"></path>
+                    <defs>
+                        <linearGradient id="paint0_linear_5_12" x1="68.75" y1="4.75" x2="68.75" y2="149.25" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#4BAAF7"></stop>
+                            <stop offset="1" stop-color="#4B57FF"></stop>
+                        </linearGradient>
+                        <linearGradient id="paint1_linear_5_12" x1="94.25" y1="74.875" x2="47.5" y2="74.875" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#4BAAF7"></stop>
+                            <stop offset="1" stop-color="#4B57FF"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+    
+                <div class="line-1"></div>
+    
+                <div class="textalingh">
+                    <div class="mag-secure">MagSecure</div>
+                    <div class="cibersecurity">Cibersecurity</div>
+                </div>
+            </div>
+    
+            <div class="info-user-right">
+                <button class="dropdownbutton" onclick="toggleDropdown()">
+                    <span class="material-symbols-outlined">
+                        person
+                    </span>
+                    <div class="show-info-user">
+                        <p>Usuario Cargo Departamento</p>
+                    </div>
+                    <span class="material-symbols-outlined">
+                        tune
+                    </span>
+                </button>
+    
+                <div class="dropdown-content" id="dropdownContent">
+                    <a href="#">Cerrar Sesión</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section id="side-bar">
+        <div class="sidebar">
+            <div class="box-actions">
+                <p class="principal-name">
+                    <span class="material-symbols-outlined">
+                        description
+                    </span>
+                    Activos
+                </p>
+
+                <a href="" class="actions">
+                    Ingresar
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+
+                <a href="" class="actions">
+                    Administración
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+            </div>
+
+            <div class="box-actions">
+                <p class="principal-name">
+                    <span class="material-symbols-outlined">
+                        description
+                    </span>
+                    Usuarios
+                </p>
+
+                <a href="" class="actions">
+                    Ingresar
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+
+                <a href="" class="actions">
+                    Administración
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+            </div>
+
+            <div class="box-actions">
+                <p class="principal-name">
+                    <span class="material-symbols-outlined">
+                        description
+                    </span>
+                    Departamentos
+                </p>
+
+                <a href="" class="actions">
+                    Ingresar
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+
+                <a href="" class="actions">
+                    Administración
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
     {% block body %} {% endblock %}
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

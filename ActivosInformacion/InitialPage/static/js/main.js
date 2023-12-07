@@ -1,3 +1,9 @@
+// Función para alternar la visibilidad del contenido
+function toggleDropdown() {
+  var dropdownContent = document.getElementById("dropdownContent");
+  dropdownContent.style.display = (dropdownContent.style.display === "none" || dropdownContent.style.display === "") ? "flex" : "none";
+}
+
 
 document.getElementById("inpSearch").addEventListener("input", e => {
     const searchInput = e.target.value.toLowerCase();

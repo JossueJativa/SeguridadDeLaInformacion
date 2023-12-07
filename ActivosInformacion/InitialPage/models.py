@@ -4,6 +4,7 @@ from Users.models import User
 # Create your models here.
 class Workload(models.Model):
     name = models.CharField(max_length=50, null=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class TypeAssets(models.Model):
     name = models.CharField(max_length=50, null=False)
