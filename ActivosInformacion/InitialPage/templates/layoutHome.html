@@ -43,7 +43,7 @@
                         person
                     </span>
                     <div class="show-info-user">
-                        <p>Usuario Cargo Departamento</p>
+                        <p>{{ user.username }} Cargo Departamento</p>
                     </div>
                     <span class="material-symbols-outlined">
                         tune
@@ -51,7 +51,7 @@
                 </button>
     
                 <div class="dropdown-content" id="dropdownContent">
-                    <a href="#">Cerrar Sesión</a>
+                    <a href="{% url 'user:logout_view' %}">Cerrar Sesión</a>
                 </div>
             </div>
         </nav>
@@ -100,7 +100,7 @@
                     </span>
                 </a>
 
-                <a href="" class="actions" {% block action4 %} {% endblock %}>
+                <a href="{% url 'home:tableusers' %}" class="actions" {% block action4 %} {% endblock %}>
                     Administración
                     <span class="material-symbols-outlined">
                         double_arrow
@@ -125,7 +125,7 @@
                     </span>
                 </a>
 
-                <a href="" class="actions" {% block action6 %} {% endblock %}>
+                <a href="{% url 'home:tabledepartments' %}" class="actions" {% block action6 %} {% endblock %}>
                     Administración
                     <span class="material-symbols-outlined">
                         double_arrow

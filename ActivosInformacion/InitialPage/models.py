@@ -1,11 +1,7 @@
 from django.db import models
-from Users.models import User
+from Users.models import User, Workload
 
 # Create your models here.
-class Workload(models.Model):
-    name = models.CharField(max_length=50, null=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
 class TypeAssets(models.Model):
     name = models.CharField(max_length=50, null=False)
 
@@ -16,7 +12,7 @@ class SubtypeAssets(models.Model):
 class Departments(models.Model):
     name = models.CharField(max_length=50, null=False)
     description = models.TextField(max_length=200, null=False)
-    workload = models.ManyToOneRel(Workload, on_delete=models.CASCADE, to=Workload, field_name="workload")
+    workload = models.ForeignKey(Workload, on_delete=models.CASCADE, null=True)
 
 class Assets(models.Model):
     code = models.CharField(max_length=5)

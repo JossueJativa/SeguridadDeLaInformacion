@@ -54,7 +54,7 @@ html, body{
   height: 94%;
   position: relative;
   left: 10%;
-  margin-top: -30%;
+  margin-top: -20%;
   transform-origin: 0 0;
   transform: rotate(90deg) scale(1, 1);
 }
@@ -176,6 +176,7 @@ html, body{
   padding: 3%;
   margin: 2%;
   color: white;
+  text-decoration: none;
 }
 
 .locker{

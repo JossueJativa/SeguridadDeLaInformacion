@@ -1,0 +1,57 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block action4 %} style="color:#4BAAF7" {% endblock %}
+
+{% block body %}
+{% if message %}
+    <div class="error-message">
+        {{ message }}
+    </div>
+{% endif %}
+
+<div class="form-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Cedula</th>
+                <th scope="col">Cargo</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in Users %}
+            <tr>
+                <th scope="row">{{ user.id }}</th>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.celular }}</td>
+                <td>{{ user.workload.name }}</td>
+                <td>
+                    <a href="#" class="button-format">
+                        <span class="material-symbols-outlined">
+                            edit
+                        </span>
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'home:deleteTableUsers' user.id %}" class="button-format">
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -4,31 +4,42 @@
 {% block action5 %} style="color:#4BAAF7" {% endblock %}
 
 {% block body %}
+<form action="{% url 'home:enterDepartment' %}" method="post">
+    {% csrf_token %}
+    <div class="form-container">
 
-<div class="form-container">
-    <div class="title">Ingresar Departamento</div>
-
-    <div class="input-form">
-        <label for="departmentName">Nombre de departamento</label><br>
-        <input class="input-information" type="text" id="departmentName" name="departmentName" placeholder="Ingresar el nombre del departamento">
-    </div>
-
-    <div class="input-form">
-        <label for="description">Descripción</label><br>
-        <input class="input-information" type="text" id="description" name="description" placeholder="Ingresar el apellido">
-    </div>
-
-    <div class="input-form">
-        <label for="userDepartment">Cargo</label><br>
-        <select name="userDepartment" id="userDepartment" class="input-information">
-            <option value="">Selecciona el departamento</option>
-        </select>
-    </div>
-
-    <div class="buttons-end">
-        <button type="reset" class="buttoncancel">Cancelar</button>
-        <button type="submit" class="buttonsave">Guardar</button>
-    </div>
-</div>
-
+        {% if message %}
+            <div class="error-message">
+                {{ message }}
+            </div>
+        {% endif %}
+        <div class="title">Ingresar Departamento</div>
+    
+        <div class="input-form">
+            <label for="departmentName">Nombre de departamento</label><br>
+            <input class="input-information" type="text" id="departmentName" name="departmentName" placeholder="Ingresar el nombre del departamento">
+        </div>
+    
+        <div class="input-form">
+            <label for="description">Descripción</label><br>
+            <input class="input-information" type="text" id="description" name="description" placeholder="Ingresar el apellido">
+        </div>
+    
+        <div class="input-form">
+            <label for="workload">Cargo</label><br>
+            <select name="workload" id="workload" class="input-information">
+                <option value="">Selecciona el departamento</option>
+                <option value="">--------------------------------------------------------------------------------------------------</option>
+                {% for Workload in Workloads %}
+                    <option value="{{ Workload.id }}">{{ Workload.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="buttons-end">
+            <button type="reset" class="buttoncancel">Cancelar</button>
+            <button type="submit" class="buttonsave">Guardar</button>
+        </div>
+    </div>    
+</form>
 {% endblock %}

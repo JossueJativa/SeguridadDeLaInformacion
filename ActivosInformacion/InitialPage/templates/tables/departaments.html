@@ -1,0 +1,65 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block action6 %} style="color:#4BAAF7" {% endblock %}
+
+{% block body %}
+{% if message %}
+    <div class="error-message">
+        {{ message }}
+    </div>
+{% endif %}
+
+<div class="form-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">
+                    
+                </th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for department in Departments %}
+            <tr>
+                <th scope="row">{{ department.id }}</th>
+                <td>{{ department.name }}</td>
+                <td>{{ department.description }}</td>
+                <td>{{ department.workload.name }}</td>
+                <td>
+                    <a href="#" class="button-format">
+                        <span class="material-symbols-outlined">
+                            edit
+                        </span>
+                    </a>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <a href="{% url 'home:deleteTableDepartments' department.id %}" class="button-format">
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
