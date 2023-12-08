@@ -103,6 +103,13 @@ def enterUsers(request):
                     "Departments": Departments.objects.all(),
                     "message": f"Error al ingresar el departamento {e}"
                 })
+            
+            try:
+                idlastUser = User.objects.last()
+            except:
+                idlastUser = 1
+            
+            username = f"{firstname}.{lastname}.{idlastUser.id}"
 
             try:
                 user = User(
@@ -112,6 +119,7 @@ def enterUsers(request):
                     celular = celular,
                     password = password,
                     workload = workload,
+                    username=username
                 )
                 user.save()
             except Exception as e:

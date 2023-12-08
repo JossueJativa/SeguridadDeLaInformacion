@@ -4,68 +4,70 @@
 {% block action3 %} style="color:#4BAAF7" {% endblock %}
 
 {% block body %}
-<form action="{% url 'home:enterUsers' %}" method="post">
-    {% csrf_token %}
-    <div class="form-container">
-        <div class="title">Ingresar Usuario</div>
-    
-        <div class="input-form">
-            <label for="firstname">Nombre</label><br>
-            <input class="input-information" type="text" id="firstname" name="firstname" placeholder="Ingresar el nombre">
+<section id="bodyform">
+    <form action="{% url 'home:enterUsers' %}" method="post">
+        {% csrf_token %}
+        <div class="form-container">
+            <div class="title">Ingresar Usuario</div>
+        
+            <div class="input-form">
+                <label for="firstname">Nombre</label><br>
+                <input class="input-information" type="text" id="firstname" name="firstname" placeholder="Ingresar el nombre">
+            </div>
+        
+            <div class="input-form">
+                <label for="lastname">Apellido</label><br>
+                <input class="input-information" type="text" id="lastname" name="lastname" placeholder="Ingresar el apellido">
+            </div>
+        
+            <div class="input-form">
+                <label for="email">Email</label><br>
+                <input class="input-information" type="text" id="email" name="email" placeholder="Ingresar el email">
+            </div>
+        
+            <div class="input-form">
+                <label for="phone">N° Celular</label><br>
+                <input class="input-information" type="text" id="phone" name="phone" placeholder="Ingresar la cedula">
+            </div>
+        
+            <div class="input-form">
+                <label for="password">Contraseña</label><br>
+                <input class="input-information" type="password" id="password" name="password" placeholder="Ingresar la contraseña">
+            </div>
+        
+            <div class="input-form">
+                <label for="confirm">Confirmar contraseña</label><br>
+                <input class="input-information" type="password" id="confirm" name="confirm" placeholder="Confirmar contraseña">
+            </div>
+        
+            <div class="input-form">
+                <label for="userDepartment">Departamento</label><br>
+                <select name="userDepartment" id="userDepartment" class="input-information">
+                    <option value="">Selecciona el departamento</option>
+                    <option value="">--------------------------------------------------------------------------------------------------</option>
+                    {% for department in Departments %}
+                        <option value="{{ department.id }}">{{ department.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+            <div class="input-form">
+                <label for="workload">Cargo</label><br>
+                <select name="workload" id="workload" class="input-information">
+                    <option value="">Selecciona el cargo</option>
+                    <option value="">--------------------------------------------------------------------------------------------------</option>
+                    {% for Workload in Workloads %}
+                        <option value="{{ Workload.id }}">{{ Workload.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+            <div class="buttons-end">
+                <button type="reset" class="buttoncancel">Cancelar</button>
+                <button type="submit" class="buttonsave">Guardar</button>
+            </div>
         </div>
-    
-        <div class="input-form">
-            <label for="lastname">Apellido</label><br>
-            <input class="input-information" type="text" id="lastname" name="lastname" placeholder="Ingresar el apellido">
-        </div>
-    
-        <div class="input-form">
-            <label for="email">Email</label><br>
-            <input class="input-information" type="text" id="email" name="email" placeholder="Ingresar el email">
-        </div>
-    
-        <div class="input-form">
-            <label for="phone">N° Celular</label><br>
-            <input class="input-information" type="text" id="phone" name="phone" placeholder="Ingresar la cedula">
-        </div>
-    
-        <div class="input-form">
-            <label for="password">Contraseña</label><br>
-            <input class="input-information" type="text" id="password" name="password" placeholder="Ingresar la contraseña">
-        </div>
-    
-        <div class="input-form">
-            <label for="confirm">Confirmar contraseña</label><br>
-            <input class="input-information" type="text" id="confirm" name="confirm" placeholder="Confirmar contraseña">
-        </div>
-    
-        <div class="input-form">
-            <label for="userDepartment">Departamento</label><br>
-            <select name="userDepartment" id="userDepartment" class="input-information">
-                <option value="">Selecciona el departamento</option>
-                <option value="">--------------------------------------------------------------------------------------------------</option>
-                {% for department in Departments %}
-                    <option value="{{ department.id }}">{{ department.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    
-        <div class="input-form">
-            <label for="workload">Cargo</label><br>
-            <select name="workload" id="workload" class="input-information">
-                <option value="">Selecciona el cargo</option>
-                <option value="">--------------------------------------------------------------------------------------------------</option>
-                {% for Workload in Workloads %}
-                    <option value="{{ Workload.id }}">{{ Workload.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    
-        <div class="buttons-end">
-            <button type="reset" class="buttoncancel">Cancelar</button>
-            <button type="submit" class="buttonsave">Guardar</button>
-        </div>
-    </div>
-</form>
+    </form>
+</section>
 
 {% endblock %}
