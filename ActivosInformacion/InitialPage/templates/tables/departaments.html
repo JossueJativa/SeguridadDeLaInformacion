@@ -52,7 +52,7 @@
                     <td>{{ department.description }}</td>
                     <td>{{ department.workload.name }}</td>
                     <td>
-                        <a href="#" class="button-format">
+                        <a type="button" onclick="activeeditbox(this)" class="button-format" data-department-id="{{ department.id }}" data-department-name="{{ department.name }}" data-department-description="{{ department.description }}" data-department-workload="{{ department.workload.name }}" data-departments="{{ Departments.id }}">
                             <span class="material-symbols-outlined">
                                 edit
                             </span>
@@ -76,4 +76,11 @@
         </table>
     </div>
 </section>
+
+<div class="overlay" id="overlay"></div>
+<form action="{% url 'home:editTableDepartments' %}" method="post">
+    {% csrf_token %}
+    <div class="edit-campus" id="edit-campus">
+    </div>
+</form>
 {% endblock %}

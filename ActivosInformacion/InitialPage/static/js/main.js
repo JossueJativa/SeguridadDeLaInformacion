@@ -364,6 +364,65 @@ function minusValueValoration4(){
   hidden_valorationadd1.style.display = 'none';
 }
 
+function activeeditbox(button) {
+  var departmentId = button.getAttribute('data-department-id');
+  var departmentName = button.getAttribute('data-department-name');
+  var departmentDescription = button.getAttribute('data-department-description');
+  var departmentWorkload = button.getAttribute('data-department-workload');
+
+  // Llenar el formulario en edit-campus con los valores capturados
+  document.getElementById('edit-campus').innerHTML = `
+    <div class="title">Editar activo</div>
+    <input type="hidden" name="departmentId" id="departmentId" value="${departmentId}">
+      
+      <div class="input-form">
+          <label for="departmentName">Nombre de departamento</label><br>
+          <input class="input-information" type="text" id="departmentName" name="departmentName" value="${departmentName}">
+      </div>
+
+      <div class="input-form">
+          <label for="description">Descripción</label><br>
+          <input class="input-information" type="text" id="description" name="description" value="${departmentDescription}">
+      </div>
+      
+      <div class="input-form">
+          <label for="workload">Cargo</label><br>
+          <select name="workload" id="workload" class="input-information"></select>
+      </div>
+      
+      <div class="buttons-end">
+          <input type="button" class="buttoncancel" value="Cerrar" onclick="desactiveeditbox()">
+          <button type="submit" class="buttonsave">Editar información</button>
+      </div>
+  `;
+
+  // Hacer una solicitud fetch para obtener la lista de departamentos
+  fetch('/home/get-workloads/')
+      .then(response => response.json())
+      .then(data => {
+          // Obtener el elemento del select
+          var selectElement = document.getElementById('workload');
+
+          // Iterar sobre los datos y agregar opciones al select
+          data.forEach(department => {
+              var optionElement = document.createElement('option');
+              optionElement.value = department.id;
+              optionElement.textContent = department.name;
+
+              // Verificar si el nombre del departamento coincide y seleccionarlo
+              if (department.name === departmentWorkload) {
+                  optionElement.selected = true;
+              }
+
+              selectElement.appendChild(optionElement);
+          });
+      })
+      .catch(error => console.error('Error al obtener la lista de departamentos:', error));
+
+  document.getElementById('overlay').style.display = 'block';
+  document.getElementById('edit-campus').style.display = 'block';
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   function populateSubtypes() {
       const assetTypeDropdown = document.getElementById('type');
@@ -401,6 +460,11 @@ document.addEventListener('DOMContentLoaded', function () {
       modal.addEventListener('shown.bs.modal', populateSubtypes);
   });
 });
+
+function desactiveeditbox(){
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('edit-campus').style.display = 'none';
+}
 
 try{
   document.getElementById("inpSearch0").addEventListener("input", e => {

@@ -367,10 +367,45 @@ input[type='checkbox']:checked + .slider{
     border-bottom: 5px solid #252525;
 }
 
+.overlay {
+    width: 100%;
+    height: 100%;
+    background-color: #252525;
+    position: absolute;
+    z-index: 1000;
+    opacity: 80%;
+    display: none;
+}
+
+.edit-campus {
+    position: absolute;
+    background-color: #2e313a;
+    width: 55%;
+    height: auto;
+    top: 10%;
+    left: 27%;
+    padding: 2%;
+    border-radius: 1rem;
+    border: 2px solid white;
+    z-index: 10000;
+    color: white;
+    display: none;
+}
+
 /*Responsive*/
 @media screen and (max-width: 1024px){
     #bodyform{
         width: 70%;
+        left: 28%;
+    }
+
+    #bodyform-tables{
+        width: auto;
+        left: 28%;
+    }
+
+    #bodyform-tables-assets{
+        width: auto;
         left: 28%;
     }
 

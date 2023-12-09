@@ -712,7 +712,58 @@ def deleteTableDepartments(request, id):
         })
     else:
         return HttpResponseRedirect(reverse("user:login_view"))
-    
+
+def editTableDepartments(request):
+    if request.method == "POST":
+        departmentId = request.POST.get("departmentId")
+        departmentName = request.POST.get("departmentName")
+        description = request.POST.get("description")
+        workload = request.POST.get("workload")
+
+        if departmentName == "" or departmentName == None:
+            return render(request, "home/enterDepartment.html",{
+                "Workloads": Workload.objects.all(),
+                "message": "Ingrese el nombre del departamento"
+            })
+        
+        if description == "" or description == None:
+            return render(request, "home/enterDepartment.html",{
+                "Workloads": Workload.objects.all(),
+                "message": "Ingrese la descripción del departamento"
+            })
+        
+        if workload == "" or workload == None:
+            return render(request, "home/enterDepartment.html",{
+                "Workloads": Workload.objects.all(),
+                "message": "Ingrese la carga de trabajo del departamento"
+            })
+
+        workload = Workload.objects.get(pk=workload)
+
+        try:
+            Departments.objects.filter(pk=departmentId).update(
+                name = departmentName,
+                description = description,
+                workload = workload
+            )
+        except Exception as e:
+            return render(request, "home/enterDepartment.html",{
+                "Workloads": Workload.objects.all(),
+                "message": f"Error al ingresar el departamento {e}"
+            })
+        
+        return render(request, "tables/departaments.html",{
+            "Departments": Departments.objects.all(),
+        })
+    else:
+        return render(request, "home/enterDepartment.html",{
+            "Workloads": Workload.objects.all()
+        })
+
 def get_subtypes(request, type_id):
     subtypes = SubtypeAssets.objects.filter(type_id=type_id).values('id', 'name')
     return JsonResponse(list(subtypes), safe=False)
+
+def get_workloads(request):
+    workloads = Workload.objects.all().values('id', 'name')
+    return JsonResponse(list(workloads), safe=False)
