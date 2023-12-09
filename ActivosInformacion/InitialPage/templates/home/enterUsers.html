@@ -5,6 +5,11 @@
 
 {% block body %}
 <section id="bodyform">
+    {% if message %}
+        <div class="error-message">
+            {{ message }}
+        </div>
+    {% endif %}
     <form action="{% url 'home:enterUsers' %}" method="post">
         {% csrf_token %}
         <div class="form-container">

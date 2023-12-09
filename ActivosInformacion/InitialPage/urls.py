@@ -5,6 +5,8 @@ app_name = "home"
 
 urlpatterns = [
     path('', views.enterAsset, name='enterAsset'),
+    path('tableAssets/', views.tableAssets, name='tableAssets'),
+    path('deleteTableAssets/<str:id>', views.deleteTableAssets, name='deleteTableAssets'),
     path('enterUsers/', views.enterUsers, name='enterUsers'),
     path('tableusers/', views.tableusers, name='tableusers'),
     path('deleteTableUsers/<str:id>', views.deleteTableUsers, name='deleteTableUsers'),

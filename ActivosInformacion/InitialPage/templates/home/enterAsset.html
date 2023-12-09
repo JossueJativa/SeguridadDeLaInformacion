@@ -5,9 +5,15 @@
 
 {% block body %}
 <section id="bodyform">
+    {% if message %}
+        <div class="error-message">
+            {{ message }}
+        </div>
+    {% endif %}
     <form action="{% url 'home:enterAsset' %}" method="post">
         {% csrf_token %}
         <div class="form-container">
+            
             <div class="title">Ingresar Activo</div>
             <div class="underline-text">Caracterización</div>
         
@@ -97,6 +103,8 @@
                 <select name="ubicationType" id="ubicationType" class="input-information" required>
                     <option value="">Selecciona el tipo de ubicación</option>
                     <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                    <option value="Técnica">Técnica</option>
+                    <option value="Geográfica">Geográfica</option>
                 </select>
             </div>
         
@@ -127,7 +135,7 @@
                 <div class="underline-text">Dependencias</div>
         
                 <div class="input-form">
-                    <label for="dependency">Porcentaje de dependencia</label><br>
+                    <label for="dependency">Porcentaje de dependencia (Sin el %)</label><br>
                     <input class="input-information" type="text" id="dependency" name="dependency" placeholder="Ingresar el origen">
                 </div>
         
@@ -189,7 +197,7 @@
         
                 <div class="input-form">
                     <label for="valorationDimention">Dimensión de valoracion</label><br>
-                    <select name="valorationDimention" id="valorationDimention" class="input-information" required>
+                    <select name="valorationDimention" id="valorationDimention" class="input-information">
                         <option value="">Selecciona la dimensión</option>
                         <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
                         <option value="Disponibilidad">Disponibilidad</option>
@@ -228,6 +236,195 @@
                     <label for="descriptionValue">Descripción</label><br>
                     <input class="input-information" type="text" id="descriptionValue" name="descriptionValue" placeholder="Descripción" style="opacity: 50%; cursor: default;" readonly>
                 </div>
+
+                <input type="button" class="text-add-value" onclick="agregarValoracion()" value="Agregar otra valoración" id="text-add-value">
+
+                <div class="hidden-valorationadd" id="hidden-valorationadd1">
+                    <div class="input-form">
+                        <input type="button" class="text-minus-value" onclick="minusValueValoration()" value="-">
+                        <label for="valorationDimention2">Dimensión de valoracion</label><br>
+                        <select name="valorationDimention2" id="valorationDimention2" class="input-information">
+                            <option value="">Selecciona la dimensión</option>
+                            <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                            <option value="Disponibilidad">Disponibilidad</option>
+                            <option value="Integridad">Integridad</option>
+                            <option value="Confidencialidad">Confidencialidad</option>
+                            <option value="Autenticidad">Autenticidad</option>
+                            <option value="Trazabilidad">Trazabilidad</option>
+                        </select>
+                    </div>
+            
+                    <div class="input-form">
+                        <label for="valorationAssing2">Valor asignado (0-10)</label><br>
+                        <select name="valorationAssing2" id="valorationAssing2" class="input-information" onchange="actualizarCampos2()">
+                            <option value="">Seleccione el valor</option>
+                            <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                
+                    <div class="input-form">
+                        <label for="cualitative2">Valor cualitativo</label><br>
+                        <input class="input-information" type="text" id="cualitative2" name="cualitative2" placeholder="Valor cualitativo" style="opacity: 50%; cursor: default;" readonly>
+                    </div>
+                
+                    <div class="input-form">
+                        <label for="descriptionValue2">Descripción</label><br>
+                        <input class="input-information" type="text" id="descriptionValue2" name="descriptionValue2" placeholder="Descripción" style="opacity: 50%; cursor: default;" readonly>
+                    </div>
+    
+                    <input type="button" class="text-add-value" onclick="agregarValoracion2()" value="Agregar otra valoración" id="text-add-value2">
+                </div>
+
+                <div class="hidden-valorationadd2" id="hidden-valorationadd2">
+                    <div class="input-form">
+                        <input type="button" class="text-minus-value" onclick="minusValueValoration2()" value="-">
+                        <label for="valorationDimention3">Dimensión de valoracion</label><br>
+                        <select name="valorationDimention3" id="valorationDimention3" class="input-information">
+                            <option value="">Selecciona la dimensión</option>
+                            <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                            <option value="Disponibilidad">Disponibilidad</option>
+                            <option value="Integridad">Integridad</option>
+                            <option value="Confidencialidad">Confidencialidad</option>
+                            <option value="Autenticidad">Autenticidad</option>
+                            <option value="Trazabilidad">Trazabilidad</option>
+                        </select>
+                    </div>
+            
+                    <div class="input-form">
+                        <label for="valorationAssing3">Valor asignado (0-10)</label><br>
+                        <select name="valorationAssing3" id="valorationAssing3" class="input-information" onchange="actualizarCampos3()">
+                            <option value="">Seleccione el valor</option>
+                            <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                
+                    <div class="input-form">
+                        <label for="cualitative3">Valor cualitativo</label><br>
+                        <input class="input-information" type="text" id="cualitative3" name="cualitative3" placeholder="Valor cualitativo" style="opacity: 50%; cursor: default;" readonly>
+                    </div>
+                
+                    <div class="input-form">
+                        <label for="descriptionValue3">Descripción</label><br>
+                        <input class="input-information" type="text" id="descriptionValue3" name="descriptionValue3" placeholder="Descripción" style="opacity: 50%; cursor: default;" readonly>
+                    </div>
+    
+                    <input type="button" class="text-add-value" onclick="agregarValoracion3()" value="Agregar otra valoración" id="text-add-value3">
+                </div>
+
+                <div class="hidden-valorationadd3" id="hidden-valorationadd3">
+                    <div class="input-form">
+                        <input type="button" class="text-minus-value" onclick="minusValueValoration3()" value="-">
+                        <label for="valorationDimention4">Dimensión de valoracion</label><br>
+                        <select name="valorationDimention4" id="valorationDimention4" class="input-information">
+                            <option value="">Selecciona la dimensión</option>
+                            <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                            <option value="Disponibilidad">Disponibilidad</option>
+                            <option value="Integridad">Integridad</option>
+                            <option value="Confidencialidad">Confidencialidad</option>
+                            <option value="Autenticidad">Autenticidad</option>
+                            <option value="Trazabilidad">Trazabilidad</option>
+                        </select>
+                    </div>
+            
+                    <div class="input-form">
+                        <label for="valorationAssing4">Valor asignado (0-10)</label><br>
+                        <select name="valorationAssing4" id="valorationAssing4" class="input-information" onchange="actualizarCampos4()">
+                            <option value="">Seleccione el valor</option>
+                            <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                
+                    <div class="input-form">
+                        <label for="cualitative4">Valor cualitativo</label><br>
+                        <input class="input-information" type="text" id="cualitative4" name="cualitative4" placeholder="Valor cualitativo" style="opacity: 50%; cursor: default;" readonly>
+                    </div>
+                
+                    <div class="input-form">
+                        <label for="descriptionValue4">Descripción</label><br>
+                        <input class="input-information" type="text" id="descriptionValue4" name="descriptionValue4" placeholder="Descripción" style="opacity: 50%; cursor: default;" readonly>
+                    </div>
+    
+                    <input type="button" class="text-add-value" onclick="agregarValoracion4()" value="Agregar otra valoración" id="text-add-value4">
+                </div>
+
+                <div class="hidden-valorationadd4" id="hidden-valorationadd4">
+                    <div class="input-form">
+                        <input type="button" class="text-minus-value" onclick="minusValueValoration4()" value="-">
+                        <label for="valorationDimention5">Dimensión de valoracion</label><br>
+                        <select name="valorationDimention5" id="valorationDimention5" class="input-information">
+                            <option value="">Selecciona la dimensión</option>
+                            <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                            <option value="Disponibilidad">Disponibilidad</option>
+                            <option value="Integridad">Integridad</option>
+                            <option value="Confidencialidad">Confidencialidad</option>
+                            <option value="Autenticidad">Autenticidad</option>
+                            <option value="Trazabilidad">Trazabilidad</option>
+                        </select>
+                    </div>
+            
+                    <div class="input-form">
+                        <label for="valorationAssing5">Valor asignado (0-10)</label><br>
+                        <select name="valorationAssing5" id="valorationAssing5" class="input-information" onchange="actualizarCampos5()">
+                            <option value="">Seleccione el valor</option>
+                            <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                
+                    <div class="input-form">
+                        <label for="cualitative5">Valor cualitativo</label><br>
+                        <input class="input-information" type="text" id="cualitative5" name="cualitative5" placeholder="Valor cualitativo" style="opacity: 50%; cursor: default;" readonly>
+                    </div>
+                
+                    <div class="input-form">
+                        <label for="descriptionValue5">Descripción</label><br>
+                        <input class="input-information" type="text" id="descriptionValue5" name="descriptionValue5" placeholder="Descripción" style="opacity: 50%; cursor: default;" readonly>
+                    </div>
+                </div>
+                
             </div>
         
             <div class="buttons-end">

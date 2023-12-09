@@ -34,19 +34,18 @@ def enterAsset(request):
             state2 = request.POST.get("state2")
 
             #Guardar el activo
-
             try:
                 asset = Assets(
                     code = code,
                     origin = origin,
                     name = name,
-                    ubicationTipe = ubicationType,
+                    ubicationType = ubicationType,
                     ubication = ubication,
                     quantity = quantity,
                     characteristic = characteristic,
-                    tipe = type,
-                    responsableArea = responsableArea,
-                    responsableUser = responsablePerson
+                    type = TypeAssets.objects.get(pk=type),
+                    responsableArea = Departments.objects.get(pk=responsableArea),
+                    responsableUser = User.objects.get(pk=responsablePerson)
                 )
                 asset.save()
             except Exception as e:
@@ -163,13 +162,42 @@ def enterAsset(request):
                         "dependency": dependency,
                         "descriptionDependency": descriptionDependency,
                         "responsableUser": responsableUser,
-                        # Activacion del toggle 2
-                        "state2": state2,
-                        "valorationDimention": valorationDimention,
-                        "valorationAssing": valorationAssing,
-                        "cualitative": cualitative,
-                        "descriptionValue": descriptionValue,
                         "message": "Seleccione de que depende"
+                    })
+                
+                responsableUser = User.objects.get(pk=responsableUser)
+                dependsOf = Assets.objects.get(pk=dependsOf)
+
+                try:
+                    assetDependence = AssetsDependence(
+                        percentaje = dependency,
+                        asset = asset,
+                        responsableUser = responsableUser,
+                        assetDepend = dependsOf
+                    )
+                    assetDependence.save()
+                except Exception as e:
+                    return render(request, "home/enterAsset.html",{
+                        "Departments": departmentsName,
+                        # Parte principal
+                        "origin": origin,
+                        "code": code,
+                        "name": name,
+                        "type": type,
+                        "subtype": subtype,
+                        "responsableArea": responsableArea,
+                        "responsablePerson": responsablePerson,
+                        "ubicationType": ubicationType,
+                        "ubication": ubication,
+                        "quantity": quantity,
+                        "characteristic": characteristic,
+                        # Activacion del toggle 1
+                        "state": state,
+                        "dependency": dependency,
+                        "descriptionDependency": descriptionDependency,
+                        "responsableUser": responsableUser,
+                        "dependsOf": dependsOf,
+                        "message": f"Error al ingresar la dependencia {e}"
                     })
 
             if state2 == "on":
@@ -194,17 +222,6 @@ def enterAsset(request):
                         "ubication": ubication,
                         "quantity": quantity,
                         "characteristic": characteristic,
-                        # Activacion del toggle 1
-                        "state": state,
-                        "dependency": dependency,
-                        "descriptionDependency": descriptionDependency,
-                        "responsableUser": responsableUser,
-                        "dependsOf": dependsOf,
-                        # Activacion del toggle 2
-                        "state2": state2,
-                        "valorationAssing": valorationAssing,
-                        "cualitative": cualitative,
-                        "descriptionValue": descriptionValue,
                         "message": "Seleccione la dimensión de valoración"
                     })
                 
@@ -223,21 +240,197 @@ def enterAsset(request):
                         "ubication": ubication,
                         "quantity": quantity,
                         "characteristic": characteristic,
-                        # Activacion del toggle 1
-                        "state": state,
-                        "dependency": dependency,
-                        "descriptionDependency": descriptionDependency,
-                        "responsableUser": responsableUser,
-                        "dependsOf": dependsOf,
-                        # Activacion del toggle 2
-                        "state2": state2,
-                        "valorationDimention": valorationDimention,
-                        "cualitative": cualitative,
-                        "descriptionValue": descriptionValue,
                         "message": "Seleccione la valoración"
                     })
                 
-            # Logica para guardar el asset
+                try:
+                    if valorationAssing == 0 or valorationAssing == "0":
+                        cualitative = "Despreciable"
+                    assetValue = AssetsValue(
+                        cuantityValue = valorationAssing,
+                        cualityValue = cualitative,
+                        description = descriptionValue,
+                        dimentionValue = valorationDimention,
+                        asset = asset
+                    )
+                    assetValue.save()
+                except Exception as e:
+                    return render(request, "home/enterAsset.html",{
+                        "Departments": departmentsName,
+                        # Parte principal
+                        "origin": origin,
+                        "code": code,
+                        "name": name,
+                        "type": type,
+                        "subtype": subtype,
+                        "responsableArea": responsableArea,
+                        "responsablePerson": responsablePerson,
+                        "ubicationType": ubicationType,
+                        "ubication": ubication,
+                        "quantity": quantity,
+                        "characteristic": characteristic,
+                        "message": f"Error al ingresar la valoración {e}"
+                    })
+                
+                try:
+                    # ver si los otros campos estan llenos para guardarlos o no
+                    # Primeros campos
+                    valorationDimention2 = request.POST.get("valorationDimention2")
+                    valorationAssing2 = request.POST.get("valorationAssing2")
+
+                    if valorationDimention2 != None or valorationDimention2 != "" or valorationAssing2 != None or valorationAssing2 != "":
+                        descriptionValue2 = request.POST.get("descriptionValue2")
+                        cualitative2 = request.POST.get("cualitative2")
+                        
+                        try:
+                            assetValue = AssetsValue(
+                                cuantityValue = valorationAssing2,
+                                cualityValue = cualitative2,
+                                description = descriptionValue2,
+                                dimentionValue = valorationDimention2,
+                                asset = asset
+                            )
+                            assetValue.save()
+                        except Exception as e:
+                            return render(request, "home/enterAsset.html",{
+                                "Departments": departmentsName,
+                                # Parte principal
+                                "origin": origin,
+                                "code": code,
+                                "name": name,
+                                "type": type,
+                                "subtype": subtype,
+                                "responsableArea": responsableArea,
+                                "responsablePerson": responsablePerson,
+                                "ubicationType": ubicationType,
+                                "ubication": ubication,
+                                "quantity": quantity,
+                                "characteristic": characteristic,
+                            })
+                except Exception as e:
+                    pass
+                    
+                try:
+                    # ver si los otros campos estan llenos para guardarlos o no
+                    # Segundos campos
+                    valorationDimention3 = request.POST.get("valorationDimention3")
+                    valorationAssing3 = request.POST.get("valorationAssing3")
+
+                    if valorationDimention3 != None or valorationDimention3 != "" or valorationAssing3 != None or valorationAssing3 != "":
+                        descriptionValue3 = request.POST.get("descriptionValue3")
+                        cualitative3 = request.POST.get("cualitative3")
+                        
+                        try:
+                            assetValue = AssetsValue(
+                                cuantityValue = valorationAssing3,
+                                cualityValue = cualitative3,
+                                description = descriptionValue3,
+                                dimentionValue = valorationDimention3,
+                                asset = asset
+                            )
+                            assetValue.save()
+                        except Exception as e:
+                            return render(request, "home/enterAsset.html",{
+                                "Departments": departmentsName,
+                                # Parte principal
+                                "origin": origin,
+                                "code": code,
+                                "name": name,
+                                "type": type,
+                                "subtype": subtype,
+                                "responsableArea": responsableArea,
+                                "responsablePerson": responsablePerson,
+                                "ubicationType": ubicationType,
+                                "ubication": ubication,
+                                "quantity": quantity,
+                                "characteristic": characteristic,
+                                "responsableUser": responsableUser
+                            })
+                except Exception as e:
+                    pass
+
+                try:
+                    # ver si los otros campos estan llenos para guardarlos o no
+                    # Terceros campos
+                    valorationDimention4 = request.POST.get("valorationDimention4")
+                    valorationAssing4 = request.POST.get("valorationAssing4")
+
+                    if valorationDimention4 != None or valorationDimention4 != "" or valorationAssing4 != None or valorationAssing4 != "":
+                        descriptionValue4 = request.POST.get("descriptionValue4")
+                        cualitative4 = request.POST.get("cualitative4")
+                        
+                        try:
+                            assetValue = AssetsValue(
+                                cuantityValue = valorationAssing4,
+                                cualityValue = cualitative4,
+                                description = descriptionValue4,
+                                dimentionValue = valorationDimention4,
+                                asset = asset
+                            )
+                            assetValue.save()
+                        except Exception as e:
+                            return render(request, "home/enterAsset.html",{
+                                "Departments": departmentsName,
+                                # Parte principal
+                                "origin": origin,
+                                "code": code,
+                                "name": name,
+                                "type": type,
+                                "subtype": subtype,
+                                "responsableArea": responsableArea,
+                                "responsablePerson": responsablePerson,
+                                "ubicationType": ubicationType,
+                                "ubication": ubication,
+                                "quantity": quantity,
+                                "characteristic": characteristic,
+                                "responsableUser": responsableUser
+                            })
+                except Exception as e:
+                    pass
+
+                try:
+                    # ver si los otros campos estan llenos para guardarlos o no
+                    # Cuartos campos
+                    valorationDimention5 = request.POST.get("valorationDimention5")
+                    valorationAssing5 = request.POST.get("valorationAssing5")
+
+                    if valorationDimention5 != None or valorationDimention5 != "" or valorationAssing5 != None or valorationAssing5 != "":
+                        descriptionValue5 = request.POST.get("descriptionValue4")
+                        cualitative5 = request.POST.get("cualitative4")
+                        
+                        try:
+                            assetValue = AssetsValue(
+                                cuantityValue = valorationAssing5,
+                                cualityValue = cualitative5,
+                                description = descriptionValue5,
+                                dimentionValue = valorationDimention5,
+                                asset = asset
+                            )
+                            assetValue.save()
+                        except Exception as e:
+                            return render(request, "home/enterAsset.html",{
+                                "Departments": departmentsName,
+                                # Parte principal
+                                "origin": origin,
+                                "code": code,
+                                "name": name,
+                                "type": type,
+                                "subtype": subtype,
+                                "responsableArea": responsableArea,
+                                "responsablePerson": responsablePerson,
+                                "ubicationType": ubicationType,
+                                "ubication": ubication,
+                                "quantity": quantity,
+                                "characteristic": characteristic,
+                                "responsableUser": responsableUser
+                            })
+                except Exception as e:
+                    pass
+
+            return render(request, "tables/assets.html",{
+                "DependentAssets": AssetsDependence.objects.all(),
+                "AssetsValue": AssetsValue.objects.all()
+            })
         else:
             return render(request, "home/enterAsset.html",{
                 "Departments": departmentsName,
@@ -246,6 +439,43 @@ def enterAsset(request):
                 "TypeAssets": TypeAssets.objects.all(),
                 "SubtypeAssets": SubtypeAssets.objects.all()
             })
+    else:
+        return HttpResponseRedirect(reverse("user:login_view"))
+
+def tableAssets(request):
+    if request.user.is_authenticated:
+        return render(request, "tables/assets.html",{
+            "DependentAssets": AssetsDependence.objects.all(),
+            "AssetsValue": AssetsValue.objects.all()
+        })
+    else:
+        return HttpResponseRedirect(reverse("user:login_view"))
+
+def deleteTableAssets(request, id):
+    if request.user.is_authenticated:
+        try:
+            asset = Assets.objects.get(pk=id)
+            # Eliminar las dependencias
+            assetsDependence = AssetsDependence.objects.filter(assetDepend=asset)
+            for assetDependence in assetsDependence:
+                assetDependence.delete()
+
+            # Eliminar los valores
+            assetsValue = AssetsValue.objects.filter(asset=asset)
+            for assetValue in assetsValue:
+                assetValue.delete()
+            asset.delete()
+        except Exception as e:
+            return render(request, "tables/assets.html",{
+                "DependentAssets": AssetsDependence.objects.all(),
+                "AssetsValue": AssetsValue.objects.all(),
+                "message": f"Error al eliminar el activo {e}"
+            })
+        
+        return render(request, "tables/assets.html",{
+            "DependentAssets": AssetsDependence.objects.all(),
+            "AssetsValue": AssetsValue.objects.all(),
+        })
     else:
         return HttpResponseRedirect(reverse("user:login_view"))
 

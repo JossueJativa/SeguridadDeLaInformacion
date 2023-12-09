@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Poner .ico-->
+    <link rel="shortcut icon" href="{% static 'img/icon-magsecure.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/styleForm.css' %}">
     <link rel="stylesheet" href="{% static 'css/styleHome.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -75,7 +77,7 @@
                     </span>
                 </a>
 
-                <a href="" class="actions" {% block action2 %} {% endblock %}>
+                <a href="{% url 'home:tableAssets' %}" class="actions" {% block action2 %} {% endblock %}>
                     Administración
                     <span class="material-symbols-outlined">
                         double_arrow

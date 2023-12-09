@@ -18,11 +18,11 @@ class Assets(models.Model):
     code = models.CharField(max_length=5)
     origin = models.CharField(max_length=20)
     name = models.TextField(max_length=20)
-    ubicationTipe = models.CharField(max_length=20)
+    ubicationType = models.CharField(max_length=20)
     ubication = models.CharField(max_length=20)
     quantity = models.IntegerField()
     characteristic = models.TextField(max_length=50)
-    tipe = models.ForeignKey(TypeAssets, on_delete=models.CASCADE)
+    type = models.ForeignKey(TypeAssets, on_delete=models.CASCADE)
     responsableArea = models.ForeignKey(Departments, null=False, on_delete=models.CASCADE)
     responsableUser = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
 
@@ -37,3 +37,4 @@ class AssetsValue(models.Model):
     cualityValue = models.CharField(max_length=15)
     description = models.CharField(max_length=15)
     dimentionValue = models.CharField(max_length=20)
+    asset = models.ForeignKey(Assets, on_delete=models.CASCADE, null=True)

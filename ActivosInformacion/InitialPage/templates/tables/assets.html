@@ -1,0 +1,136 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block action2 %} style="color:#4BAAF7" {% endblock %}
+
+{% block body %}
+<section id="bodyform-tables-assets">
+    {% if message %}
+        <div class="error-message">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <div class="box-finding">
+        <div class="search-information">
+            <label for="inpSearch0">Filtrar por codigo:</label><br>
+            <input type="text" id="inpSearch0" name="inpSearch0" placeholder="Ingresar el codigo">
+        </div>
+    
+        <div class="search-information">
+            <label for="inpSearch3">Filtrar por tipo de ubicación:</label><br>
+            <input type="text" id="inpSearch3" name="inpSearch3" placeholder="Ingresar el tipo de ubicación">
+        </div>
+
+        <div class="search-information">
+            <label for="inpSearch7">Filtrar por Tipo:</label><br>
+            <input type="text" id="inpSearch7" name="inpSearch7" placeholder="Ingresar el tipo">
+        </div>
+
+        <div class="search-information">
+            <label for="inpSearch8">Filtrar por Area:</label><br>
+            <input type="text" id="inpSearch8" name="inpSearch8" placeholder="Ingresar la area">
+        </div>
+
+        <div class="search-information">
+            <label for="inpSearch9">Filtrar por Usuario:</label><br>
+            <input type="text" id="inpSearch9" name="inpSearch9" placeholder="Ingresar el Usuario">
+        </div>
+
+        <div class="search-information">
+            <label for="inpSearch13">Filtrar por valor cuantitativo:</label><br>
+            <input type="text" id="inpSearch13" name="inpSearch13" placeholder="Ingresar el valor">
+        </div>
+    </div>
+
+    <div class="form-container">
+        <table class="table" id="searchtable">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Codigo</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Origen</th>
+                    <th scope="col">Tipo de ubicación</th>
+                    <th scope="col">Ubicación</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Caracteristicas</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Area responsable</th>
+                    <th scope="col">Usuario responsable</th>
+                    <th scope="col">Dependencias</th>
+                    <th scope="col">Porcentaje de dependencia</th>
+                    <th scope="col">Dimención del valor</th>
+                    <th scope="col">Valor cuantitativo</th>
+                    <th scope="col">Valor cualitativo</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for assetValue in AssetsValue %}
+                <tr>
+                    <th scope="row">{{ assetValue.asset.id }}</th>
+                    <td>{{ assetValue.asset.code }}</td>
+                    <td>{{ assetValue.asset.name }}</td>
+                    <td>{{ assetValue.asset.origin }}</td>
+                    <td>{{ assetValue.asset.ubicationType }}</td>
+                    <td>{{ assetValue.asset.ubication }}</td>
+                    <td>{{ assetValue.asset.quantity }}</td>
+                    <td>{{ assetValue.asset.characteristic }}</td>
+                    <td>{{ assetValue.asset.type.name }}</td>
+                    <td>{{ assetValue.asset.responsableArea.name }}</td>
+                    <td>{{ assetValue.asset.responsableUser.first_name }} {{ assetValue.asset.responsableUser.last_name }}</td>
+                    <td>
+                        {% if DependentAssets %}
+                            {% for dependences in DependentAssets %}
+                                {% if assetValue.asset.id == dependences.asset.id %}
+                                    {{ dependences.assetDepend.name }}
+                                {% else %}
+                                    No tiene dependencia
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            No tiene dependencia
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if DependentAssets %}
+                            {% for dependences in DependentAssets %}
+                                {% if dependences.asset.id == assetValue.asset.id %}
+                                    {{ dependences.percentaje }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ assetValue.dimentionValue }}</td>
+                    <td>{{ assetValue.cuantityValue }}</td>
+                    <td>{{ assetValue.cualityValue }}</td>
+                    <td>{{ assetValue.description }}</td>
+
+                    <td>
+                        <a href="#" class="button-format">
+                            <span class="material-symbols-outlined">
+                                edit
+                            </span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'home:deleteTableAssets' assetValue.asset.id %}" class="button-format">
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

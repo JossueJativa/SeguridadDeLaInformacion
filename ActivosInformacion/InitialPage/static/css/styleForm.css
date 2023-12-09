@@ -20,6 +20,17 @@
     border-radius: 1rem;
 }
 
+#bodyform-tables-assets{
+    background-color: #2e313a;
+    position: absolute;
+    width: auto;
+    left: 18%;
+    top: 20%;
+    height: auto;
+    padding: 3%;
+    border-radius: 1rem;
+}
+
 .form-container{
     text-align: justify;
     font-size: 30px;
@@ -197,6 +208,38 @@ input[type='checkbox']:checked + .slider{
     border: 1px solid white;
 }
 
+.col{
+    width: 25%;
+    padding: 1%;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    background-color: black;
+}
+
+#bodyform-tables-assets .table{
+    width: 100%;
+    margin-top: 0%;
+    border-collapse: collapse;
+    border: 1px solid white;
+}
+
+#bodyform-tables-assets .table th{
+    border: 3px solid #2e313a;
+    padding: 0%;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+}
+
+#bodyform-tables-assets .table td{
+    border: 20px solid #2e313a;
+    padding: 0%;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+}
+
 .table th{
     border: 3px solid #2e313a;
     padding: 0%;
@@ -207,7 +250,7 @@ input[type='checkbox']:checked + .slider{
 
 .table td{
     border: 3px solid #2e313a;
-    padding: 1%;
+    padding: 0%;
     text-align: center;
     font-size: 20px;
     color: white;
@@ -237,6 +280,25 @@ input[type='checkbox']:checked + .slider{
     border-bottom: 5px solid #252525;
 }
 
+#bodyform-tables-assets .search-information{
+    width: 33%;
+    color: white;
+    padding: 1%;
+}
+
+#bodyform-tables-assets .search-information input{
+    width: 100%;
+    height: 30px;
+    background: #2e313a;
+    border: 1px solid white;
+    color: white;
+    font-family: "IbmPlexSans-Light", sans-serif;
+    font-size: 100%;
+    font-weight: 300;
+    border-radius: 0.5rem;
+    padding: 1%;
+}
+
 .search-information{
     width: 33%;
     color: white;
@@ -254,6 +316,55 @@ input[type='checkbox']:checked + .slider{
     font-weight: 300;
     border-radius: 0.5rem;
     padding: 1%;
+}
+
+.text-add-value{
+    color: #4BAAF7;
+    font-size: 20px;
+    margin-top: 1%;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 34%;
+    cursor: pointer;
+}
+
+.text-minus-value{
+    color: #4BAAF7;
+    font-size: 50px;
+    margin-top: 1%;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 95%;
+}
+
+.hidden-valorationadd{
+    display: none;
+    border-top: 5px solid #252525;
+    border-bottom: 5px solid #252525;
+}
+
+.hidden-valorationadd2{
+    display: none;
+    border-bottom: 5px solid #252525;
+}
+
+.hidden-valorationadd3{
+    display: none;
+    border-bottom: 5px solid #252525;
+}
+
+.hidden-valorationadd4{
+    display: none;
+    border-bottom: 5px solid #252525;
 }
 
 /*Responsive*/
