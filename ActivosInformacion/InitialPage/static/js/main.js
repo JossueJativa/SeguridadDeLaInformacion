@@ -423,6 +423,110 @@ function activeeditbox(button) {
   document.getElementById('edit-campus').style.display = 'block';
 }
 
+function activeeditboxUser(button) {
+  var userId = button.getAttribute('data-user-id');
+  var userId = button.getAttribute('data-user-id');
+  var userFirstName = button.getAttribute('data-user-first_name');
+  var userLastName = button.getAttribute('data-user-last_name');
+  var userUsername = button.getAttribute('data-user-username');
+  var userEmail = button.getAttribute('data-user-email');
+  var userCelular = button.getAttribute('data-user-celular');
+  var userWorkload = button.getAttribute('data-user-workload');
+  var userDepartment = button.getAttribute('data-user-department');
+
+  document.getElementById('edit-campus').innerHTML = `
+      <div class="title">Editar usuario</div>
+      <input type="hidden" name="userId" value="${userId}">
+          
+      <div class="input-form">
+          <label for="userFirstName">Nombre</label><br>
+          <input class="input-information" type="text" id="userFirstName" name="userFirstName" value="${userFirstName}">
+      </div>
+
+      <div class="input-form">
+          <label for="userLastName">Apellido</label><br>
+          <input class="input-information" type="text" id="userLastName" name="userLastName" value="${userLastName}">
+      </div>
+
+      <div class="input-form">
+          <label for="userUsername">Username</label><br>
+          <input class="input-information" type="text" id="userUsername" name="userUsername" value="${userUsername}">
+      </div>
+
+      <div class="input-form">
+          <label for="userEmail">Email</label><br>
+          <input class="input-information" type="text" id="userEmail" name="userEmail" value="${userEmail}">
+      </div>
+
+      <div class="input-form">
+          <label for="userCelular">Celular</label><br>
+          <input class="input-information" type="text" id="userCelular" name="userCelular" value="${userCelular}">
+      </div>
+
+      <div class="input-form">
+          <label for="userDepartment">Departamento</label><br>
+          <select name="userDepartment" id="userDepartment" class="input-information"></select>
+      </div>
+
+      <div class="input-form">
+          <label for="userWorkload">Cargo</label><br>
+          <select name="userWorkload" id="userWorkload" class="input-information"></select>
+      </div>
+      
+      <div class="buttons-end">
+          <input type="button" class="buttoncancel" value="Cerrar" onclick="desactiveeditboxUser()">
+          <button type="submit" class="buttonsave">Editar información</button>
+      </div>
+  `;
+
+  fetch('/home/get-workloads/')
+      .then(response => response.json())
+      .then(data => {
+          var selectElement = document.getElementById('userWorkload');
+
+          data.forEach(workload => {
+              var optionElement = document.createElement('option');
+              optionElement.value = workload.id;
+              optionElement.textContent = workload.name;
+
+              if (workload.name === userWorkload) {
+                  optionElement.selected = true;
+              }
+
+              selectElement.appendChild(optionElement);
+          });
+      })
+      .catch(error => console.error('Error al obtener la lista de cargos:', error));
+
+  fetch('/home/get-departments/')
+      .then(response => response.json())
+      .then(data => {
+          var selectElement = document.getElementById('userDepartment');
+
+          data.forEach(department => {
+              var optionElement = document.createElement('option');
+              optionElement.value = department.id;
+              optionElement.textContent = department.name;
+
+              if (department.name === userDepartment) {
+                  optionElement.selected = true;
+              }
+
+              selectElement.appendChild(optionElement);
+          });
+      })
+      .catch(error => console.error('Error al obtener la lista de cargos:', error));
+
+  document.getElementById('overlay').style.display = 'block';
+  document.getElementById('edit-campus').style.display = 'block';
+}
+
+function desactiveeditboxUser() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('edit-campus').style.display = 'none';
+}
+
+
 document.addEventListener('DOMContentLoaded', function () {
   function populateSubtypes() {
       const assetTypeDropdown = document.getElementById('type');

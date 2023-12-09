@@ -52,7 +52,11 @@
                     <td>{{ department.description }}</td>
                     <td>{{ department.workload.name }}</td>
                     <td>
-                        <a type="button" onclick="activeeditbox(this)" class="button-format" data-department-id="{{ department.id }}" data-department-name="{{ department.name }}" data-department-description="{{ department.description }}" data-department-workload="{{ department.workload.name }}" data-departments="{{ Departments.id }}">
+                        <a type="button" onclick="activeeditbox(this)" class="button-format" 
+                        data-department-id="{{ department.id }}" 
+                        data-department-name="{{ department.name }}" 
+                        data-department-description="{{ department.description }}" 
+                        data-department-workload="{{ department.workload.name }}">
                             <span class="material-symbols-outlined">
                                 edit
                             </span>

@@ -7,4 +7,5 @@ class Workload(models.Model):
 
 class User(AbstractUser):
     celular = models.CharField(max_length=10, null=False)
+    department = models.CharField(max_length=20, null=True)
     workload = models.ForeignKey(Workload, on_delete=models.CASCADE, null=True)

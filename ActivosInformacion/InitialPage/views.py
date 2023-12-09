@@ -422,7 +422,7 @@ def enterAsset(request):
                                 "ubication": ubication,
                                 "quantity": quantity,
                                 "characteristic": characteristic,
-                                "responsableUser": responsableUser
+                                "responsableUser": responsableUser,
                             })
                 except Exception as e:
                     pass
@@ -593,7 +593,8 @@ def enterUsers(request):
                     celular = celular,
                     password = password,
                     workload = workload,
-                    username=username
+                    username= username,
+                    department = department.name
                 )
                 user.save()
             except Exception as e:
@@ -616,7 +617,8 @@ def enterUsers(request):
 def tableusers(request):
     if request.user.is_authenticated:
         return render(request, "tables/users.html",{
-            "Users": User.objects.all()
+            "Users": User.objects.all(),
+            "Departments": Departments.objects.all()
         })
     else:
         return HttpResponseRedirect(reverse("user:login_view"))
@@ -637,6 +639,101 @@ def deleteTableUsers(request, id):
         })
     else:
         return HttpResponseRedirect(reverse("user:login_view"))
+
+def editTableUsers(request):
+    if request.method == "POST":
+        userId = request.POST.get("userId")
+        firstname = request.POST.get("userFirstName")
+        lastname = request.POST.get("userLastName")
+        username = request.POST.get("userUsername")
+        email = request.POST.get("userEmail")
+        celular = request.POST.get("userCelular")
+        userDepartment = request.POST.get("userDepartment")
+        workload = request.POST.get("userWorkload")
+
+        if firstname == "" or firstname == None:
+            return render(request, "home/users.html",{
+                "Workloads": Workload.objects.all(),
+                "Departments": Departments.objects.all(),
+                "message": "Ingrese el nombre del usuario"
+            })
+        
+        if lastname == "" or lastname == None:
+            return render(request, "home/users.html",{
+                "Workloads": Workload.objects.all(),
+                "Departments": Departments.objects.all(),
+                "message": "Ingrese el apellido del usuario"
+            })
+        
+        if email == "" or email == None:
+            return render(request, "home/users.html",{
+                "Workloads": Workload.objects.all(),
+                "Departments": Departments.objects.all(),
+                "message": "Ingrese el correo del usuario"
+            })
+        
+        if celular == "" or celular == None:
+            return render(request, "home/users.html",{
+                "Workloads": Workload.objects.all(),
+                "Departments": Departments.objects.all(),
+                "message": "Ingrese la identidad del usuario"
+            })
+        
+        if userDepartment == "" or userDepartment == None:
+            return render(request, "home/users.html",{
+                "Workloads": Workload.objects.all(),
+                "Departments": Departments.objects.all(),
+                "message": "Seleccione el departamento del usuario"
+            })
+        
+        if workload == "" or workload == None:
+            return render(request, "home/users.html",{
+                "Workloads": Workload.objects.all(),
+                "Departments": Departments.objects.all(),
+                "message": "Seleccione la carga de trabajo del usuario"
+            })
+        
+        workload = Workload.objects.get(pk=workload)
+        userDepartment = Departments.objects.get(pk=userDepartment)
+        try:
+            department = Departments(
+                name = userDepartment.name,
+                description = userDepartment.description,
+                workload = workload
+            )
+            department.save()
+        except Exception as e:
+            return render(request, "home/users.html",{
+                "Workloads": Workload.objects.all(),
+                "Departments": Departments.objects.all(),
+                "message": f"Error al ingresar el departamento {e}"
+            })
+        
+        try:
+            User.objects.filter(pk=userId).update(
+                first_name = firstname,
+                last_name = lastname,
+                username=username,
+                email = email,
+                celular = celular,
+                workload = workload,
+                department = department.name
+            )
+        except Exception as e:
+            return render(request, "home/users.html",{
+                "Workloads": Workload.objects.all(),
+                "Departments": Departments.objects.all(),
+                "message": f"Error al ingresar el usuario {e}"
+            })
+        
+        return render(request, "tables/users.html",{
+            "Users": User.objects.all(),
+        })
+    else:
+        return render(request, "home/enterUsers.html",{
+            "Workloads": Workload.objects.all(),
+            "Departments": Departments.objects.all()
+        })
 
 def enterDepartment(request):
     if request.user.is_authenticated:
@@ -767,3 +864,11 @@ def get_subtypes(request, type_id):
 def get_workloads(request):
     workloads = Workload.objects.all().values('id', 'name')
     return JsonResponse(list(workloads), safe=False)
+
+def get_departments(request):
+    departmentsName = Departments.objects.values('name').distinct()
+
+    # Crear id para cada departamento
+    for department in departmentsName:
+        department['id'] = Departments.objects.filter(name=department['name']).first().id
+    return JsonResponse(list(departmentsName), safe=False)

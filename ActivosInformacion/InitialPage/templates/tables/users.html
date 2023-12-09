@@ -38,6 +38,7 @@
                     <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Cedula</th>
+                    <th scope="col">Departamento</th>
                     <th scope="col">Cargo</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
@@ -52,9 +53,18 @@
                     <td>{{ user.username }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.celular }}</td>
+                    <td>{{ user.department }}</td>
                     <td>{{ user.workload.name }}</td>
                     <td>
-                        <a href="#" class="button-format">
+                        <a type="button" onclick="activeeditboxUser(this)" class="button-format" 
+                        data-user-id="{{ user.id }}" 
+                        data-user-first_name="{{ user.first_name }}"
+                        data-user-last_name="{{ user.last_name }}"
+                        data-user-username="{{ user.username }}"
+                        data-user-email="{{ user.email }}"
+                        data-user-celular="{{ user.celular }}"
+                        data-user-workload="{{ user.workload.name }}"
+                        data-user-department="{{ user.department }}">
                             <span class="material-symbols-outlined">
                                 edit
                             </span>
@@ -73,4 +83,11 @@
         </table>
     </div>
 </section>
+
+<div class="overlay" id="overlay"></div>
+<form action="{% url 'home:editTableUsers' %}" method="post">
+    {% csrf_token %}
+    <div class="edit-campus" id="edit-campus">
+    </div>
+</form>
 {% endblock %}
