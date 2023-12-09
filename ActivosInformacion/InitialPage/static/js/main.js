@@ -75,6 +75,44 @@ function actualizarCampos() {
   }
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+  function populateSubtypes() {
+      const assetTypeDropdown = document.getElementById('type');
+      const subtypeDropdown = document.getElementById('subtype');
+      const assetTypeId = assetTypeDropdown.value;
+
+      // Make an AJAX request
+      fetch(`/home/get-subtypes/${assetTypeId}/`)
+          .then(response => response.json())
+          .then(data => {
+              // Clear previous options
+              subtypeDropdown.innerHTML = '';
+
+              // Add new options
+              data.forEach(subtype => {
+                  const option = document.createElement('option');
+                  option.value = subtype.id;
+                  option.textContent = subtype.name;
+                  subtypeDropdown.appendChild(option);
+              });
+          })
+          .catch(error => console.error('Error:', error));
+  }
+
+  // Trigger the initial population
+  populateSubtypes();
+
+  // Trigger the population when the asset type changes
+  const assetTypeDropdown = document.getElementById('type');
+  assetTypeDropdown.addEventListener('change', populateSubtypes);
+
+  // Trigger the population when the modal is shown
+  const editModals = document.querySelectorAll('.edit-modal');
+  editModals.forEach(modal => {
+      modal.addEventListener('shown.bs.modal', populateSubtypes);
+  });
+});
+
 try{
   document.getElementById("inpSearch0").addEventListener("input", e => {
     const searchInput = e.target.value.toLowerCase();

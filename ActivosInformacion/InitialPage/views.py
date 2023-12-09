@@ -1,8 +1,8 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from InitialPage.models import Departments
+from InitialPage.models import Departments, Assets, AssetsDependence, AssetsValue, TypeAssets, SubtypeAssets
 from Users.models import User, Workload
 
 # Create your views here.
@@ -32,6 +32,40 @@ def enterAsset(request):
             # Verificacion de toggles
             state = request.POST.get("state")
             state2 = request.POST.get("state2")
+
+            #Guardar el activo
+
+            try:
+                asset = Assets(
+                    code = code,
+                    origin = origin,
+                    name = name,
+                    ubicationTipe = ubicationType,
+                    ubication = ubication,
+                    quantity = quantity,
+                    characteristic = characteristic,
+                    tipe = type,
+                    responsableArea = responsableArea,
+                    responsableUser = responsablePerson
+                )
+                asset.save()
+            except Exception as e:
+                return render(request, "home/enterAsset.html",{
+                    "Departments": departmentsName,
+                    # Parte principal
+                    "origin": origin,
+                    "code": code,
+                    "name": name,
+                    "type": type,
+                    "subtype": subtype,
+                    "responsableArea": responsableArea,
+                    "responsablePerson": responsablePerson,
+                    "ubicationType": ubicationType,
+                    "ubication": ubication,
+                    "quantity": quantity,
+                    "characteristic": characteristic,
+                    "message": f"Error al ingresar el activo {e}"
+                })
             
             if state == "on":
                 #Informacion de dependencias
@@ -202,10 +236,15 @@ def enterAsset(request):
                         "descriptionValue": descriptionValue,
                         "message": "Seleccione la valoración"
                     })
+                
+            # Logica para guardar el asset
         else:
             return render(request, "home/enterAsset.html",{
                 "Departments": departmentsName,
-                "Users": User.objects.all()
+                "Users": User.objects.all(),
+                "Assets": Assets.objects.all(),
+                "TypeAssets": TypeAssets.objects.all(),
+                "SubtypeAssets": SubtypeAssets.objects.all()
             })
     else:
         return HttpResponseRedirect(reverse("user:login_view"))
@@ -443,3 +482,7 @@ def deleteTableDepartments(request, id):
         })
     else:
         return HttpResponseRedirect(reverse("user:login_view"))
+    
+def get_subtypes(request, type_id):
+    subtypes = SubtypeAssets.objects.filter(type_id=type_id).values('id', 'name')
+    return JsonResponse(list(subtypes), safe=False)

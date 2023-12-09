@@ -31,14 +31,20 @@
                 <select name="type" id="type" class="input-information" required>
                     <option value="">Selecciona el tipo</option>
                     <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                    {% for type in TypeAssets %}
+                        <option value="{{ type.id }}">{{ type.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
-        
+            
             <div class="input-form">
                 <label for="subtype">Subtipo</label><br>
                 <select name="subtype" id="subtype" class="input-information" required>
                     <option value="">Selecciona el subtipo</option>
                     <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                    {% for subtype in SubtypeAssets %}
+                        <option value="{{ subtype.id }}">{{ subtype.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
         
@@ -142,6 +148,13 @@
                     <select name="responsableUser" id="responsableUser" class="input-information">
                         <option value="">Selecciona el usuario responsable</option>
                         <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                        {% for user in Users %}
+                            {% if responsableUser.id == user.id %}
+                            <option value="{{ user.id }}" selected>{{ user.first_name }} {{ user.last_name }}
+                            {% else %}
+                            <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}
+                            {% endif %}
+                        {% endfor %}
                     </select>
                 </div>
         
@@ -150,8 +163,15 @@
                         Depende de
                     </label><br>
                     <select name="dependsOf" id="dependsOf" class="input-information">
-                        <option value="">Selecciona el area responsable</option>
+                        <option value="">Selecciona la dependencia</option>
                         <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                        {% for asset in Assets %}
+                            {% if dependsOf.id == asset.id %}
+                            <option value="{{ asset.id }}" selected>{{ asset.name }}
+                            {% else %}
+                            <option value="{{ asset.id }}">{{ asset.name }}
+                            {% endif %}
+                        {% endfor %}
                     </select>
                 </div>
             </div>

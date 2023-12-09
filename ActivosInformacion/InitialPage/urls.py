@@ -11,4 +11,5 @@ urlpatterns = [
     path('enterDepartment/', views.enterDepartment, name='enterDepartment'),
     path('tabledepartments/', views.tabledepartments, name='tabledepartments'),
     path('deleteTableDepartments/<str:id>', views.deleteTableDepartments, name='deleteTableDepartments'),
+    path('get-subtypes/<int:type_id>/', views.get_subtypes, name='get_subtypes'),
 ]
