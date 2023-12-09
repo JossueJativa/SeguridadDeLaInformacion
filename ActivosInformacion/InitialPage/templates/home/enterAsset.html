@@ -5,112 +5,45 @@
 
 {% block body %}
 <section id="bodyform">
-    <div class="form-container">
-        <div class="title">Ingresar Activo</div>
-        <div class="underline-text">Caracterización</div>
-    
-        <div class="input-form">
-            <label for="origin">Origen</label><br>
-            <input class="input-information" type="text" id="origin" name="origin" placeholder="Ingresar el origen">
-        </div>
-    
-        <div class="input-form">
-            <label for="code">Código</label><br>
-            <input class="input-information" type="text" id="code" name="code" placeholder="Ingresar el código">
-        </div>
-    
-        <div class="input-form">
-            <label for="name">Nombre</label><br>
-            <input class="input-information" type="text" id="name" name="name" placeholder="Ingresar el nombre">
-        </div>
-    
-        <div class="input-form">
-            <label for="type">Tipo</label><br>
-            <select name="type" id="type" class="input-information">
-                <option value="">Selecciona el tipo</option>
-            </select>
-        </div>
-    
-        <div class="input-form">
-            <label for="subtype">Subtipo</label><br>
-            <select name="subtype" id="subtype" class="input-information">
-                <option value="">Selecciona el tipo</option>
-            </select>
-        </div>
-    
-        <div class="input-form">
-            <label for="responsableArea">Area responsable
-                <a href="#" class="add-component">
-                    <span class="material-symbols-outlined">
-                        add
-                    </span>
-                    <span class="text-add">Nuevo</span>
-                </a>
-            </label><br>
-            <select name="responsableArea" id="responsableArea" class="input-information">
-                <option value="">Selecciona el area responsable</option>
-            </select>
-        </div>
-    
-        <div class="input-form">
-            <label for="responsableArea">Persona responsable
-                <a href="#" class="add-component">
-                    <span class="material-symbols-outlined">
-                        add
-                    </span>
-                    <span class="text-add">Nuevo</span>
-                </a>
-            </label><br>
-            <select name="responsableArea" id="responsableArea" class="input-information">
-                <option value="">Selecciona el persona responsable</option>
-            </select>
-        </div>
-    
-        <div class="input-form">
-            <label for="ubicationType">Tipo de ubicación</label><br>
-            <select name="ubicationType" id="ubicationType" class="input-information">
-                <option value="">Selecciona el tipo de ubicación</option>
-            </select>
-        </div>
-    
-        <div class="input-form">
-            <label for="ubication">Ubicación</label><br>
-            <input class="input-information" type="text" id="ubication" name="ubication" placeholder="Ingresar la ubicación">
-        </div>
-    
-        <div class="input-form">
-            <label for="quantity">Cantidad</label><br>
-            <input class="input-information" type="number" id="quantity" name="quantity" placeholder="Ingresar la cantidad">
-        </div>
-    
-        <div class="input-form">
-            <label for="characteristic">Caracteristica</label><br>
-            <input class="input-information" type="text" id="characteristic" name="characteristic" placeholder="Ingresar la cantidad">
-        </div>
-    
-        <div class="toggle-text">
-            <label for="state">Estado</label><br>
-            <label class="switch">
-                <input type="checkbox" id="state" name="state" class="offset" onchange="toggleCampoAdicional()">
-                <span class="slider"></span>
-            </label>
-        </div>
-    
-        <div id="campoAdicional" class="hidden">
-            <div class="underline-text">Dependencias</div>
-    
+    <form action="{% url 'home:enterAsset' %}" method="post">
+        {% csrf_token %}
+        <div class="form-container">
+            <div class="title">Ingresar Activo</div>
+            <div class="underline-text">Caracterización</div>
+        
             <div class="input-form">
-                <label for="dependency">Porcentaje de dependencia</label><br>
-                <input class="input-information" type="text" id="dependency" name="dependency" placeholder="Ingresar el origen">
+                <label for="origin">Origen</label><br>
+                <input class="input-information" type="text" id="origin" name="origin" placeholder="Ingresar el origen" value="{{ origin }}" required>
             </div>
-    
+        
             <div class="input-form">
-                <label for="descriptionDependency">Descripción de dependencia</label><br>
-                <input class="input-information" type="text" id="descriptionDependency" name="descriptionDependency" placeholder="Ingresar el origen">
+                <label for="code">Código</label><br>
+                <input class="input-information" type="text" id="code" name="code" placeholder="Ingresar el código" value="{{ code }}" required>
             </div>
-    
+        
             <div class="input-form">
-                <label for="responsableUser">Usuario responsable
+                <label for="name">Nombre</label><br>
+                <input class="input-information" type="text" id="name" name="name" placeholder="Ingresar el nombre" value="{{ name }}" required>
+            </div>
+        
+            <div class="input-form">
+                <label for="type">Tipo</label><br>
+                <select name="type" id="type" class="input-information" required>
+                    <option value="">Selecciona el tipo</option>
+                    <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                </select>
+            </div>
+        
+            <div class="input-form">
+                <label for="subtype">Subtipo</label><br>
+                <select name="subtype" id="subtype" class="input-information" required>
+                    <option value="">Selecciona el subtipo</option>
+                    <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                </select>
+            </div>
+        
+            <div class="input-form">
+                <label for="responsableArea">Area responsable
                     <a href="#" class="add-component">
                         <span class="material-symbols-outlined">
                             add
@@ -118,59 +51,170 @@
                         <span class="text-add">Nuevo</span>
                     </a>
                 </label><br>
-                <select name="responsableUser" id="responsableUser" class="input-information">
-                    <option value="">Selecciona el usuario responsable</option>
-                </select>
-            </div>
-    
-            <div class="input-form">
-                <label for="dependsOf">
-                    Depende de
-                </label><br>
-                <select name="dependsOf" id="dependsOf" class="input-information">
+                <select name="responsableArea" id="responsableArea" class="input-information" required>
                     <option value="">Selecciona el area responsable</option>
+                    <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                    {% for department in Departments %}
+                        {% if responsableArea.id == department.id %}
+                        <option value="{{ department.id }}" selected>{{ department.name }}
+                        {% else %}
+                        <option value="{{ department.id }}">{{ department.name }}
+                        {% endif %}
+                    {% endfor %}
                 </select>
             </div>
-        </div>
-    
-        <div class="toggle-text">
-            <label for="state2">¿Deseas valorar el activo?</label><br>
-            <label class="switch">
-                <input type="checkbox" id="state2" name="state2" class="offset" onchange="toggleCampoAdicional2()">
-                <span class="slider"></span>
-            </label>
-        </div>
-    
-        <div id="campoAdicional2" class="hidden">
-            <div class="underline-text">Valoración</div>
-    
+        
             <div class="input-form">
-                <label for="dependsOf">Dimensión de valoracion</label><br>
-                <select name="dependsOf" id="dependsOf" class="input-information">
-                    <option value="">Selecciona la dimensión</option>
+                <label for="responsablePerson">Persona responsable
+                    <a href="#" class="add-component">
+                        <span class="material-symbols-outlined">
+                            add
+                        </span>
+                        <span class="text-add">Nuevo</span>
+                    </a>
+                </label><br>
+                <select name="responsablePerson" id="responsablePerson" class="input-information" required>
+                    <option value="">Selecciona el persona responsable</option>
+                    <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                    {% for user in Users %}
+                        {% if responsablePerson.id == user.id %}
+                        <option value="{{ user.id }}" selected>{{ user.first_name }} {{ user.last_name }}
+                        {% else %}
+                        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}
+                        {% endif %}
+                    {% endfor %}
                 </select>
             </div>
-    
+        
             <div class="input-form">
-                <label for="dependency">Valor asignado (1-10)</label><br>
-                <input class="input-information" type="number" id="dependency" name="dependency" placeholder="Ingresar el origen" min="1" max="10">
+                <label for="ubicationType">Tipo de ubicación</label><br>
+                <select name="ubicationType" id="ubicationType" class="input-information" required>
+                    <option value="">Selecciona el tipo de ubicación</option>
+                    <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                </select>
             </div>
-    
+        
             <div class="input-form">
-                <label for="cualitative">Valor cualitativo</label><br>
-                <input class="input-information" type="number" id="cualitative" name="cualitative" placeholder="Valor cualitativo" style="opacity: 50%; cursor: default;" readonly>
+                <label for="ubication">Ubicación</label><br>
+                <input class="input-information" type="text" id="ubication" name="ubication" placeholder="Ingresar la ubicación" required>
             </div>
-    
+        
             <div class="input-form">
-                <label for="descriptionValue">Descripción</label><br>
-                <input class="input-information" type="number" id="dependency" name="dependency" placeholder="Descripción" style="opacity: 50%; cursor: default;" readonly>
+                <label for="quantity">Cantidad</label><br>
+                <input class="input-information" type="number" id="quantity" name="quantity" placeholder="Ingresar la cantidad" required>
+            </div>
+        
+            <div class="input-form">
+                <label for="characteristic">Caracteristica</label><br>
+                <input class="input-information" type="text" id="characteristic" name="characteristic" placeholder="Ingresar la cantidad" required>
+            </div>
+        
+            <div class="toggle-text">
+                <label for="state">Estado</label><br>
+                <label class="switch">
+                    <input type="checkbox" id="state" name="state" class="offset" onchange="toggleCampoAdicional()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        
+            <div id="campoAdicional" class="hidden">
+                <div class="underline-text">Dependencias</div>
+        
+                <div class="input-form">
+                    <label for="dependency">Porcentaje de dependencia</label><br>
+                    <input class="input-information" type="text" id="dependency" name="dependency" placeholder="Ingresar el origen">
+                </div>
+        
+                <div class="input-form">
+                    <label for="descriptionDependency">Descripción de dependencia</label><br>
+                    <input class="input-information" type="text" id="descriptionDependency" name="descriptionDependency" placeholder="Ingresar el origen">
+                </div>
+        
+                <div class="input-form">
+                    <label for="responsableUser">Usuario responsable
+                        <a href="#" class="add-component">
+                            <span class="material-symbols-outlined">
+                                add
+                            </span>
+                            <span class="text-add">Nuevo</span>
+                        </a>
+                    </label><br>
+                    <select name="responsableUser" id="responsableUser" class="input-information">
+                        <option value="">Selecciona el usuario responsable</option>
+                        <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                    </select>
+                </div>
+        
+                <div class="input-form">
+                    <label for="dependsOf">
+                        Depende de
+                    </label><br>
+                    <select name="dependsOf" id="dependsOf" class="input-information">
+                        <option value="">Selecciona el area responsable</option>
+                        <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="toggle-text">
+                <label for="state2">¿Deseas valorar el activo?</label><br>
+                <label class="switch">
+                    <input type="checkbox" id="state2" name="state2" class="offset" onchange="toggleCampoAdicional2()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        
+            <div id="campoAdicional2" class="hidden">
+                <div class="underline-text">Valoración</div>
+        
+                <div class="input-form">
+                    <label for="valorationDimention">Dimensión de valoracion</label><br>
+                    <select name="valorationDimention" id="valorationDimention" class="input-information" required>
+                        <option value="">Selecciona la dimensión</option>
+                        <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                        <option value="Disponibilidad">Disponibilidad</option>
+                        <option value="Integridad">Integridad</option>
+                        <option value="Confidencialidad">Confidencialidad</option>
+                        <option value="Autenticidad">Autenticidad</option>
+                        <option value="Trazabilidad">Trazabilidad</option>
+                    </select>
+                </div>
+        
+                <div class="input-form">
+                    <label for="valorationAssing">Valor asignado (0-10)</label><br>
+                    <select name="valorationAssing" id="valorationAssing" class="input-information" onchange="actualizarCampos()">
+                        <option value="">Seleccione el valor</option>
+                        <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+            
+                <div class="input-form">
+                    <label for="cualitative">Valor cualitativo</label><br>
+                    <input class="input-information" type="text" id="cualitative" name="cualitative" placeholder="Valor cualitativo" style="opacity: 50%; cursor: default;" readonly>
+                </div>
+            
+                <div class="input-form">
+                    <label for="descriptionValue">Descripción</label><br>
+                    <input class="input-information" type="text" id="descriptionValue" name="descriptionValue" placeholder="Descripción" style="opacity: 50%; cursor: default;" readonly>
+                </div>
+            </div>
+        
+            <div class="buttons-end">
+                <button type="reset" class="buttoncancel">Cancelar</button>
+                <button type="submit" class="buttonsave">Guardar</button>
             </div>
         </div>
-    
-        <div class="buttons-end">
-            <button type="reset" class="buttoncancel">Cancelar</button>
-            <button type="submit" class="buttonsave">Guardar</button>
-        </div>
-    </div>
+    </form>
 </section>
 {% endblock %}
