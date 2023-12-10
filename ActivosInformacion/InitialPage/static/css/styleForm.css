@@ -378,18 +378,21 @@ input[type='checkbox']:checked + .slider{
 }
 
 .edit-campus {
-    position: absolute;
+    position: fixed;
     background-color: #2e313a;
-    width: 55%;
-    height: auto;
-    top: 10%;
-    left: 27%;
-    padding: 2%;
+    width: 60%;
+    max-height: 90%;
+    top: 50%;
+    left: 50%;
+    padding: 5%;
     border-radius: 1rem;
     border: 2px solid white;
     z-index: 10000;
     color: white;
     display: none;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /*Responsive*/
