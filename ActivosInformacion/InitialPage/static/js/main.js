@@ -526,6 +526,293 @@ function desactiveeditboxUser() {
   document.getElementById('edit-campus').style.display = 'none';
 }
 
+function activeeditboxAsset(button) {
+  var assetValueID = button.getAttribute('data-assetValue-id');
+  var assetId = button.getAttribute('data-asset-id');
+  var assetCode = button.getAttribute('data-asset-code');
+  var assetName = button.getAttribute('data-asset-name');
+  var assetOrigin = button.getAttribute('data-asset-origin');
+  var assetUbicationType = button.getAttribute('data-asset-ubicationType');
+  var assetUbication = button.getAttribute('data-asset-ubication');
+  var assetQuantity = button.getAttribute('data-asset-quantity');
+  var assetCharacteristic = button.getAttribute('data-asset-characteristic');
+  var assetType = button.getAttribute('data-asset-type');
+  var assetSubtype = button.getAttribute('data-asset-subtype');
+  var assetResponsableArea = button.getAttribute('data-asset-responsableArea');
+  var assetResponsableUser = button.getAttribute('data-asset-responsableUser');
+  var assetDimentionValue = button.getAttribute('data-asset-dimentionValue');
+  var assetCuantityValue = button.getAttribute('data-asset-cuantityValue');
+  var assetCualityValue = button.getAttribute('data-asset-cualityValue');
+  var assetDescription = button.getAttribute('data-asset-description');
+
+  document.getElementById('edit-campus').innerHTML = `
+      <div class="title">Editar activo</div>
+      <input type="hidden" name="assetId" value="${assetId}">
+      <input type="hidden" name="assetValueID" value="${assetValueID}">
+          
+      <div class="input-form">
+        <label for="origin">Origen</label><br>
+        <input class="input-information" type="text" id="origin" name="origin" value="${assetOrigin}">
+      </div>
+
+      <div class="input-form">
+          <label for="code">Código</label><br>
+          <input class="input-information" type="text" id="code" name="code" value="${assetCode}">
+      </div>
+
+      <div class="input-form">
+          <label for="name">Nombre</label><br>
+          <input class="input-information" type="text" id="name" name="name" value="${assetName}">
+      </div>
+
+      <div class="input-form">
+        <label for="type">Tipo</label><br>
+        <select name="type" id="type" class="input-information" onchange="populateSubtypesEdit(this.value)">
+        </select>
+      </div>
+
+      <div class="input-form">
+        <label for="subtype">Subtipo</label><br>
+        <select name="subtype" id="subtype" class="input-information">
+        </select>
+      </div>
+
+      <div class="input-form">
+      <label for="responsableArea">Area responsable</label><br>
+        <select name="responsableArea" id="responsableArea" class="input-information">
+        </select>
+      </div>
+
+      <div class="input-form">
+          <label for="responsablePerson">Persona responsable
+          </label><br>
+          <select name="responsablePerson" id="responsablePerson" class="input-information">
+          </select>
+      </div>
+
+      <div class="input-form">
+        <label for="ubicationType">Tipo de ubicación</label><br>
+        <select name="ubicationType" id="ubicationType" class="input-information">
+        </select>
+      </div>
+
+      <div class="input-form">
+        <label for="ubication">Ubicación</label><br>
+        <input class="input-information" type="text" id="ubication" name="ubication" value="${assetUbication}">
+      </div>
+
+      <div class="input-form">
+          <label for="quantity">Cantidad</label><br>
+          <input class="input-information" type="number" id="quantity" name="quantity" value="${assetQuantity}">
+      </div>
+  
+      <div class="input-form">
+          <label for="characteristic">Caracteristica</label><br>
+          <input class="input-information" type="text" id="characteristic" name="characteristic" value="${assetCharacteristic}">
+      </div>
+
+      <div class="toggle-text">
+          <label for="state2">¿Deseas valorar el activo?</label><br>
+          <label class="switch">
+              <input type="checkbox" id="state2" name="state2" class="offset" onchange="toggleCampoAdicional2()">
+              <span class="slider"></span>
+          </label>
+      </div>
+
+      <div id="campoAdicional2" class="hidden">
+        <div class="underline-text">Valoración</div>
+
+        <div class="input-form">
+            <label for="valorationDimention">Dimensión de valoracion</label><br>
+            <select name="valorationDimention" id="valorationDimention" class="input-information">
+                <option value="">Selecciona la dimensión</option>
+                <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                <option value="Disponibilidad">Disponibilidad</option>
+                <option value="Integridad">Integridad</option>
+                <option value="Confidencialidad">Confidencialidad</option>
+                <option value="Autenticidad">Autenticidad</option>
+                <option value="Trazabilidad">Trazabilidad</option>
+            </select>
+        </div>
+
+        <div class="input-form">
+            <label for="valorationAssing">Valor asignado (0-10)</label><br>
+            <select name="valorationAssing" id="valorationAssing" class="input-information" onchange="actualizarCampos()">
+                <option value="">Seleccione el valor</option>
+                <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+
+        <div class="input-form">
+            <label for="cualitative">Valor cualitativo</label><br>
+            <input class="input-information" type="text" id="cualitative" name="cualitative" value="${assetCualityValue}" style="opacity: 50%; cursor: default;" readonly>
+        </div>
+    
+        <div class="input-form">
+            <label for="descriptionValue">Descripción</label><br>
+            <input class="input-information" type="text" id="descriptionValue" name="descriptionValue" value="${assetDescription}" style="opacity: 50%; cursor: default;" readonly>
+        </div>
+      </div>
+
+      <div class="buttons-end">
+          <input type="button" class="buttoncancel" value="Cerrar" onclick="desactiveeditboxAsset()">
+          <button type="submit" class="buttonsave">Editar información</button>
+      </div>
+  `;
+
+  var selectUbicationType = document.getElementById('ubicationType');
+  var ubicationTypeOptions = ['Técnica', 'Geográfica'];
+
+  // Seleccionar la dimensión y el valor asignado según los valores recuperados
+  var selectDimention = document.getElementById('valorationDimention');
+  selectDimention.value = assetDimentionValue;
+
+  var selectValue = document.getElementById('valorationAssing');
+  selectValue.value = assetCuantityValue;
+
+  ubicationTypeOptions.forEach(optionValue => {
+      var optionElement = document.createElement('option');
+      optionElement.value = optionValue;
+      optionElement.textContent = optionValue;
+
+      // Verificar si la opción coincide con assetUbicationType
+      if (optionValue === assetUbicationType) {
+          optionElement.selected = true;
+      }
+
+      selectUbicationType.appendChild(optionElement);
+  });
+
+  // Aquí puedes agregar el código para llenar los campos del formulario según los valores recuperados
+  fetch('/home/get-types/')
+      .then(response => response.json())
+      .then(data => {
+          // Obtener el elemento del select
+          var selectElement = document.getElementById('type');
+
+          // Iterar sobre los datos y agregar opciones al select
+          data.forEach(type => {
+              var idtype = type.id
+              var optionElement = document.createElement('option');
+              optionElement.value = type.id;
+              optionElement.textContent = type.name;
+
+              // Verificar si el nombre del departamento coincide y seleccionarlo
+              if (type.name === assetType) {
+                  optionElement.selected = true;
+              }
+
+              selectElement.appendChild(optionElement);
+          });
+      })
+      .catch(error => console.error('Error al obtener la lista de departamentos:', error));
+
+  fetch(`/home/get-subtypes2/`)
+      .then(response => response.json())
+      .then(data => {
+          // Obtener el elemento del select
+          var selectElement = document.getElementById('subtype');
+          // Iterar sobre los datos y agregar opciones al select
+          data.forEach(subtype => {
+              var optionElement = document.createElement('option');
+              optionElement.value = subtype.id;
+              optionElement.textContent = subtype.name;
+              // Verificar si el nombre del departamento coincide y seleccionarlo
+              if (subtype.name === assetSubtype) {
+                  optionElement.selected = true;
+              }
+              selectElement.appendChild(optionElement);
+          });
+      })
+      .catch(error => console.error('Error al obtener la lista de departamentos:', error));
+
+      fetch(`/home/get-departments/`)
+      .then(response => response.json())
+      .then(data => {
+          // Obtener el elemento del select
+          var selectElement = document.getElementById('responsableArea');
+          // Iterar sobre los datos y agregar opciones al select
+          data.forEach(departments => {
+              var optionElement = document.createElement('option');
+              optionElement.value = departments.id;
+              optionElement.textContent = departments.name;
+              // Verificar si el nombre del departamento coincide y seleccionarlo
+              if (departments.name === assetResponsableArea) {
+                  optionElement.selected = true;
+              }
+              selectElement.appendChild(optionElement);
+          });
+      })
+      .catch(error => console.error('Error al obtener la lista de departamentos:', error));
+
+      fetch(`/home/get-users/`)
+      .then(response => response.json())
+      .then(data => {
+          // Obtener el elemento del select
+          var selectElement = document.getElementById('responsablePerson');
+          // Iterar sobre los datos y agregar opciones al select
+          data.forEach(users => {
+              var optionElement = document.createElement('option');
+              optionElement.value = users.id;
+              optionElement.textContent = `${users.first_name} ${users.last_name}`;
+              // Verificar si el nombre del departamento coincide y seleccionarlo
+              if (`${users.first_name} ${users.last_name}` === assetResponsableUser) {
+                  optionElement.selected = true;
+              }
+              selectElement.appendChild(optionElement);
+          });
+      })
+      .catch(error => console.error('Error al obtener la lista de departamentos:', error));
+
+
+  var selectTypeElement = document.getElementById('type');
+  // Agregar un evento de cambio para llamar a populateSubtypesEdit
+  selectTypeElement.addEventListener('change', function() {
+    var selectedType = selectTypeElement.value;
+    populateSubtypesEdit(selectedType);
+  });
+
+  document.getElementById('overlay').style.display = 'block';
+  document.getElementById('edit-campus').style.display = 'block';
+}
+
+function desactiveeditboxAsset() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('edit-campus').style.display = 'none';
+}
+
+// Nueva función para cargar los subtipos según el tipo seleccionado
+function populateSubtypesEdit(selectedType) {
+  const subtypeDropdown = document.getElementById('subtype');
+
+  // Make an AJAX request
+  fetch(`/home/get-subtypes/${selectedType}/`)
+    .then(response => response.json())
+    .then(data => {
+      // Clear previous options
+      subtypeDropdown.innerHTML = '';
+
+      // Add new options
+      data.forEach(subtype => {
+        const option = document.createElement('option');
+        option.value = subtype.id;
+        option.textContent = subtype.name;
+        subtypeDropdown.appendChild(option);
+      });
+    })
+    .catch(error => console.error('Error:', error));
+}
 
 document.addEventListener('DOMContentLoaded', function () {
   function populateSubtypes() {

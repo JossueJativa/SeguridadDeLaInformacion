@@ -92,8 +92,6 @@
                             {% for dependences in DependentAssets %}
                                 {% if assetValue.asset.id == dependences.asset.id %}
                                     {{ dependences.assetDepend.name }}
-                                {% else %}
-                                    No tiene dependencia
                                 {% endif %}
                             {% endfor %}
                         {% else %}
@@ -105,8 +103,6 @@
                             {% for dependences in DependentAssets %}
                                 {% if dependences.asset.id == assetValue.asset.id %}
                                     {{ dependences.percentaje }}
-                                {% else %}
-                                    -
                                 {% endif %}
                             {% endfor %}
                         {% else %}
@@ -119,7 +115,25 @@
                     <td>{{ assetValue.description }}</td>
 
                     <td>
-                        <a href="#" class="button-format">
+                        <a type="button"  onclick="activeeditboxAsset(this)" class="button-format"
+                        data-assetValue-id="{{ assetValue.id }}"
+                        data-asset-id="{{ assetValue.asset.id }}"
+                        data-asset-code="{{ assetValue.asset.code }}"
+                        data-asset-name="{{ assetValue.asset.name }}"
+                        data-asset-origin="{{ assetValue.asset.origin }}"
+                        data-asset-ubicationType="{{ assetValue.asset.ubicationType }}"
+                        data-asset-ubication="{{ assetValue.asset.ubication }}"
+                        data-asset-quantity="{{ assetValue.asset.quantity }}"
+                        data-asset-characteristic="{{ assetValue.asset.characteristic }}"
+                        data-asset-type="{{ assetValue.asset.type.name }}"
+                        data-asset-responsableArea="{{ assetValue.asset.responsableArea.name }}"
+                        data-asset-responsableUser="{{ assetValue.asset.responsableUser.first_name }} {{ assetValue.asset.responsableUser.last_name }}"
+                        data-asset-dimentionValue="{{ assetValue.dimentionValue }}"
+                        data-asset-cuantityValue="{{ assetValue.cuantityValue }}"
+                        data-asset-cualityValue="{{ assetValue.cualityValue }}"
+                        data-asset-description="{{ assetValue.description }}"
+                        data-asset-subtype="{{ assetValue.subtype }}"
+                        >
                             <span class="material-symbols-outlined">
                                 edit
                             </span>
@@ -138,4 +152,11 @@
         </table>
     </div>
 </section>
+
+<div class="overlay" id="overlay"></div>
+<form action="{% url 'home:editTableAssets' %}" method="post">
+    {% csrf_token %}
+    <div class="edit-campus" id="edit-campus">
+    </div>
+</form>
 {% endblock %}

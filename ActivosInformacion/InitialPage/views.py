@@ -244,8 +244,6 @@ def enterAsset(request):
                     })
                 
                 try:
-                    if valorationAssing == 0 or valorationAssing == "0":
-                        cualitative = "Despreciable"
                     assetValue = AssetsValue(
                         cuantityValue = valorationAssing,
                         cualityValue = cualitative,
@@ -277,7 +275,7 @@ def enterAsset(request):
                     # Primeros campos
                     valorationDimention2 = request.POST.get("valorationDimention2")
                     valorationAssing2 = request.POST.get("valorationAssing2")
-
+                    subtype= SubtypeAssets.objects.get(pk=subtype)
                     if valorationDimention2 != None or valorationDimention2 != "" or valorationAssing2 != None or valorationAssing2 != "":
                         descriptionValue2 = request.POST.get("descriptionValue2")
                         cualitative2 = request.POST.get("cualitative2")
@@ -288,7 +286,7 @@ def enterAsset(request):
                                 cualityValue = cualitative2,
                                 description = descriptionValue2,
                                 dimentionValue = valorationDimention2,
-                                asset = asset
+                                asset = asset,
                             )
                             assetValue.save()
                         except Exception as e:
@@ -450,6 +448,142 @@ def tableAssets(request):
         })
     else:
         return HttpResponseRedirect(reverse("user:login_view"))
+
+def editTableAssets(request):
+    if request.method == "POST":
+        # Obtener todos los departamentos sin nombres duplicados
+        departmentsName = Departments.objects.values('name').distinct()
+
+        # Crear id para cada departamento
+        for department in departmentsName:
+            department['id'] = Departments.objects.filter(name=department['name']).first().id
+
+        if request.method == "POST":
+            # Informacion inicial
+            assetValueID = request.POST.get("assetValueID")
+            assetId = request.POST.get("assetId")
+            origin = request.POST.get("origin")
+            code = request.POST.get("code")
+            name = request.POST.get("name")
+            type = request.POST.get("type")
+            subtype = request.POST.get("subtype")
+            responsableArea = request.POST.get("responsableArea")
+            responsablePerson = request.POST.get("responsablePerson")
+            ubicationType = request.POST.get("ubicationType")
+            ubication = request.POST.get("ubication")
+            quantity = request.POST.get("quantity")
+            characteristic = request.POST.get("characteristic")
+
+            # Verificacion de toggles
+            state2 = request.POST.get("state2")
+
+            asset = Assets.objects.get(pk=assetId)
+
+        if state2 == "on":
+            # Informacion de valoracion
+            valorationDimention = request.POST.get("valorationDimention")
+            valorationAssing = request.POST.get("valorationAssing")
+            cualitative = request.POST.get("cualitative")
+            descriptionValue = request.POST.get("descriptionValue")
+            
+            if valorationDimention == "" or valorationDimention == None:
+                return render(request, "home/enterAsset.html",{
+                    "Departments": departmentsName,
+                    # Parte principal
+                    "origin": origin,
+                    "code": code,
+                    "name": name,
+                    "type": type,
+                    "subtype": subtype,
+                    "responsableArea": responsableArea,
+                    "responsablePerson": responsablePerson,
+                    "ubicationType": ubicationType,
+                    "ubication": ubication,
+                    "quantity": quantity,
+                    "characteristic": characteristic,
+                    "message": "Seleccione la dimensión de valoración"
+                })
+            
+            if valorationAssing == "" or valorationAssing == None:
+                return render(request, "home/enterAsset.html",{
+                    "Departments": departmentsName,
+                    # Parte principal
+                    "origin": origin,
+                    "code": code,
+                    "name": name,
+                    "type": type,
+                    "subtype": subtype,
+                    "responsableArea": responsableArea,
+                    "responsablePerson": responsablePerson,
+                    "ubicationType": ubicationType,
+                    "ubication": ubication,
+                    "quantity": quantity,
+                    "characteristic": characteristic,
+                    "message": "Seleccione la valoración"
+                })
+            
+            try:
+                # Actualizar asset value
+                AssetsValue.objects.filter(pk=assetValueID).update(
+                    cuantityValue = valorationAssing,
+                    cualityValue = cualitative,
+                    description = descriptionValue,
+                    dimentionValue = valorationDimention,
+                    asset = asset
+                )
+            except Exception as e:
+                return render(request, "home/enterAsset.html",{
+                    "Departments": departmentsName,
+                    # Parte principal
+                    "origin": origin,
+                    "code": code,
+                    "name": name,
+                    "type": type,
+                    "subtype": subtype,
+                    "responsableArea": responsableArea,
+                    "responsablePerson": responsablePerson,
+                    "ubicationType": ubicationType,
+                    "ubication": ubication,
+                    "quantity": quantity,
+                    "characteristic": characteristic,
+                    "message": f"Error al ingresar la valoración {e}"
+                })
+        # Actializar campos
+        try:
+            Assets.objects.filter(pk=asset.id).update(
+                code = code,
+                origin = origin,
+                name = name,
+                ubicationType = ubicationType,
+                ubication = ubication,
+                quantity = quantity,
+                characteristic = characteristic,
+                type = TypeAssets.objects.get(pk=type),
+                responsableArea = Departments.objects.get(pk=responsableArea),
+                responsableUser = User.objects.get(pk=responsablePerson)
+            )
+        except Exception as e:
+            return render(request, "home/enterAsset.html",{
+                "Departments": departmentsName,
+                # Parte principal
+                "origin": origin,
+                "code": code,
+                "name": name,
+                "type": type,
+                "subtype": subtype,
+                "responsableArea": responsableArea,
+                "responsablePerson": responsablePerson,
+                "ubicationType": ubicationType,
+                "ubication": ubication,
+                "quantity": quantity,
+                "characteristic": characteristic,
+                "message": f"Error al ingresar el activo {e}"
+            })
+
+        return render(request, "tables/assets.html",{
+            "DependentAssets": AssetsDependence.objects.all(),
+            "AssetsValue": AssetsValue.objects.all()
+        })   
 
 def deleteTableAssets(request, id):
     if request.user.is_authenticated:
@@ -872,3 +1006,23 @@ def get_departments(request):
     for department in departmentsName:
         department['id'] = Departments.objects.filter(name=department['name']).first().id
     return JsonResponse(list(departmentsName), safe=False)
+
+def get_dependentAssets(request):
+    dependentAssets = AssetsDependence.objects.all().values('id', 'asset', 'percentaje', 'assetDepend')
+    return JsonResponse(list(dependentAssets), safe=False)
+
+def get_assets(request):
+    assets = Assets.objects.all().values('id', 'name')
+    return JsonResponse(list(assets), safe=False)
+
+def get_types(request):
+    types = TypeAssets.objects.all().values('id', 'name')
+    return JsonResponse(list(types), safe=False)
+
+def get_subtypes2(request):
+    subtypes = SubtypeAssets.objects.all().values('id', 'name')
+    return JsonResponse(list(subtypes), safe=False)
+
+def get_users(request):
+    users = User.objects.all().values('id', 'username', 'first_name', 'last_name')
+    return JsonResponse(list(users), safe=False)
