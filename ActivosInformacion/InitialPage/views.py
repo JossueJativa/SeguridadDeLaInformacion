@@ -6,6 +6,26 @@ from InitialPage.models import Departments, Assets, AssetsDependence, AssetsValu
 from Users.models import User, Workload
 
 # Create your views here.
+def generate_asset_code():
+    # Obtén el último código almacenado en la base de datos
+    last_asset = Assets.objects.last()
+
+    if last_asset:
+        last_code = last_asset.code
+        prefix = last_code[:-4]  # Obtiene los primeros dos caracteres (por ejemplo, 'AA')
+        number = int(last_code[-4:]) + 1  # Obtiene los últimos cuatro caracteres y les suma 1
+        if number > 9999:
+            # Si el número excede 9999, cambia a la siguiente combinación de letras
+            prefix = chr(ord(prefix[0]) + 1) + prefix[1]  # Cambia la primera letra a la siguiente en el alfabeto
+            number = 1  # Reinicia el número a 1
+
+        new_code = f"{prefix}{number:04d}"  # Formatea el nuevo código
+    else:
+        # Si no hay ningún registro en la base de datos, comienza desde el principio
+        new_code = "AA0001"
+
+    return new_code
+
 def enterAsset(request):
     if request.user.is_authenticated:
         # Obtener todos los departamentos sin nombres duplicados
@@ -52,7 +72,6 @@ def enterAsset(request):
                 return render(request, "home/enterAsset.html",{
                     "Departments": departmentsName,
                     # Parte principal
-                    "origin": origin,
                     "code": code,
                     "name": name,
                     "type": type,
@@ -77,7 +96,6 @@ def enterAsset(request):
                     return render(request, "home/enterAsset.html",{
                         "Departments": departmentsName,
                         # Parte principal
-                        "origin": origin,
                         "code": code,
                         "name": name,
                         "type": type,
@@ -100,7 +118,6 @@ def enterAsset(request):
                     return render(request, "home/enterAsset.html",{
                         "Departments": departmentsName,
                         # Parte principal
-                        "origin": origin,
                         "code": code,
                         "name": name,
                         "type": type,
@@ -123,7 +140,6 @@ def enterAsset(request):
                     return render(request, "home/enterAsset.html",{
                         "Departments": departmentsName,
                         # Parte principal
-                        "origin": origin,
                         "code": code,
                         "name": name,
                         "type": type,
@@ -146,7 +162,6 @@ def enterAsset(request):
                     return render(request, "home/enterAsset.html",{
                         "Departments": departmentsName,
                         # Parte principal
-                        "origin": origin,
                         "code": code,
                         "name": name,
                         "type": type,
@@ -180,7 +195,6 @@ def enterAsset(request):
                     return render(request, "home/enterAsset.html",{
                         "Departments": departmentsName,
                         # Parte principal
-                        "origin": origin,
                         "code": code,
                         "name": name,
                         "type": type,
@@ -211,7 +225,6 @@ def enterAsset(request):
                     return render(request, "home/enterAsset.html",{
                         "Departments": departmentsName,
                         # Parte principal
-                        "origin": origin,
                         "code": code,
                         "name": name,
                         "type": type,
@@ -229,7 +242,6 @@ def enterAsset(request):
                     return render(request, "home/enterAsset.html",{
                         "Departments": departmentsName,
                         # Parte principal
-                        "origin": origin,
                         "code": code,
                         "name": name,
                         "type": type,
@@ -256,7 +268,6 @@ def enterAsset(request):
                     return render(request, "home/enterAsset.html",{
                         "Departments": departmentsName,
                         # Parte principal
-                        "origin": origin,
                         "code": code,
                         "name": name,
                         "type": type,
@@ -293,7 +304,6 @@ def enterAsset(request):
                             return render(request, "home/enterAsset.html",{
                                 "Departments": departmentsName,
                                 # Parte principal
-                                "origin": origin,
                                 "code": code,
                                 "name": name,
                                 "type": type,
@@ -331,7 +341,6 @@ def enterAsset(request):
                             return render(request, "home/enterAsset.html",{
                                 "Departments": departmentsName,
                                 # Parte principal
-                                "origin": origin,
                                 "code": code,
                                 "name": name,
                                 "type": type,
@@ -370,7 +379,6 @@ def enterAsset(request):
                             return render(request, "home/enterAsset.html",{
                                 "Departments": departmentsName,
                                 # Parte principal
-                                "origin": origin,
                                 "code": code,
                                 "name": name,
                                 "type": type,
@@ -409,7 +417,6 @@ def enterAsset(request):
                             return render(request, "home/enterAsset.html",{
                                 "Departments": departmentsName,
                                 # Parte principal
-                                "origin": origin,
                                 "code": code,
                                 "name": name,
                                 "type": type,
@@ -430,7 +437,9 @@ def enterAsset(request):
                 "AssetsValue": AssetsValue.objects.all()
             })
         else:
+            codigo_auto = generate_asset_code()
             return render(request, "home/enterAsset.html",{
+                "code": codigo_auto,
                 "Departments": departmentsName,
                 "Users": User.objects.all(),
                 "Assets": Assets.objects.all(),
@@ -490,7 +499,6 @@ def editTableAssets(request):
                 return render(request, "home/enterAsset.html",{
                     "Departments": departmentsName,
                     # Parte principal
-                    "origin": origin,
                     "code": code,
                     "name": name,
                     "type": type,
@@ -508,7 +516,6 @@ def editTableAssets(request):
                 return render(request, "home/enterAsset.html",{
                     "Departments": departmentsName,
                     # Parte principal
-                    "origin": origin,
                     "code": code,
                     "name": name,
                     "type": type,
@@ -535,7 +542,6 @@ def editTableAssets(request):
                 return render(request, "home/enterAsset.html",{
                     "Departments": departmentsName,
                     # Parte principal
-                    "origin": origin,
                     "code": code,
                     "name": name,
                     "type": type,
@@ -566,7 +572,6 @@ def editTableAssets(request):
             return render(request, "home/enterAsset.html",{
                 "Departments": departmentsName,
                 # Parte principal
-                "origin": origin,
                 "code": code,
                 "name": name,
                 "type": type,
