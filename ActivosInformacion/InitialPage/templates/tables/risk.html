@@ -1,0 +1,101 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block action8 %} style="color:#4BAAF7" {% endblock %}
+
+{% block body %}
+<section id="bodyform-tables">
+    {% if message %}
+        <div class="error-message">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <div class="box-finding">
+        <div class="search-information">
+            <label for="inpSearch">Filtrar por activo relacionado:</label>
+            <input type="text" id="inpSearch0" name="inpSearch" placeholder="Ingresar el activo">
+        </div>
+
+        <div class="search-information">
+            <label for="inpSearch">Filtrar tipo de riesgo:</label>
+            <input type="text" id="inpSearch1" name="inpSearch2" placeholder="Ingresar el tipo de riesgo">
+        </div>
+
+        <div class="search-information">
+            <label for="inpSearch">Filtrar Dimension:</label>
+            <input type="text" id="inpSearch2" name="inpSearch3" placeholder="Ingresar la dimension">
+        </div>
+    </div>
+
+    <div class="form-container">
+        <table class="table" id="searchtable">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Activo relacionado</th>
+                    <th scope="col">Tipo de riesgo</th>
+                    <th scope="col">Dimension</th>
+                    <th scope="col">Riesgos relacionados</th>
+                    <th scope="col">
+                        
+                    </th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">
+                        
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for risk in AssetsRisk %}
+                <tr>
+                    <th scope="row">{{ risk.id }}</th>
+                    <td>{{ risk.asset.name }}</td>
+                    <td>{{ risk.risktype.name }}</td>
+                    <td>{{ risk.dimention }}</td>
+                    <td>
+                        {% for subrisk in risk.risk.all %}
+                            {{ subrisk.name }} <br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a type="button" onclick="activeeditbox(this)" class="button-format" 
+                            data-department-id="{{ department.id }}" 
+                            data-department-name="{{ department.name }}" 
+                            data-department-description="{{ department.description }}" 
+                            data-department-workload="{{ department.workload.name }}">
+                            <span class="material-symbols-outlined">
+                                edit
+                            </span>
+                        </a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a href="" class="button-format">
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<div class="overlay" id="overlay"></div>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="edit-campus" id="edit-campus">
+    </div>
+</form>
+{% endblock %}

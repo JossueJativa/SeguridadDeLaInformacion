@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from InitialPage.models import Departments, Assets, AssetsDependence, AssetsValue, TypeAssets, SubtypeAssets
+from InitialPage.models import Departments, Assets, AssetsDependence, AssetsValue, TypeAssets, SubtypeAssets, Risk, AssetsRisk, RiskType
 from Users.models import User, Workload
 
 # Create your views here.
@@ -791,42 +791,42 @@ def editTableUsers(request):
         workload = request.POST.get("userWorkload")
 
         if firstname == "" or firstname == None:
-            return render(request, "home/users.html",{
+            return render(request, "tables/users.html",{
                 "Workloads": Workload.objects.all(),
                 "Departments": Departments.objects.all(),
                 "message": "Ingrese el nombre del usuario"
             })
         
         if lastname == "" or lastname == None:
-            return render(request, "home/users.html",{
+            return render(request, "tables/users.html",{
                 "Workloads": Workload.objects.all(),
                 "Departments": Departments.objects.all(),
                 "message": "Ingrese el apellido del usuario"
             })
         
         if email == "" or email == None:
-            return render(request, "home/users.html",{
+            return render(request, "tables/users.html",{
                 "Workloads": Workload.objects.all(),
                 "Departments": Departments.objects.all(),
                 "message": "Ingrese el correo del usuario"
             })
         
         if celular == "" or celular == None:
-            return render(request, "home/users.html",{
+            return render(request, "tables/users.html",{
                 "Workloads": Workload.objects.all(),
                 "Departments": Departments.objects.all(),
-                "message": "Ingrese la identidad del usuario"
+                "message": "Ingrese el celular del usuario"
             })
         
         if userDepartment == "" or userDepartment == None:
-            return render(request, "home/users.html",{
+            return render(request, "tables/users.html",{
                 "Workloads": Workload.objects.all(),
                 "Departments": Departments.objects.all(),
                 "message": "Seleccione el departamento del usuario"
             })
         
         if workload == "" or workload == None:
-            return render(request, "home/users.html",{
+            return render(request, "tables/users.html",{
                 "Workloads": Workload.objects.all(),
                 "Departments": Departments.objects.all(),
                 "message": "Seleccione la carga de trabajo del usuario"
@@ -842,7 +842,7 @@ def editTableUsers(request):
             )
             department.save()
         except Exception as e:
-            return render(request, "home/users.html",{
+            return render(request, "tables/users.html",{
                 "Workloads": Workload.objects.all(),
                 "Departments": Departments.objects.all(),
                 "message": f"Error al ingresar el departamento {e}"
@@ -859,7 +859,7 @@ def editTableUsers(request):
                 department = department.name
             )
         except Exception as e:
-            return render(request, "home/users.html",{
+            return render(request, "tables/users.html",{
                 "Workloads": Workload.objects.all(),
                 "Departments": Departments.objects.all(),
                 "message": f"Error al ingresar el usuario {e}"
@@ -869,7 +869,7 @@ def editTableUsers(request):
             "Users": User.objects.all(),
         })
     else:
-        return render(request, "home/enterUsers.html",{
+        return render(request, "tables/users.html",{
             "Workloads": Workload.objects.all(),
             "Departments": Departments.objects.all()
         })
@@ -950,51 +950,127 @@ def deleteTableDepartments(request, id):
         return HttpResponseRedirect(reverse("user:login_view"))
 
 def editTableDepartments(request):
-    if request.method == "POST":
-        departmentId = request.POST.get("departmentId")
-        departmentName = request.POST.get("departmentName")
-        description = request.POST.get("description")
-        workload = request.POST.get("workload")
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            departmentId = request.POST.get("departmentId")
+            departmentName = request.POST.get("departmentName")
+            description = request.POST.get("description")
+            workload = request.POST.get("workload")
 
-        if departmentName == "" or departmentName == None:
-            return render(request, "home/enterDepartment.html",{
-                "Workloads": Workload.objects.all(),
-                "message": "Ingrese el nombre del departamento"
-            })
-        
-        if description == "" or description == None:
-            return render(request, "home/enterDepartment.html",{
-                "Workloads": Workload.objects.all(),
-                "message": "Ingrese la descripción del departamento"
-            })
-        
-        if workload == "" or workload == None:
-            return render(request, "home/enterDepartment.html",{
-                "Workloads": Workload.objects.all(),
-                "message": "Ingrese la carga de trabajo del departamento"
-            })
+            if departmentName == "" or departmentName == None:
+                return render(request, "home/enterDepartment.html",{
+                    "Workloads": Workload.objects.all(),
+                    "message": "Ingrese el nombre del departamento"
+                })
+            
+            if description == "" or description == None:
+                return render(request, "home/enterDepartment.html",{
+                    "Workloads": Workload.objects.all(),
+                    "message": "Ingrese la descripción del departamento"
+                })
+            
+            if workload == "" or workload == None:
+                return render(request, "home/enterDepartment.html",{
+                    "Workloads": Workload.objects.all(),
+                    "message": "Ingrese la carga de trabajo del departamento"
+                })
 
-        workload = Workload.objects.get(pk=workload)
+            workload = Workload.objects.get(pk=workload)
 
-        try:
-            Departments.objects.filter(pk=departmentId).update(
-                name = departmentName,
-                description = description,
-                workload = workload
-            )
-        except Exception as e:
-            return render(request, "home/enterDepartment.html",{
-                "Workloads": Workload.objects.all(),
-                "message": f"Error al ingresar el departamento {e}"
+            try:
+                Departments.objects.filter(pk=departmentId).update(
+                    name = departmentName,
+                    description = description,
+                    workload = workload
+                )
+            except Exception as e:
+                return render(request, "home/enterDepartment.html",{
+                    "Workloads": Workload.objects.all(),
+                    "message": f"Error al ingresar el departamento {e}"
+                })
+            
+            return render(request, "tables/departaments.html",{
+                "Departments": Departments.objects.all(),
             })
-        
-        return render(request, "tables/departaments.html",{
-            "Departments": Departments.objects.all(),
+        else:
+            return render(request, "home/enterDepartment.html",{
+                "Workloads": Workload.objects.all()
+            })
+    else:
+        return HttpResponseRedirect(reverse("user:login_view"))
+    
+def asingRiskAsset(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            asset = request.POST.get("asset")
+            risk = request.POST.get("risk")
+            dimention = request.POST.get("dimention")
+            selected_risks = request.POST.getlist("selectedRisks")
+            risks = []
+
+            if asset == "" or asset == None:
+                return render(request, "home/enterRisk.html",{
+                    "Assets": Assets.objects.all(),
+                    "RiskTypes": RiskType.objects.all(),
+                    "message": "Seleccione el activo"
+                })
+            
+            if risk == "" or risk == None:
+                return render(request, "home/enterRisk.html",{
+                    "Assets": Assets.objects.all(),
+                    "RiskTypes": RiskType.objects.all(),
+                    "message": "Seleccione el riesgo"
+                })
+            
+            if selected_risks == "" or selected_risks == None:
+                return render(request, "home/enterRisk.html",{
+                    "Assets": Assets.objects.all(),
+                    "RiskTypes": RiskType.objects.all(),
+                    "message": "Seleccione los riesgos"
+                })
+            
+            asset = Assets.objects.get(pk=asset)
+            risk = RiskType.objects.get(pk=risk)
+
+            for selected_risk in selected_risks:
+                risks.append(Risk.objects.get(pk=selected_risk))
+
+            print(risks)
+
+            try:
+                riskAsset = AssetsRisk(
+                    asset=asset,
+                    risktype=risk,
+                    dimention=dimention
+                )
+                riskAsset.save()
+                riskAsset.risk.set(risks)
+            except Exception as e:
+                return render(request, "home/enterRisk.html", {
+                    "Assets": Assets.objects.all(),
+                    "RiskTypes": RiskType.objects.all(),
+                    "message": f"Error al ingresar el riesgo {e}"
+                })
+
+            return render(request, "home/enterRisk.html", {
+                "risktypes": RiskType.objects.all(),
+                "assets": Assets.objects.all(),
+            })
+        else:
+            return render(request, "home/enterRisk.html", {
+                "risktypes": RiskType.objects.all(),
+                "assets": Assets.objects.all(),
+            })
+    else:
+        return HttpResponseRedirect(reverse("user:login_view"))
+    
+def tableRisks(request):
+    if request.user.is_authenticated:
+        return render(request, "tables/risk.html",{
+            "AssetsRisk": AssetsRisk.objects.all(),
         })
     else:
-        return render(request, "home/enterDepartment.html",{
-            "Workloads": Workload.objects.all()
-        })
+        return HttpResponseRedirect(reverse("user:login_view"))
 
 def get_subtypes(request, type_id):
     subtypes = SubtypeAssets.objects.filter(type_id=type_id).values('id', 'name')
@@ -1031,3 +1107,7 @@ def get_subtypes2(request):
 def get_users(request):
     users = User.objects.all().values('id', 'username', 'first_name', 'last_name')
     return JsonResponse(list(users), safe=False)
+
+def get_risks(request, risktype_id):
+    risk = Risk.objects.filter(type=risktype_id).values('id', 'name')
+    return JsonResponse(list(risk), safe=False)

@@ -134,12 +134,38 @@
                     </span>
                 </a>
             </div>
+
+            <div class="box-actions">
+                <p class="principal-name">
+                    <span class="material-symbols-outlined">
+                        emergency_home
+                    </span>
+                    <span class="name">
+                        Riesgos
+                    </span>
+                </p>
+
+                <a href="{% url 'home:asingRiskAsset' %}" class="actions" {% block action7 %} {% endblock %}>
+                    Ingresar
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+
+                <a href="{% url 'home:tableRisks' %}" class="actions" {% block action8 %} {% endblock %}>
+                    Administración
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+            </div>
         </div>
     </section>
 
     {% block body %} {% endblock %}
     
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/risk.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </body>
 </html>

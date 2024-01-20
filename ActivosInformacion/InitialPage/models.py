@@ -14,6 +14,16 @@ class Departments(models.Model):
     description = models.TextField(max_length=200, null=False)
     workload = models.ForeignKey(Workload, on_delete=models.CASCADE, null=True)
 
+class RiskType(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
+
+class Risk(models.Model):
+    type = models.ForeignKey(RiskType, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=100)
+    dimention = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
+
 class Assets(models.Model):
     code = models.CharField(max_length=5)
     name = models.TextField(max_length=20)
@@ -37,3 +47,9 @@ class AssetsValue(models.Model):
     description = models.CharField(max_length=15)
     dimentionValue = models.CharField(max_length=20)
     asset = models.ForeignKey(Assets, on_delete=models.CASCADE, null=True)
+
+class AssetsRisk(models.Model):
+    risktype = models.ForeignKey(RiskType, on_delete=models.CASCADE, null=True)
+    risk = models.ManyToManyField(Risk)
+    asset = models.ForeignKey(Assets, on_delete=models.CASCADE, null=True)
+    dimention = models.CharField(max_length=255, null=True)

@@ -1,0 +1,70 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block action7 %} style="color:#4BAAF7" {% endblock %}
+
+{% block body %}
+<section id="bodyform">
+    <form action="{% url 'home:asingRiskAsset' %}" method="post">
+        {% csrf_token %}
+        <div class="form-container">
+    
+            {% if message %}
+                <div class="error-message">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <div class="title">Ingresar un riesgo</div>
+
+            <div class="input-form">
+                <label for="asset">Activos</label><br>
+                <select name="asset" id="asset" class="input-information">
+                    <option value="">Selecciona un activo</option>
+                    <option value="">--------------------------------------------------------------------------------------------------</option>
+                    {% for asset in assets %}
+                        <option value="{{ asset.id }}">{{ asset.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-form">
+                <label for="dimention">Dimensiones</label><br>
+                <select name="dimention" id="dimention" class="input-information">
+                    <option value="">Selecciona una dimension</option>
+                    <option value="">--------------------------------------------------------------------------------------------------</option>
+                    <option value="MA">Muy Alta</option>
+                    <option value="A">Alta</option>
+                    <option value="M">Media</option>
+                    <option value="B">Baja</option>
+                    <option value="MB">Muy Baja</option>
+                </select>
+            </div>
+        
+            <div class="input-form">
+                <label for="risk">Tipos de riesgos</label><br>
+                <select name="risk" id="risk" class="input-information" onchange="getRisk()">
+                    <option value="0">Selecciona un tipo de riesgo</option>
+                    <option value="0">--------------------------------------------------------------------------------------------------</option>
+                    {% for typerisk in risktypes %}
+                        <option value="{{ typerisk.id }}">{{ typerisk.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-form">
+                <label for="addrisk">Riesgos</label><br>
+                <br>
+                <div id="addrisk"></div>
+            </div>
+
+            <br>
+        
+            <div class="buttons-end">
+                <button type="reset" class="buttoncancel">Cancelar</button>
+                <button type="submit" class="buttonsave">Guardar</button>
+            </div>
+        </div>    
+    </form>
+</section>
+
+{% endblock %}
