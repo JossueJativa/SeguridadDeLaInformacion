@@ -1088,7 +1088,10 @@ function activeeditboxRisk(button) {
           // Marcar el checkbox si el ID está en subRisksIds
           if (isIdInSubRisks) {
             checkbox.checked = true;
+          }else{
+            checkbox.disabled = true;
           }
+          
 
           const label = document.createElement('label');
           label.htmlFor = `risk${data[i].id}`;
@@ -1097,6 +1100,11 @@ function activeeditboxRisk(button) {
           container.appendChild(checkbox);
           container.appendChild(label);
           container.appendChild(document.createElement('br'));
+
+          // Desactivar checkboxes no seleccionados
+          if (!checkbox.checked) {
+            checkbox.disabled = true;
+          }
         }
       })
 
@@ -1105,6 +1113,50 @@ function activeeditboxRisk(button) {
 }
 
 function desactiveeditboxRisk() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('edit-campus').style.display = 'none';
+}
+
+function activeeditboxSafeguard(button){
+  var safeguardID = button.getAttribute('data-safeguard-id');
+  var safeguardName = button.getAttribute('data-safeguard-name');
+  var safeguardAssetId = button.getAttribute('data-safeguard-asset-id');
+  var safeguardAssetName = button.getAttribute('data-safeguard-asset-name');
+  var safeguardSafeguardTypeId = button.getAttribute('data-safeguard-safeguard-type-id');
+  var safeguardSafeguardTypeName = button.getAttribute('data-safeguard-safeguard-type-name');
+
+  var safeguars = [];
+  var safeguarElements = document.querySelectorAll('[data-safeguard-options-id]');
+  safeguarElements.forEach(function(element) {
+      safeguars.push(element.getAttribute('data-safeguard-options-id'));
+  });
+
+  document.getElementById('edit-campus').innerHTML = `
+      <div class="title">Editar salvaguarda</div>
+      <input type="hidden" name="safeguardId" value="${safeguardID}">
+      <input type="hidden" name="asset" value="${safeguardAssetId}">
+
+      <div class="input-form">
+        <label for="">Activo</label><br>
+        <input class="input-information" type="text" id="" name="" value="${safeguardAssetName}" readonly>
+      </div>
+
+      <div class="input-form">
+        <label for="safeguard">Salvaguarda</label><br>
+        <input class="input-information" type="text" id="" name="" value="${safeguardSafeguardTypeName}" readonly>
+      </div>
+
+      <div class="buttons-end">
+        <input type="button" class="buttoncancel" value="Cerrar" onclick="desactiveeditboxSafeguard()">
+        <button type="submit" class="buttonsave">Editar información</button>
+      </div>
+      `
+
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('edit-campus').style.display = 'block';
+}
+
+function desactiveeditboxSafeguard() {
   document.getElementById('overlay').style.display = 'none';
   document.getElementById('edit-campus').style.display = 'none';
 }
@@ -1407,7 +1459,7 @@ function getRisk(risk) {
                   checkbox.id = `risk${data[i].id}`;
                   if (valueToFilter === 12) {
                       if (data[i].id === 20){
-                          checkbox.checked = true;
+                        checkbox.checked = true;
                       }
                   }else if (valueToFilter === 11) {
                       if (data[i].id === 54){
@@ -1471,7 +1523,7 @@ function getRisk(risk) {
                           checkbox.checked = true;
                       }
                   }else {
-                      checkbox.checked = false;
+                    checkbox.checked = false;
                   }
 
                   const label = document.createElement('label');
@@ -1481,6 +1533,11 @@ function getRisk(risk) {
                   container.appendChild(checkbox);
                   container.appendChild(label);
                   container.appendChild(document.createElement('br'));
+
+                  // Desactivar checkboxes no seleccionados
+                  if (!checkbox.checked) {
+                    checkbox.disabled = true;
+                  }
               }
           });
   } catch (error) {
@@ -1592,4 +1649,158 @@ function getRiskOptions(idToFilter){
           }
       }
   });
+}
+
+function getSafeguardsOptions(idToFilter){
+  idToFilter = Number(idToFilter);
+  fetch(`/home/get-safeguardstypes/`)
+  .then(response => response.json())
+  .then(data => {
+    const container = document.getElementById("safeguard");
+    container.innerHTML = ""; // Vaciar el contenedor
+
+    // Agregar las dos opciones por defecto
+    let defaultOption = document.createElement('option');
+    defaultOption.value = "";
+    defaultOption.appendChild(document.createTextNode("Selecciona un salvaguarda"));
+    container.appendChild(defaultOption);
+
+    defaultOption = document.createElement('option');
+    defaultOption.value = "";
+    defaultOption.appendChild(document.createTextNode("------------------------------------------------------------------------------------------------"));
+    container.appendChild(defaultOption);
+
+    for (let i = 0; i < data.length; i++) {
+      const option = document.createElement('option');
+      switch(idToFilter){
+        case 1:
+          if (data[i].id === 0){
+            option.value = 0;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+  
+        case 2:
+          if (data[i].id === 1){
+            option.value = 1;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+  
+        case 3:
+          if (data[i].id === 2){
+            option.value = 2;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+
+        case 4:
+          if (data[i].id === 3){
+            option.value = 3;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+
+        case 5:
+          if (data[i].id === 4){
+            option.value = 4;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+
+        case 6:
+          if (data[i].id === 5){
+            option.value = 5;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+
+        case 7:
+          if (data[i].id === 6){
+            option.value = 6;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+
+        case 8:
+          if (data[i].id === 7){
+            option.value = 7;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+
+        case 9:
+          if (data[i].id === 8){
+            option.value = 8;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+
+        case 10:
+          if (data[i].id === 9){
+            option.value = 9;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+
+        case 11:
+          if (data[i].id === 10){
+            option.value = 10;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+
+        case 12:
+          if (data[i].id === 11){
+            option.value = 11;
+            option.appendChild(document.createTextNode(data[i].name));
+            container.appendChild(option);
+          }
+          break;
+
+        default:
+          option.value = data[i].id;
+          option.appendChild(document.createTextNode(data[i].name));
+          container.appendChild(option);
+          break;
+      }
+    }
+  });
+}
+
+function getSafeguardsData(idSafeguard){
+  fetch(`/home/get-safeguards/${idSafeguard}`)
+  .then(response => response.json())
+  .then(data => {
+    const container = document.getElementById("addsafeguards");
+
+    container.innerHTML = "";
+
+    for (let i = 0; i < data.length; i++) {
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.name = 'selectedSafeguards';
+      checkbox.value = data[i].id;
+      checkbox.id = `safeguard${data[i].id}`;
+
+      const label = document.createElement('label');
+      label.htmlFor = `safeguard${data[i].id}`;
+      label.appendChild(document.createTextNode(`[${data[i].code}] ${data[i].name}`));
+
+      container.appendChild(checkbox);
+      container.appendChild(label);
+      container.appendChild(document.createElement('br'));
+    }
+  }).catch(error => console.error('Error:', error));
 }

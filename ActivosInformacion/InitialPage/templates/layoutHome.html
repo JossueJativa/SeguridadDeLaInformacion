@@ -88,6 +88,56 @@
             <div class="box-actions">
                 <p class="principal-name">
                     <span class="material-symbols-outlined">
+                        emergency_home
+                    </span>
+                    <span class="name">
+                        Amenazas
+                    </span>
+                </p>
+
+                <a href="{% url 'home:asingRiskAsset' %}" class="actions" {% block action7 %} {% endblock %}>
+                    Ingresar
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+
+                <a href="{% url 'home:tableRisks' %}" class="actions" {% block action8 %} {% endblock %}>
+                    Administración
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+            </div>
+
+            <div class="box-actions">
+                <p class="principal-name">
+                    <span class="material-symbols-outlined">
+                        heart_plus
+                    </span>
+                    <span class="name">
+                        Salvaguardas
+                    </span>
+                </p>
+
+                <a href="{% url 'home:enterSafeguards' %}" class="actions" {% block action9 %} {% endblock %}>
+                    Ingresar
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+
+                <a href="{% url 'home:tableSafeguards' %}" class="actions" {% block action10 %} {% endblock %}>
+                    Administración
+                    <span class="material-symbols-outlined">
+                        double_arrow
+                    </span>
+                </a>
+            </div>
+
+            <div class="box-actions">
+                <p class="principal-name">
+                    <span class="material-symbols-outlined">
                         person
                     </span>
                     <span class="name">
@@ -128,31 +178,6 @@
                 </a>
 
                 <a href="{% url 'home:tabledepartments' %}" class="actions" {% block action6 %} {% endblock %}>
-                    Administración
-                    <span class="material-symbols-outlined">
-                        double_arrow
-                    </span>
-                </a>
-            </div>
-
-            <div class="box-actions">
-                <p class="principal-name">
-                    <span class="material-symbols-outlined">
-                        emergency_home
-                    </span>
-                    <span class="name">
-                        Riesgos
-                    </span>
-                </p>
-
-                <a href="{% url 'home:asingRiskAsset' %}" class="actions" {% block action7 %} {% endblock %}>
-                    Ingresar
-                    <span class="material-symbols-outlined">
-                        double_arrow
-                    </span>
-                </a>
-
-                <a href="{% url 'home:tableRisks' %}" class="actions" {% block action8 %} {% endblock %}>
                     Administración
                     <span class="material-symbols-outlined">
                         double_arrow

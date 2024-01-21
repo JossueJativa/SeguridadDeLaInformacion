@@ -20,6 +20,9 @@ urlpatterns = [
     path('tableRisks/', views.tableRisks, name='tableRisks'),
     path('deleteTableRisks/<str:id>', views.deleteTableRisks, name='deleteTableRisks'),
     path('editTableRisks/', views.editTableRisks, name='editTableRisks'),
+    path('enterSafeguards/', views.enterSafeguards, name='enterSafeguards'),
+    path('tableSafeguards/', views.tableSafeguards, name='tableSafeguards'),
+    path('deleteTableSafeguards/<str:id>', views.deleteTableSafeguards, name='deleteTableSafeguards'),
     path('get-subtypes/<int:type_id>/', views.get_subtypes, name='get_subtypes'),
     path('get-workloads/', views.get_workloads, name='get_workloads'),
     path('get-departments/', views.get_departments, name='get_departments'),
@@ -30,4 +33,6 @@ urlpatterns = [
     path('get-users/', views.get_users, name='get_users'),
     path('get-risks/<int:risktype_id>', views.get_risks, name='get_risks'),
     path('get-risktypes/', views.get_risktypes, name='get_risktypes'),
+    path('get-safeguardstypes/', views.get_safeguardstypes, name='get_safeguardstypes'),
+    path('get-safeguards/<int:safeguardstype_id>/', views.get_safeguards, name='get_safeguards'),
 ]

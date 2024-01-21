@@ -53,3 +53,15 @@ class AssetsRisk(models.Model):
     risk = models.ManyToManyField(Risk)
     asset = models.ForeignKey(Assets, on_delete=models.CASCADE, null=True)
     dimention = models.CharField(max_length=255, null=True)
+
+class SafeguardsTypes(models.Model):
+    name = models.CharField(max_length=100)
+
+class Safeguards(models.Model):
+    type = models.ForeignKey(SafeguardsTypes, on_delete=models.CASCADE, null=True)
+    code = models.CharField(max_length=15)
+    name = models.CharField(max_length=100)
+
+class SafeguardsRisk(models.Model):
+    risk = models.ForeignKey(AssetsRisk, on_delete=models.CASCADE, null=True)
+    safeguard = models.ManyToManyField(Safeguards)

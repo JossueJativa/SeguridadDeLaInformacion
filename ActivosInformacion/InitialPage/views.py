@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from InitialPage.models import Departments, Assets, AssetsDependence, AssetsValue, TypeAssets, SubtypeAssets, Risk, AssetsRisk, RiskType
+from InitialPage.models import Departments, Assets, AssetsDependence, AssetsValue, TypeAssets, SubtypeAssets, Risk, AssetsRisk, RiskType, Safeguards, SafeguardsRisk, SafeguardsTypes
 from Users.models import User, Workload
 
 # Create your views here.
@@ -1270,6 +1270,93 @@ def editTableRisks(request):
             })
     else:
         return HttpResponseRedirect(reverse("user:login_view"))
+    
+def enterSafeguards(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            assetrisk = request.POST.get("assetrisk")
+            safeguard = request.POST.get("safeguard")
+            addsafeguards = request.POST.getlist("selectedSafeguards")
+            safeguards = []
+            print(addsafeguards)
+
+            if assetrisk == "" or assetrisk == None:
+                return render(request, "home/enterSafeguards.html",{
+                    "assetsRisk": AssetsRisk.objects.all(),
+                    "Safeguards": Safeguards.objects.all(),
+                    "message": "Seleccione el activo"
+                })
+            
+            if safeguard == "" or safeguard == None:
+                return render(request, "home/enterSafeguards.html",{
+                    "assetsRisk": AssetsRisk.objects.all(),
+                    "Safeguards": Safeguards.objects.all(),
+                    "message": "Seleccione la salvaguarda"
+                })
+            
+            if addsafeguards == "" or addsafeguards == None:
+                return render(request, "home/enterSafeguards.html",{
+                    "assetsRisk": AssetsRisk.objects.all(),
+                    "Safeguards": Safeguards.objects.all(),
+                    "message": "Seleccione las salvaguardas"
+                })
+            
+            assetrisk = AssetsRisk.objects.get(pk=assetrisk)
+            safeguard = Safeguards.objects.get(pk=safeguard)
+
+            for addsafeguard in addsafeguards:
+                safeguards.append(Safeguards.objects.get(pk=addsafeguard))
+
+            print(safeguards)
+
+            try:
+                safeguardAssetRisk = SafeguardsRisk(
+                    risk=assetrisk,
+                )
+                safeguardAssetRisk.save()
+                safeguardAssetRisk.safeguard.set(safeguards)
+            except Exception as e:
+                return render(request, "home/enterSafeguards.html", {
+                    "assetsRisk": AssetsRisk.objects.all(),
+                    "Safeguards": Safeguards.objects.all(),
+                    "message": f"Error al ingresar la salvaguarda {e}"
+                })
+            
+            return render(request, "home/enterSafeguards.html", {
+                "assetsRisk": AssetsRisk.objects.all(),
+                "Safeguards": Safeguards.objects.all(),
+            })
+        else:
+            return render(request, "home/enterSafeguards.html",{
+                "assetsRisk": AssetsRisk.objects.all(),
+            })
+    else:
+        return HttpResponseRedirect(reverse("user:login_view"))
+    
+def tableSafeguards(request):
+    if request.user.is_authenticated:
+        return render(request, "tables/safeguards.html",{
+            "Safeguards": SafeguardsRisk.objects.all(),
+        })
+    else:
+        return HttpResponseRedirect(reverse("user:login_view"))
+    
+def deleteTableSafeguards(request, id):
+    if request.user.is_authenticated:
+        try:
+            safeguard = SafeguardsRisk.objects.get(pk=id)
+            safeguard.delete()
+        except Exception as e:
+            return render(request, "tables/safeguards.html",{
+                "Safeguards": SafeguardsRisk.objects.all(),
+                "message": f"Error al eliminar la salvaguarda {e}"
+            })
+        
+        return render(request, "tables/safeguards.html",{
+            "Safeguards": SafeguardsRisk.objects.all(),
+        })
+    else:
+        return HttpResponseRedirect(reverse("user:login_view"))
 
 def get_subtypes(request, type_id):
     subtypes = SubtypeAssets.objects.filter(type_id=type_id).values('id', 'name')
@@ -1314,3 +1401,11 @@ def get_risks(request, risktype_id):
 def get_risktypes(request):
     risktypes = RiskType.objects.all().values('id', 'name')
     return JsonResponse(list(risktypes), safe=False)
+
+def get_safeguardstypes(request):
+    safeguardstypes = SafeguardsTypes.objects.all().values('id', 'name')
+    return JsonResponse(list(safeguardstypes), safe=False)
+
+def get_safeguards(request, safeguardstype_id):
+    safeguards = Safeguards.objects.filter(type=safeguardstype_id).values('id', 'code', 'name')
+    return JsonResponse(list(safeguards), safe=False)

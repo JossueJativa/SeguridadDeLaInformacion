@@ -28,6 +28,22 @@
             </div>
 
             <div class="input-form">
+                <label for="risk">Tipos de riesgos</label><br>
+                <select name="risk" id="risk" class="input-information" onchange="getRisk(this.value)">
+                    <option value="0">Selecciona un tipo de riesgo</option>
+                    <option value="0">--------------------------------------------------------------------------------------------------</option>
+                </select>
+            </div>
+
+            <div class="input-form">
+                <label for="addrisk">Riesgos</label><br>
+                <br>
+                <div id="addrisk"></div>
+            </div>
+
+            <br>
+
+            <div class="input-form">
                 <label for="impact">Impacto</label><br>
                 <select name="impact" id="impact" class="input-information">
                     <option value="">Selecciona un impacto</option>
@@ -54,22 +70,6 @@
             </div>
 
             <img src="{% static 'img/Estimacion Del Riesgo.jpg' %}" alt="Riesgo" style="width: 50%; height: 50%; transform: translate(50%, 0%);">
-        
-            <div class="input-form">
-                <label for="risk">Tipos de riesgos</label><br>
-                <select name="risk" id="risk" class="input-information" onchange="getRisk(this.value)">
-                    <option value="0">Selecciona un tipo de riesgo</option>
-                    <option value="0">--------------------------------------------------------------------------------------------------</option>
-                </select>
-            </div>
-
-            <div class="input-form">
-                <label for="addrisk">Riesgos</label><br>
-                <br>
-                <div id="addrisk"></div>
-            </div>
-
-            <br>
         
             <div class="buttons-end">
                 <button type="reset" class="buttoncancel">Cancelar</button>
