@@ -864,16 +864,8 @@ function activeeditboxRisk(button) {
   var riskAssetName = button.getAttribute('data-risk-asset-name');
   var riskDimention = button.getAttribute('data-risk-dimention');
   var riskTypeId = button.getAttribute('data-risk-type-id');
-  var riskTypeName = button.getAttribute('data-risk-type-name');
 
   idToFilter = Number(riskAssetTypeId);
-
-  // Obtén la lista de subrisk
-  var subRisks = [];
-  var subRiskElements = document.querySelectorAll('[data-subrisk]');
-  subRiskElements.forEach(function(element) {
-      subRisks.push(element.getAttribute('data-subrisk'));
-  });
 
   var subRisksIds = [];
   var subRiskIdElements = document.querySelectorAll('[data-subrisk-id]');
@@ -883,7 +875,7 @@ function activeeditboxRisk(button) {
 
   document.getElementById('edit-campus').innerHTML = `
       <div class="title">Editar riesgo</div>
-      <input type="hidden" name="riskID" value="${riskID}">
+      <input type="hidden" name="riskId" value="${riskID}">
       <input type="hidden" name="asset" value="${riskAssetId}">
 
       <div class="input-form">
@@ -1090,73 +1082,12 @@ function activeeditboxRisk(button) {
           checkbox.value = data[i].id;
           checkbox.id = `risk${data[i].id}`;
 
-          if (valueToFilter === 12) {
-            if (data[i].id === 20){
-                checkbox.checked = true;
-            }
-          }else if (valueToFilter === 11) {
-              if (data[i].id === 54){
-                  checkbox.checked = true;
-              }
-          }else if (valueToFilter === 10) {
-              if (data[i].id === 13){
-                  checkbox.checked = true;
-              }
-          }else if (valueToFilter === 9) {
-              if (data[i].id === 14){
-                  checkbox.checked = true;
-              }
-          }else if (valueToFilter === 8) {
-              if (data[i].id === 12 || data[i].id === 43 || data[i].id === 45){
-                  checkbox.checked = true;
-              }
-          }else if (valueToFilter === 7) {
-              if (data[i].id === 1 || data[i].id === 2 || data[i].id === 3){
-                  checkbox.checked = true;
-              }
-              if (data[i].id === 4 || data[i].id === 5 || data[i].id === 6 || data[i].id === 10 || data[i].id === 11 || data[i].id === 15){
-                  checkbox.checked = true;
-              }
-              if(data[i].id === 30 || data[i].id === 32){
-                  checkbox.checked = true;
-              }
-              if(data[i].id === 52 || data[i].id === 53){
-                  checkbox.checked = true;
-              }
-          }else if (valueToFilter === 6) {
-              if (data[i].id === 5){
-                  checkbox.checked = true;
-              }
-              if (data[i].id === 28 || data[i].id === 29 || data[i].id === 21){
-                  checkbox.checked = true;
-              }
-              if(data[i].id === 39 || data[i].id === 49){
-                  checkbox.checked = true;
-              }
-          }
-          else if (valueToFilter === 5) {
-              if (data[i].id === 22 || data[i].id === 23 || data[i].id === 24 || data[i].id === 31){
-                  checkbox.checked = true;
-              }
-              if (data[i].id === 38 || data[i].id === 40 || data[i].id === 41 || data[i].id === 44 || data[i].id === 51){
-                  checkbox.checked = true;
-              }
-          }else if (valueToFilter === 4) {
-              if (data[i].id === 16 || data[i].id === 17 || data[i].id === 25 || data[i].id === 26 || data[i].id === 27){
-                  checkbox.checked = true;
-              }
-              if (data[i].id === 36 || data[i].id === 37 || data[i].id === 42 || data[i].id === 46 || data[i].id === 47 || data[i].id === 48){
-                  checkbox.checked = true;
-              }
-          }else if (valueToFilter === 3) {
-              if (data[i].id === 16 || data[i].id === 17 || data[i].id === 25 || data[i].id === 26 || data[i].id === 27){
-                  checkbox.checked = true;
-              }
-              if (data[i].id === 36 || data[i].id === 37 || data[i].id === 42 || data[i].id === 46 || data[i].id === 47 || data[i].id === 48){
-                  checkbox.checked = true;
-              }
-          }else {
-              checkbox.checked = false;
+          // Verificar si el ID está en subRisksIds
+          const isIdInSubRisks = subRisksIds.includes(data[i].id.toString());
+
+          // Marcar el checkbox si el ID está en subRisksIds
+          if (isIdInSubRisks) {
+            checkbox.checked = true;
           }
 
           const label = document.createElement('label');
