@@ -1041,11 +1041,68 @@ def asingRiskAsset(request):
             for selected_risk in selected_risks:
                 risks.append(Risk.objects.get(pk=selected_risk))
 
+            if (impact == "MA" and probability == "MA"):
+                dimention = "MA"
+            elif (impact == "A" and probability == "A"):
+                dimention = "A"
+            elif (impact == "M" and probability == "M"):
+                dimention = "M"
+            elif (impact == "B" and probability == "B"):
+                dimention = "B"
+            elif (impact == "MB" and probability == "MB"):
+                dimention = "MB"
+            elif (impact == "MA" and probability == "A"):
+                dimention = "MA"
+            elif (impact == "MA" and probability == "M"):
+                dimention = "MA"
+            elif (impact == "MA" and probability == "B"):
+                dimention = "MA"
+            elif (impact == "MA" and probability == "MB"):
+                dimention = "A"
+            elif (impact == "A" and probability == "MA"):
+                dimention = "MA"
+            elif (impact == "A" and probability == "M"):
+                dimention = "A"
+            elif (impact == "A" and probability == "B"):
+                dimention = "A"
+            elif (impact == "A" and probability == "MB"):
+                dimention = "M"
+            elif (impact == "M" and probability == "MA"):
+                dimention = "A"
+            elif (impact == "M" and probability == "A"):
+                dimention = "A"
+            elif (impact == "M" and probability == "B"):
+                dimention = "M"
+            elif (impact == "M" and probability == "MB"):  
+                dimention = "B"
+            elif (impact == "B" and probability == "MA"):
+                dimention = "M"
+            elif (impact == "B" and probability == "A"):
+                dimention = "M"
+            elif (impact == "B" and probability == "M"):
+                dimention = "B"
+            elif (impact == "B" and probability == "MB"):
+                dimention = "MB"
+            elif (impact == "MB" and probability == "MA"):
+                dimention = "B"
+            elif (impact == "MB" and probability == "A"):
+                dimention = "B"
+            elif (impact == "MB" and probability == "M"):
+                dimention = "MB"
+            elif (impact == "MB" and probability == "B"):
+                dimention = "MB"
+            else:
+                return render(request, "home/enterRisk.html",{
+                    "Assets": Assets.objects.all(),
+                    "RiskTypes": RiskType.objects.all(),
+                    "message": "Seleccione el impacto y la probabilidad"
+                })
+
             try:
                 riskAsset = AssetsRisk(
                     asset=asset,
                     risktype=risk,
-                    dimention=impact
+                    dimention=dimention
                 )
                 riskAsset.save()
                 riskAsset.risk.set(risks)
