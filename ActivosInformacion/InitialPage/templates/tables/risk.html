@@ -58,16 +58,21 @@
                     <td>{{ risk.risktype.name }}</td>
                     <td>
                         {% for subrisk in risk.risk.all %}
+                            <span data-subrisk="{{ subrisk.name }}"></span>
+                            <span data-subrisk-id="{{ subrisk.id }}"></span>
                             {{ subrisk.name }} <br>
                         {% endfor %}
                     </td>
                     <td>{{ risk.dimention }}</td>
                     <td>
-                        <a type="button" onclick="activeeditbox(this)" class="button-format" 
+                        <a type="button" onclick="activeeditboxRisk(this)" class="button-format" 
                             data-risk-id="{{ risk.id }}" 
-                            data-risk-asset-name="{{ risk.asset.name }}" 
+                            data-risk-asset-id="{{ risk.asset.id }}" 
+                            data-risk-asset-name="{{ risk.asset.name }}"
+                            data-risk-asset-type-id="{{ risk.asset.type.id }}"
                             data-risk-dimention="{{ risk.dimention }}"
-                            data-risk-type="{{ risk.risktype.name }}" >
+                            data-risk-type-id="{{ risk.risktype.id }}"
+                            data-risk-type-name="{{ risk.risktype.name }}">
                             <span class="material-symbols-outlined">
                                 edit
                             </span>

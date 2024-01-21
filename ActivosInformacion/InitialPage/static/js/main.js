@@ -858,7 +858,324 @@ function desactiveeditbox(){
 }
 
 function activeeditboxRisk(button) {
-  
+  var riskID = button.getAttribute('data-risk-id');
+  var riskAssetId = button.getAttribute('data-risk-asset-id');
+  var riskAssetTypeId = button.getAttribute('data-risk-asset-type-id');
+  var riskAssetName = button.getAttribute('data-risk-asset-name');
+  var riskDimention = button.getAttribute('data-risk-dimention');
+  var riskTypeId = button.getAttribute('data-risk-type-id');
+  var riskTypeName = button.getAttribute('data-risk-type-name');
+
+  idToFilter = Number(riskAssetTypeId);
+
+  // Obtén la lista de subrisk
+  var subRisks = [];
+  var subRiskElements = document.querySelectorAll('[data-subrisk]');
+  subRiskElements.forEach(function(element) {
+      subRisks.push(element.getAttribute('data-subrisk'));
+  });
+
+  var subRisksIds = [];
+  var subRiskIdElements = document.querySelectorAll('[data-subrisk-id]');
+  subRiskIdElements.forEach(function(element) {
+      subRisksIds.push(element.getAttribute('data-subrisk-id'));
+  });
+
+  document.getElementById('edit-campus').innerHTML = `
+      <div class="title">Editar riesgo</div>
+      <input type="hidden" name="riskID" value="${riskID}">
+      <input type="hidden" name="asset" value="${riskAssetId}">
+
+      <div class="input-form">
+        <label for="">Activo</label><br>
+        <input class="input-information" type="text" id="" name="" value="${riskAssetName}" readonly>
+      </div>
+      
+      <div class="input-form">
+        <label for="impact">Impacto</label><br>
+        <select name="impact" id="impact" class="input-information">
+          <option value="">Selecciona un impacto</option>
+          <option value="">--------------------------------------------------------------------------------------------------</option>
+          <option value="MA">Muy Alta</option>
+          <option value="A">Alta</option>
+          <option value="M">Media</option>
+          <option value="B">Baja</option>
+          <option value="MB">Muy Baja</option>
+        </select>
+      </div>
+
+      <div class="input-form">
+        <label for="probability">Probabilidad</label><br>
+        <select name="probability" id="probability" class="input-information">
+          <option value="">Selecciona una probabilidad</option>
+          <option value="">--------------------------------------------------------------------------------------------------</option>
+          <option value="MA">Muy Alta</option>
+          <option value="A">Alta</option>
+          <option value="M">Media</option>
+          <option value="B">Baja</option>
+          <option value="MB">Muy Baja</option>
+        </select>
+      </div>
+
+      <div class="input-form">
+        <label for="">Riesgo</label><br>
+        <input class="input-information" type="text" id="" name="" value="${riskDimention}" readonly>
+      </div>
+
+      <img src="../../static/img/Estimacion Del Riesgo.jpg" alt="Riesgo" style="width: 50%; height: 50%; transform: translate(50%, 0%);">
+
+      <div class="input-form">
+        <label for="risk">Tipos de riesgos</label><br>
+        <select name="risk" id="risk" class="input-information" onchange="getRisk(this.value)">
+          <option value="0">Selecciona un tipo de riesgo</option>
+          <option value="0">--------------------------------------------------------------------------------------------------</option>
+        </select>
+      </div>
+
+      <div class="input-form">
+        <label for="addrisk">Riesgos</label><br>
+        <br>
+        <div id="addrisk"></div>
+      </div>
+
+      <br>
+
+      <div class="buttons-end">
+        <input type="button" class="buttoncancel" value="Cerrar" onclick="desactiveeditboxRisk()">
+        <button type="submit" class="buttonsave">Editar información</button>
+      </div>
+  `;
+
+  fetch(`/home/get-risktypes/`)
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById("risk");
+        container.innerHTML = "";
+
+        let defaultOption = document.createElement('option');
+        defaultOption.value = "";
+        defaultOption.appendChild(document.createTextNode("Selecciona un activo"));
+        container.appendChild(defaultOption);
+
+        defaultOption = document.createElement('option');
+        defaultOption.value = "";
+        defaultOption.appendChild(document.createTextNode("------------------------------------------------------------------------------------------------"));
+        container.appendChild(defaultOption);
+
+        for (let i = 0; i < data.length; i++) {
+            switch (idToFilter) {
+                case 12:
+                    if (data[i].id === 3){
+                        const option = document.createElement('option');
+                        option.value = data[i].id;
+                        option.appendChild(document.createTextNode(data[i].name));
+                        container.appendChild(option);
+                        if(riskTypeId == data[i].id){
+                          option.selected = true;
+                        }
+                    }
+                    break;
+                case 11:
+                    if (data[i].id === 4){
+                        const option = document.createElement('option');
+                        option.value = data[i].id;
+                        option.appendChild(document.createTextNode(data[i].name));
+                        container.appendChild(option);
+                        if(riskTypeId == data[i].id){
+                          option.selected = true;
+                        }
+                    }
+                    break;
+                case 10:
+                    if (data[i].id === 2){
+                        const option = document.createElement('option');
+                        option.value = data[i].id;
+                        option.appendChild(document.createTextNode(data[i].name));
+                        container.appendChild(option);
+                        if(riskTypeId == data[i].id){
+                          option.selected = true;
+                        }
+                    }
+                    break;
+                case 9:
+                    if (data[i].id === 2){
+                        const option = document.createElement('option');
+                        option.value = data[i].id;
+                        option.appendChild(document.createTextNode(data[i].name));
+                        container.appendChild(option);
+                        if(riskTypeId == data[i].id){
+                          option.selected = true;
+                        }
+                    }
+                    break;
+                case 8:
+                    if (data[i].id === 2 || data[i].id === 4){
+                        const option = document.createElement('option');
+                        option.value = data[i].id;
+                        option.appendChild(document.createTextNode(data[i].name));
+                        container.appendChild(option);
+                        if(riskTypeId == data[i].id){
+                          option.selected = true;
+                        }
+                    }
+                    break;
+                case 6:
+                    if (data[i].id === 2 || data[i].id === 4 || data[i].id === 3){
+                        const option = document.createElement('option');
+                        option.value = data[i].id;
+                        option.appendChild(document.createTextNode(data[i].name));
+                        container.appendChild(option);
+                        if(riskTypeId == data[i].id){
+                          option.selected = true;
+                        }
+                    }
+                    break;
+                case 5:
+                    if (data[i].id === 4 || data[i].id === 3){
+                        const option = document.createElement('option');
+                        option.value = data[i].id;
+                        option.appendChild(document.createTextNode(data[i].name));
+                        container.appendChild(option);
+                        if(riskTypeId == data[i].id){
+                          option.selected = true;
+                        }
+                    }
+                    break;
+                case 4:
+                    if (data[i].id === 4 || data[i].id === 3){
+                        const option = document.createElement('option');
+                        option.value = data[i].id;
+                        option.appendChild(document.createTextNode(data[i].name));
+                        container.appendChild(option);
+                        if(riskTypeId == data[i].id){
+                          option.selected = true;
+                        }
+                    }
+                    break;
+                case 3:
+                    if (data[i].id === 4 || data[i].id === 3){
+                        const option = document.createElement('option');
+                        option.value = data[i].id;
+                        option.appendChild(document.createTextNode(data[i].name));
+                        container.appendChild(option);
+                        if(riskTypeId == data[i].id){
+                          option.selected = true;
+                        }
+                    }
+                    break;
+                default:
+                    const option = document.createElement('option');
+                    option.value = data[i].id;
+                    option.appendChild(document.createTextNode(data[i].name));
+                    container.appendChild(option);
+                    if(riskTypeId == data[i].id){
+                      option.selected = true;
+                    }
+                    break;
+            }
+        }
+      })
+
+  fetch(`/home/get-risks/${riskTypeId}`)
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById("addrisk");
+        container.innerHTML = "";
+        valueToFilter = Number(idToFilter);
+
+        for (let i = 0; i < data.length; i++) {
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.name = 'selectedRisks';
+          checkbox.value = data[i].id;
+          checkbox.id = `risk${data[i].id}`;
+
+          if (valueToFilter === 12) {
+            if (data[i].id === 20){
+                checkbox.checked = true;
+            }
+          }else if (valueToFilter === 11) {
+              if (data[i].id === 54){
+                  checkbox.checked = true;
+              }
+          }else if (valueToFilter === 10) {
+              if (data[i].id === 13){
+                  checkbox.checked = true;
+              }
+          }else if (valueToFilter === 9) {
+              if (data[i].id === 14){
+                  checkbox.checked = true;
+              }
+          }else if (valueToFilter === 8) {
+              if (data[i].id === 12 || data[i].id === 43 || data[i].id === 45){
+                  checkbox.checked = true;
+              }
+          }else if (valueToFilter === 7) {
+              if (data[i].id === 1 || data[i].id === 2 || data[i].id === 3){
+                  checkbox.checked = true;
+              }
+              if (data[i].id === 4 || data[i].id === 5 || data[i].id === 6 || data[i].id === 10 || data[i].id === 11 || data[i].id === 15){
+                  checkbox.checked = true;
+              }
+              if(data[i].id === 30 || data[i].id === 32){
+                  checkbox.checked = true;
+              }
+              if(data[i].id === 52 || data[i].id === 53){
+                  checkbox.checked = true;
+              }
+          }else if (valueToFilter === 6) {
+              if (data[i].id === 5){
+                  checkbox.checked = true;
+              }
+              if (data[i].id === 28 || data[i].id === 29 || data[i].id === 21){
+                  checkbox.checked = true;
+              }
+              if(data[i].id === 39 || data[i].id === 49){
+                  checkbox.checked = true;
+              }
+          }
+          else if (valueToFilter === 5) {
+              if (data[i].id === 22 || data[i].id === 23 || data[i].id === 24 || data[i].id === 31){
+                  checkbox.checked = true;
+              }
+              if (data[i].id === 38 || data[i].id === 40 || data[i].id === 41 || data[i].id === 44 || data[i].id === 51){
+                  checkbox.checked = true;
+              }
+          }else if (valueToFilter === 4) {
+              if (data[i].id === 16 || data[i].id === 17 || data[i].id === 25 || data[i].id === 26 || data[i].id === 27){
+                  checkbox.checked = true;
+              }
+              if (data[i].id === 36 || data[i].id === 37 || data[i].id === 42 || data[i].id === 46 || data[i].id === 47 || data[i].id === 48){
+                  checkbox.checked = true;
+              }
+          }else if (valueToFilter === 3) {
+              if (data[i].id === 16 || data[i].id === 17 || data[i].id === 25 || data[i].id === 26 || data[i].id === 27){
+                  checkbox.checked = true;
+              }
+              if (data[i].id === 36 || data[i].id === 37 || data[i].id === 42 || data[i].id === 46 || data[i].id === 47 || data[i].id === 48){
+                  checkbox.checked = true;
+              }
+          }else {
+              checkbox.checked = false;
+          }
+
+          const label = document.createElement('label');
+          label.htmlFor = `risk${data[i].id}`;
+          label.appendChild(document.createTextNode(data[i].name));
+
+          container.appendChild(checkbox);
+          container.appendChild(label);
+          container.appendChild(document.createElement('br'));
+        }
+      })
+
+  document.getElementById('overlay').style.display = 'block';
+  document.getElementById('edit-campus').style.display = 'block';
+}
+
+function desactiveeditboxRisk() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('edit-campus').style.display = 'none';
 }
 
 try{
@@ -1136,4 +1453,212 @@ try{
   });
 }catch{
 
+}
+
+function getRisk(risk) {
+  valueToFilter = sessionStorage.getItem("idToFilter");
+  try {
+      fetch(`/home/get-risks/${risk}`, {
+          method: 'GET',
+      })
+          .then(response => response.json())
+          .then(data => {
+              console.log(data);
+              const container = document.getElementById("addrisk");
+              container.innerHTML = "";
+              valueToFilter = Number(valueToFilter); // Convertir a número
+
+              for (let i = 0; i < data.length; i++) {
+                  const checkbox = document.createElement('input');
+                  checkbox.type = 'checkbox';
+                  checkbox.name = 'selectedRisks';
+                  checkbox.value = data[i].id;
+                  checkbox.id = `risk${data[i].id}`;
+                  if (valueToFilter === 12) {
+                      if (data[i].id === 20){
+                          checkbox.checked = true;
+                      }
+                  }else if (valueToFilter === 11) {
+                      if (data[i].id === 54){
+                          checkbox.checked = true;
+                      }
+                  }else if (valueToFilter === 10) {
+                      if (data[i].id === 13){
+                          checkbox.checked = true;
+                      }
+                  }else if (valueToFilter === 9) {
+                      if (data[i].id === 14){
+                          checkbox.checked = true;
+                      }
+                  }else if (valueToFilter === 8) {
+                      if (data[i].id === 12 || data[i].id === 43 || data[i].id === 45){
+                          checkbox.checked = true;
+                      }
+                  }else if (valueToFilter === 7) {
+                      if (data[i].id === 1 || data[i].id === 2 || data[i].id === 3){
+                          checkbox.checked = true;
+                      }
+                      if (data[i].id === 4 || data[i].id === 5 || data[i].id === 6 || data[i].id === 10 || data[i].id === 11 || data[i].id === 15){
+                          checkbox.checked = true;
+                      }
+                      if(data[i].id === 30 || data[i].id === 32){
+                          checkbox.checked = true;
+                      }
+                      if(data[i].id === 52 || data[i].id === 53){
+                          checkbox.checked = true;
+                      }
+                  }else if (valueToFilter === 6) {
+                      if (data[i].id === 5){
+                          checkbox.checked = true;
+                      }
+                      if (data[i].id === 28 || data[i].id === 29 || data[i].id === 21){
+                          checkbox.checked = true;
+                      }
+                      if(data[i].id === 39 || data[i].id === 49){
+                          checkbox.checked = true;
+                      }
+                  }
+                  else if (valueToFilter === 5) {
+                      if (data[i].id === 22 || data[i].id === 23 || data[i].id === 24 || data[i].id === 31){
+                          checkbox.checked = true;
+                      }
+                      if (data[i].id === 38 || data[i].id === 40 || data[i].id === 41 || data[i].id === 44 || data[i].id === 51){
+                          checkbox.checked = true;
+                      }
+                  }else if (valueToFilter === 4) {
+                      if (data[i].id === 16 || data[i].id === 17 || data[i].id === 25 || data[i].id === 26 || data[i].id === 27){
+                          checkbox.checked = true;
+                      }
+                      if (data[i].id === 36 || data[i].id === 37 || data[i].id === 42 || data[i].id === 46 || data[i].id === 47 || data[i].id === 48){
+                          checkbox.checked = true;
+                      }
+                  }else if (valueToFilter === 3) {
+                      if (data[i].id === 16 || data[i].id === 17 || data[i].id === 25 || data[i].id === 26 || data[i].id === 27){
+                          checkbox.checked = true;
+                      }
+                      if (data[i].id === 36 || data[i].id === 37 || data[i].id === 42 || data[i].id === 46 || data[i].id === 47 || data[i].id === 48){
+                          checkbox.checked = true;
+                      }
+                  }else {
+                      checkbox.checked = false;
+                  }
+
+                  const label = document.createElement('label');
+                  label.htmlFor = `risk${data[i].id}`;
+                  label.appendChild(document.createTextNode(data[i].name));
+
+                  container.appendChild(checkbox);
+                  container.appendChild(label);
+                  container.appendChild(document.createElement('br'));
+              }
+          });
+  } catch (error) {
+      const container = document.getElementById("addrisk");
+      container.innerHTML = "-- Seleccione un riesgo --";
+  }
+}
+
+function getRiskOptions(idToFilter){
+  idToFilter = Number(idToFilter);
+  sessionStorage.setItem("idToFilter", idToFilter);
+  fetch(`/home/get-risktypes`)
+  .then(response => response.json())
+  .then(data => {
+      const container = document.getElementById("risk");
+      container.innerHTML = ""; // Vaciar el contenedor
+
+      // Agregar las dos opciones por defecto
+      let defaultOption = document.createElement('option');
+      defaultOption.value = "";
+      defaultOption.appendChild(document.createTextNode("Selecciona un activo"));
+      container.appendChild(defaultOption);
+
+      defaultOption = document.createElement('option');
+      defaultOption.value = "";
+      defaultOption.appendChild(document.createTextNode("------------------------------------------------------------------------------------------------"));
+      container.appendChild(defaultOption);
+
+      for (let i = 0; i < data.length; i++) {
+          switch (idToFilter) {
+              case 12:
+                  if (data[i].id === 3){
+                      const option = document.createElement('option');
+                      option.value = data[i].id;
+                      option.appendChild(document.createTextNode(data[i].name));
+                      container.appendChild(option);
+                  }
+                  break;
+              case 11:
+                  if (data[i].id === 4){
+                      const option = document.createElement('option');
+                      option.value = data[i].id;
+                      option.appendChild(document.createTextNode(data[i].name));
+                      container.appendChild(option);
+                  }
+                  break;
+              case 10:
+                  if (data[i].id === 2){
+                      const option = document.createElement('option');
+                      option.value = data[i].id;
+                      option.appendChild(document.createTextNode(data[i].name));
+                      container.appendChild(option);
+                  }
+                  break;
+              case 9:
+                  if (data[i].id === 2){
+                      const option = document.createElement('option');
+                      option.value = data[i].id;
+                      option.appendChild(document.createTextNode(data[i].name));
+                      container.appendChild(option);
+                  }
+                  break;
+              case 8:
+                  if (data[i].id === 2 || data[i].id === 4){
+                      const option = document.createElement('option');
+                      option.value = data[i].id;
+                      option.appendChild(document.createTextNode(data[i].name));
+                      container.appendChild(option);
+                  }
+                  break;
+              case 6:
+                  if (data[i].id === 2 || data[i].id === 4 || data[i].id === 3){
+                      const option = document.createElement('option');
+                      option.value = data[i].id;
+                      option.appendChild(document.createTextNode(data[i].name));
+                      container.appendChild(option);
+                  }
+                  break;
+              case 5:
+                  if (data[i].id === 4 || data[i].id === 3){
+                      const option = document.createElement('option');
+                      option.value = data[i].id;
+                      option.appendChild(document.createTextNode(data[i].name));
+                      container.appendChild(option);
+                  }
+                  break;
+              case 4:
+                  if (data[i].id === 4 || data[i].id === 3){
+                      const option = document.createElement('option');
+                      option.value = data[i].id;
+                      option.appendChild(document.createTextNode(data[i].name));
+                      container.appendChild(option);
+                  }
+                  break;
+              case 3:
+                  if (data[i].id === 4 || data[i].id === 3){
+                      const option = document.createElement('option');
+                      option.value = data[i].id;
+                      option.appendChild(document.createTextNode(data[i].name));
+                      container.appendChild(option);
+                  }
+                  break;
+              default:
+                  const option = document.createElement('option');
+                  option.value = data[i].id;
+                  option.appendChild(document.createTextNode(data[i].name));
+                  container.appendChild(option);
+                  break;
+          }
+      }
+  });
 }
