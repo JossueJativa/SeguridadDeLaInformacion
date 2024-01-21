@@ -1,0 +1,111 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block action10 %} style="color:#4BAAF7" {% endblock %}
+
+{% block body %}
+<section id="bodyform-tables">
+    {% if message %}
+        <div class="error-message">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <div class="box-finding">
+        <div class="search-information">
+            <label for="inpSearch">Filtrar por activo:</label>
+            <input type="text" id="inpSearch0" name="inpSearch" placeholder="Ingresar el activo">
+        </div>
+
+        <div class="search-information">
+            <label for="inpSearch">Filtrar riesgo:</label>
+            <input type="text" id="inpSearch1" name="inpSearch2" placeholder="Ingresar el tipo de riesgo">
+        </div>
+
+        <div class="search-information">
+            <label for="inpSearch">Filtrar Dimension:</label>
+            <input type="text" id="inpSearch2" name="inpSearch3" placeholder="Ingresar la dimension">
+        </div>
+    </div>
+
+    <div class="form-container">
+        <table class="table" id="searchtable">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Activo relacionado</th>
+                    <th scope="col">Tipo de riesgo</th>
+                    <th scope="col">Riesgos relacionados</th>
+                    <th scope="col">Salvaguardas</th>
+                    <th scope="col">Tipo de salvaguarda</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for safeguard in Safeguards %}
+                <tr>
+                    <th scope="row">{{ safeguard.id }}</th>
+                    <td>{{ safeguard.risk.asset.name }}</td>
+                    <td>{{ safeguard.risk.risktype.name }}</td>
+                    <td>
+                        {% for subrisk in safeguard.risk.risk.all %}
+                            <span data-subrisk-id="{{ subrisk.id }}"></span>
+                            {{ subrisk.name }} <br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for safeguardname in safeguard.safeguard.all %}
+                            <span data-safeguard-options-id="{{ safeguard.id }}"></span>
+                            {{ safeguardname.name }}
+                            {% if not forloop.last %},{% endif %}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {{ safeguard.safeguard.first.type.name }}
+                    </td>
+                    <td>                 
+                        <a type="button" onclick="activeeditboxSafeguard(this)" class="button-format" 
+                            data-safeguard-id="{{ safeguard.id }}" 
+                            data-safeguard-asset-name="{{ safeguard.risk.asset.name }}"
+                            data-safeguard-asset-id="{{ safeguard.risk.asset.id }}"
+                            data-safeguard-safeguard-name="{{ safeguard.safeguard.first.type.name }}"
+                            data-safeguard-safeguard-type-id="{{ safeguard.safeguard.first.type.id }}"
+                            data-safeguard-safeguard-type-name="{{ safeguard.safeguard.first.type.name }}"
+                            >
+                            <span class="material-symbols-outlined">
+                                edit
+                            </span>
+                        </a>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <a href="{% url 'home:deleteTableSafeguards' safeguard.id %}" class="button-format">
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<div class="overlay" id="overlay"></div>
+<form action="{% url 'home:editTableRisks' %}" method="post">
+    {% csrf_token %}
+    <div class="edit-campus" id="edit-campus">
+    </div>
+</form>
+{% endblock %}

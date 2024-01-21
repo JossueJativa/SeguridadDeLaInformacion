@@ -1,0 +1,54 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block action9 %} style="color:#4BAAF7" {% endblock %}
+
+{% block body %}
+<section id="bodyform">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-container">
+    
+            {% if message %}
+                <div class="error-message">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <div class="title">Ingresar un salvaguarda</div>
+
+            <div class="input-form">
+                <label for="assetrisk">Activos con riesgos</label><br>
+                <select name="assetrisk" id="assetrisk" class="input-information" onchange="getSafeguardsOptions(this.options[this.selectedIndex].dataset.typeId)">
+                    <option value="">Selecciona un activo</option>
+                    <option value="">--------------------------------------------------------------------------------------------------</option>
+                    {% for asset in assetsRisk %}
+                        <option value="{{ asset.id }}" data-type-id="{{ asset.asset.type.id }}">{{ asset.asset.name }} - {{ asset.asset.type.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+            <div class="input-form">
+                <label for="safeguard">Tipos de salvaguardas</label><br>
+                <select name="safeguard" id="safeguard" class="input-information" onchange="getSafeguardsData(this.value)">
+                    <option value="">Selecciona un tipo de riesgo</option>
+                    <option value="">--------------------------------------------------------------------------------------------------</option>
+                </select>
+            </div>
+
+            <div class="input-form">
+                <label for="addsafeguards">Agregar salvaguardas</label><br>
+                <br>
+                <div id="addsafeguards"></div>
+            </div>
+
+            <br>
+        
+            <div class="buttons-end">
+                <button type="reset" class="buttoncancel">Cancelar</button>
+                <button type="submit" class="buttonsave">Guardar</button>
+            </div>
+        </div>    
+    </form>
+</section>
+
+{% endblock %}
