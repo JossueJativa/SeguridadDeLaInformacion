@@ -28,7 +28,6 @@ def generate_asset_code():
 
 def enterAsset(request):
     if request.user.is_authenticated:
-        # Obtener todos los departamentos sin nombres duplicados
         departmentsName = Departments.objects.values('name').distinct()
 
         # Crear id para cada departamento
@@ -37,7 +36,6 @@ def enterAsset(request):
 
         if request.method == "POST":
             # Informacion inicial
-            origin = request.POST.get("origin")
             code = request.POST.get("code")
             name = request.POST.get("name")
             type = request.POST.get("type")
@@ -57,7 +55,6 @@ def enterAsset(request):
             try:
                 asset = Assets(
                     code = code,
-                    origin = origin,
                     name = name,
                     ubicationType = ubicationType,
                     ubication = ubication,
@@ -357,8 +354,6 @@ def enterAsset(request):
                     pass
 
                 try:
-                    # ver si los otros campos estan llenos para guardarlos o no
-                    # Terceros campos
                     valorationDimention4 = request.POST.get("valorationDimention4")
                     valorationAssing4 = request.POST.get("valorationAssing4")
 
@@ -395,8 +390,6 @@ def enterAsset(request):
                     pass
 
                 try:
-                    # ver si los otros campos estan llenos para guardarlos o no
-                    # Cuartos campos
                     valorationDimention5 = request.POST.get("valorationDimention5")
                     valorationAssing5 = request.POST.get("valorationAssing5")
 
@@ -453,7 +446,7 @@ def tableAssets(request):
     if request.user.is_authenticated:
         return render(request, "tables/assets.html",{
             "DependentAssets": AssetsDependence.objects.all(),
-            "AssetsValue": AssetsValue.objects.all()
+            "AssetsValues": AssetsValue.objects.all()
         })
     else:
         return HttpResponseRedirect(reverse("user:login_view"))
@@ -471,7 +464,6 @@ def editTableAssets(request):
             # Informacion inicial
             assetValueID = request.POST.get("assetValueID")
             assetId = request.POST.get("assetId")
-            origin = request.POST.get("origin")
             code = request.POST.get("code")
             name = request.POST.get("name")
             type = request.POST.get("type")
@@ -558,7 +550,6 @@ def editTableAssets(request):
         try:
             Assets.objects.filter(pk=asset.id).update(
                 code = code,
-                origin = origin,
                 name = name,
                 ubicationType = ubicationType,
                 ubication = ubication,
@@ -1004,6 +995,110 @@ def asingRiskAsset(request):
         if request.method == "POST":
             asset = request.POST.get("asset")
             risk = request.POST.get("risk")
+            impact = request.POST.get("impact")
+            probability = request.POST.get("probability")
+            selected_risks = request.POST.getlist("selectedRisks")
+            risks = []
+
+            if asset == "" or asset == None:
+                return render(request, "home/enterRisk.html",{
+                    "Assets": Assets.objects.all(),
+                    "RiskTypes": RiskType.objects.all(),
+                    "message": "Seleccione el activo"
+                })
+            
+            if risk == "" or risk == None:
+                return render(request, "home/enterRisk.html",{
+                    "Assets": Assets.objects.all(),
+                    "RiskTypes": RiskType.objects.all(),
+                    "message": "Seleccione el riesgo"
+                })
+            
+            if selected_risks == "" or selected_risks == None:
+                return render(request, "home/enterRisk.html",{
+                    "Assets": Assets.objects.all(),
+                    "RiskTypes": RiskType.objects.all(),
+                    "message": "Seleccione los riesgos"
+                })
+            
+            if impact == "" or impact == None:
+                return render(request, "home/enterRisk.html",{
+                    "Assets": Assets.objects.all(),
+                    "RiskTypes": RiskType.objects.all(),
+                    "message": "Seleccione el impacto"
+                })
+            
+            if probability == "" or probability == None:
+                return render(request, "home/enterRisk.html",{
+                    "Assets": Assets.objects.all(),
+                    "RiskTypes": RiskType.objects.all(),
+                    "message": "Seleccione la probabilidad"
+                })
+            
+            asset = Assets.objects.get(pk=asset)
+            risk = RiskType.objects.get(pk=risk)
+
+            for selected_risk in selected_risks:
+                risks.append(Risk.objects.get(pk=selected_risk))
+
+            try:
+                riskAsset = AssetsRisk(
+                    asset=asset,
+                    risktype=risk,
+                    dimention=impact
+                )
+                riskAsset.save()
+                riskAsset.risk.set(risks)
+            except Exception as e:
+                return render(request, "home/enterRisk.html", {
+                    "Assets": Assets.objects.all(),
+                    "RiskTypes": RiskType.objects.all(),
+                    "message": f"Error al ingresar el riesgo {e}"
+                })
+
+            return render(request, "home/enterRisk.html", {
+                "risktypes": RiskType.objects.all(),
+                "assets": Assets.objects.all(),
+            })
+        else:
+            return render(request, "home/enterRisk.html", {
+                "risktypes": RiskType.objects.all(),
+                "assets": Assets.objects.all(),
+            })
+    else:
+        return HttpResponseRedirect(reverse("user:login_view"))
+    
+def tableRisks(request):
+    if request.user.is_authenticated:
+        return render(request, "tables/risk.html",{
+            "AssetsRisk": AssetsRisk.objects.all(),
+        })
+    else:
+        return HttpResponseRedirect(reverse("user:login_view"))
+    
+def deleteTableRisks(request, id):
+    if request.user.is_authenticated:
+        try:
+            risk = AssetsRisk.objects.get(pk=id)
+            risk.delete()
+        except Exception as e:
+            return render(request, "tables/risk.html",{
+                "AssetsRisk": AssetsRisk.objects.all(),
+                "message": f"Error al eliminar el riesgo {e}"
+            })
+        
+        return render(request, "tables/risk.html",{
+            "AssetsRisk": AssetsRisk.objects.all(),
+        })
+    else:
+        return HttpResponseRedirect(reverse("user:login_view"))
+    
+def editTableRisks(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            riskId = request.POST.get("riskId")
+            asset = request.POST.get("asset")
+            risk = request.POST.get("risk")
             dimention = request.POST.get("dimention")
             selected_risks = request.POST.getlist("selectedRisks")
             risks = []
@@ -1038,12 +1133,12 @@ def asingRiskAsset(request):
             print(risks)
 
             try:
-                riskAsset = AssetsRisk(
+                AssetsRisk.objects.filter(pk=riskId).update(
                     asset=asset,
                     risktype=risk,
                     dimention=dimention
                 )
-                riskAsset.save()
+                riskAsset = AssetsRisk.objects.get(pk=riskId)
                 riskAsset.risk.set(risks)
             except Exception as e:
                 return render(request, "home/enterRisk.html", {
@@ -1052,23 +1147,14 @@ def asingRiskAsset(request):
                     "message": f"Error al ingresar el riesgo {e}"
                 })
 
-            return render(request, "home/enterRisk.html", {
-                "risktypes": RiskType.objects.all(),
-                "assets": Assets.objects.all(),
+            return render(request, "tables/risk.html", {
+                "AssetsRisk": AssetsRisk.objects.all(),
             })
         else:
             return render(request, "home/enterRisk.html", {
                 "risktypes": RiskType.objects.all(),
                 "assets": Assets.objects.all(),
             })
-    else:
-        return HttpResponseRedirect(reverse("user:login_view"))
-    
-def tableRisks(request):
-    if request.user.is_authenticated:
-        return render(request, "tables/risk.html",{
-            "AssetsRisk": AssetsRisk.objects.all(),
-        })
     else:
         return HttpResponseRedirect(reverse("user:login_view"))
 
@@ -1111,3 +1197,7 @@ def get_users(request):
 def get_risks(request, risktype_id):
     risk = Risk.objects.filter(type=risktype_id).values('id', 'name')
     return JsonResponse(list(risk), safe=False)
+
+def get_risktypes(request):
+    risktypes = RiskType.objects.all().values('id', 'name')
+    return JsonResponse(list(risktypes), safe=False)

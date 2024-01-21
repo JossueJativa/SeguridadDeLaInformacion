@@ -857,6 +857,10 @@ function desactiveeditbox(){
   document.getElementById('edit-campus').style.display = 'none';
 }
 
+function activeeditboxRisk(button) {
+  
+}
+
 try{
   document.getElementById("inpSearch0").addEventListener("input", e => {
     const searchInput = e.target.value.toLowerCase();

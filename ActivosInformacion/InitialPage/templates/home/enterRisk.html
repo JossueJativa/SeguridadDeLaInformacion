@@ -18,19 +18,19 @@
 
             <div class="input-form">
                 <label for="asset">Activos</label><br>
-                <select name="asset" id="asset" class="input-information">
+                <select name="asset" id="asset" class="input-information" onchange="getRiskOptions(this.options[this.selectedIndex].dataset.typeId)">
                     <option value="">Selecciona un activo</option>
                     <option value="">--------------------------------------------------------------------------------------------------</option>
                     {% for asset in assets %}
-                        <option value="{{ asset.id }}">{{ asset.name }}</option>
+                        <option value="{{ asset.id }}" data-type-id="{{ asset.type.id }}">{{ asset.name }}</option>
                     {% endfor %}
                 </select>
-            </div>
+            </div>            
 
             <div class="input-form">
-                <label for="dimention">Dimensiones</label><br>
-                <select name="dimention" id="dimention" class="input-information">
-                    <option value="">Selecciona una dimension</option>
+                <label for="impact">Impacto</label><br>
+                <select name="impact" id="impact" class="input-information">
+                    <option value="">Selecciona un impacto</option>
                     <option value="">--------------------------------------------------------------------------------------------------</option>
                     <option value="MA">Muy Alta</option>
                     <option value="A">Alta</option>
@@ -39,15 +39,27 @@
                     <option value="MB">Muy Baja</option>
                 </select>
             </div>
+
+            <div class="input-form">
+                <label for="probability">Probabilidad</label><br>
+                <select name="probability" id="probability" class="input-information">
+                    <option value="">Selecciona una probabilidad</option>
+                    <option value="">--------------------------------------------------------------------------------------------------</option>
+                    <option value="MA">Muy Alta</option>
+                    <option value="A">Alta</option>
+                    <option value="M">Media</option>
+                    <option value="B">Baja</option>
+                    <option value="MB">Muy Baja</option>
+                </select>
+            </div>
+
+            <img src="{% static 'img/Estimacion Del Riesgo.jpg' %}" alt="Riesgo" style="width: 50%; height: 50%; transform: translate(50%, 0%);">
         
             <div class="input-form">
                 <label for="risk">Tipos de riesgos</label><br>
-                <select name="risk" id="risk" class="input-information" onchange="getRisk()">
+                <select name="risk" id="risk" class="input-information" onchange="getRisk(this.value)">
                     <option value="0">Selecciona un tipo de riesgo</option>
                     <option value="0">--------------------------------------------------------------------------------------------------</option>
-                    {% for typerisk in risktypes %}
-                        <option value="{{ typerisk.id }}">{{ typerisk.name }}</option>
-                    {% endfor %}
                 </select>
             </div>
 

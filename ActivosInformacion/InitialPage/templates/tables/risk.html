@@ -13,12 +13,12 @@
 
     <div class="box-finding">
         <div class="search-information">
-            <label for="inpSearch">Filtrar por activo relacionado:</label>
+            <label for="inpSearch">Filtrar por activo:</label>
             <input type="text" id="inpSearch0" name="inpSearch" placeholder="Ingresar el activo">
         </div>
 
         <div class="search-information">
-            <label for="inpSearch">Filtrar tipo de riesgo:</label>
+            <label for="inpSearch">Filtrar riesgo:</label>
             <input type="text" id="inpSearch1" name="inpSearch2" placeholder="Ingresar el tipo de riesgo">
         </div>
 
@@ -35,8 +35,8 @@
                     <th scope="col">#</th>
                     <th scope="col">Activo relacionado</th>
                     <th scope="col">Tipo de riesgo</th>
-                    <th scope="col">Dimension</th>
                     <th scope="col">Riesgos relacionados</th>
+                    <th scope="col">Riesgo</th>
                     <th scope="col">
                         
                     </th>
@@ -56,18 +56,18 @@
                     <th scope="row">{{ risk.id }}</th>
                     <td>{{ risk.asset.name }}</td>
                     <td>{{ risk.risktype.name }}</td>
-                    <td>{{ risk.dimention }}</td>
                     <td>
                         {% for subrisk in risk.risk.all %}
                             {{ subrisk.name }} <br>
                         {% endfor %}
                     </td>
+                    <td>{{ risk.dimention }}</td>
                     <td>
                         <a type="button" onclick="activeeditbox(this)" class="button-format" 
-                            data-department-id="{{ department.id }}" 
-                            data-department-name="{{ department.name }}" 
-                            data-department-description="{{ department.description }}" 
-                            data-department-workload="{{ department.workload.name }}">
+                            data-risk-id="{{ risk.id }}" 
+                            data-risk-asset-name="{{ risk.asset.name }}" 
+                            data-risk-dimention="{{ risk.dimention }}"
+                            data-risk-type="{{ risk.risktype.name }}" >
                             <span class="material-symbols-outlined">
                                 edit
                             </span>
@@ -79,7 +79,7 @@
                     <td></td>
                     <td></td>
                     <td>
-                        <a href="" class="button-format">
+                        <a href="{% url 'home:deleteTableRisks' risk.id %}" class="button-format">
                             <span class="material-symbols-outlined">
                                 delete
                             </span>

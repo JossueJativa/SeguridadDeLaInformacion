@@ -18,6 +18,8 @@ urlpatterns = [
     path('editTableDepartments', views.editTableDepartments, name='editTableDepartments'),
     path('asingRiskAsset/', views.asingRiskAsset, name='asingRiskAsset'),
     path('tableRisks/', views.tableRisks, name='tableRisks'),
+    path('deleteTableRisks/<str:id>', views.deleteTableRisks, name='deleteTableRisks'),
+    path('editTableRisks/', views.editTableRisks, name='editTableRisks'),
     path('get-subtypes/<int:type_id>/', views.get_subtypes, name='get_subtypes'),
     path('get-workloads/', views.get_workloads, name='get_workloads'),
     path('get-departments/', views.get_departments, name='get_departments'),
@@ -27,4 +29,5 @@ urlpatterns = [
     path('get-subtypes2/', views.get_subtypes2, name='get_subtypes2'),
     path('get-users/', views.get_users, name='get_users'),
     path('get-risks/<int:risktype_id>', views.get_risks, name='get_risks'),
+    path('get-risktypes/', views.get_risktypes, name='get_risktypes'),
 ]
