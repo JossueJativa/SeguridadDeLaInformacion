@@ -50,7 +50,7 @@
             </div>
         
             <div class="input-form">
-                <label for="responsableArea">Area responsable
+                <label for="responsableArea">Área responsable
                     <a href="{% url 'home:enterDepartment' %}" class="add-component">
                         <span class="material-symbols-outlined">
                             add
@@ -59,7 +59,7 @@
                     </a>
                 </label><br>
                 <select name="responsableArea" id="responsableArea" class="input-information" required>
-                    <option value="">Selecciona el area responsable</option>
+                    <option value="">Selecciona el área responsable</option>
                     <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
                     {% for department in Departments %}
                         {% if responsableArea.id == department.id %}
@@ -114,8 +114,8 @@
             </div>
         
             <div class="input-form">
-                <label for="characteristic">Caracteristica</label><br>
-                <input class="input-information" type="text" id="characteristic" name="characteristic" placeholder="Ingresar la cantidad" required>
+                <label for="characteristic">Característica</label><br>
+                <input class="input-information" type="text" id="characteristic" name="characteristic" placeholder="Ingresar la característica" required>
             </div>
         
             <div class="toggle-text">
@@ -131,12 +131,12 @@
         
                 <div class="input-form">
                     <label for="dependency">Porcentaje de dependencia (Sin el %)</label><br>
-                    <input class="input-information" type="text" id="dependency" name="dependency" placeholder="Ingresar el origen">
+                    <input class="input-information" type="text" id="dependency" name="dependency" placeholder="Ingresar la dependencia">
                 </div>
         
                 <div class="input-form">
                     <label for="descriptionDependency">Descripción de dependencia</label><br>
-                    <input class="input-information" type="text" id="descriptionDependency" name="descriptionDependency" placeholder="Ingresar el origen">
+                    <input class="input-information" type="text" id="descriptionDependency" name="descriptionDependency" placeholder="Ingresar la dependencia">
                 </div>
         
                 <div class="input-form">
@@ -191,7 +191,7 @@
                 <div class="underline-text">Valoración</div>
         
                 <div class="input-form">
-                    <label for="valorationDimention">Dimensión de valoracion</label><br>
+                    <label for="valorationDimention">Dimensión de valoración</label><br>
                     <select name="valorationDimention" id="valorationDimention" class="input-information">
                         <option value="">Selecciona la dimensión</option>
                         <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
@@ -237,7 +237,7 @@
                 <div class="hidden-valorationadd" id="hidden-valorationadd1">
                     <div class="input-form">
                         <input type="button" class="text-minus-value" onclick="minusValueValoration()" value="-">
-                        <label for="valorationDimention2">Dimensión de valoracion</label><br>
+                        <label for="valorationDimention2">Dimensión de valoración</label><br>
                         <select name="valorationDimention2" id="valorationDimention2" class="input-information">
                             <option value="">Selecciona la dimensión</option>
                             <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
@@ -284,7 +284,7 @@
                 <div class="hidden-valorationadd2" id="hidden-valorationadd2">
                     <div class="input-form">
                         <input type="button" class="text-minus-value" onclick="minusValueValoration2()" value="-">
-                        <label for="valorationDimention3">Dimensión de valoracion</label><br>
+                        <label for="valorationDimention3">Dimensión de valoración</label><br>
                         <select name="valorationDimention3" id="valorationDimention3" class="input-information">
                             <option value="">Selecciona la dimensión</option>
                             <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
@@ -331,7 +331,7 @@
                 <div class="hidden-valorationadd3" id="hidden-valorationadd3">
                     <div class="input-form">
                         <input type="button" class="text-minus-value" onclick="minusValueValoration3()" value="-">
-                        <label for="valorationDimention4">Dimensión de valoracion</label><br>
+                        <label for="valorationDimention4">Dimensión de valoración</label><br>
                         <select name="valorationDimention4" id="valorationDimention4" class="input-information">
                             <option value="">Selecciona la dimensión</option>
                             <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
@@ -378,7 +378,7 @@
                 <div class="hidden-valorationadd4" id="hidden-valorationadd4">
                     <div class="input-form">
                         <input type="button" class="text-minus-value" onclick="minusValueValoration4()" value="-">
-                        <label for="valorationDimention5">Dimensión de valoracion</label><br>
+                        <label for="valorationDimention5">Dimensión de valoración</label><br>
                         <select name="valorationDimention5" id="valorationDimention5" class="input-information">
                             <option value="">Selecciona la dimensión</option>
                             <option value="" disabled>-------------------------------------------------------------------------------------------------</option>
