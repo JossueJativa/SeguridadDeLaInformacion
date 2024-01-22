@@ -1131,6 +1131,8 @@ function activeeditboxSafeguard(button){
       safeguars.push(element.getAttribute('data-safeguard-options-id'));
   });
 
+  console.log(safeguars);
+
   document.getElementById('edit-campus').innerHTML = `
       <div class="title">Editar salvaguarda</div>
       <input type="hidden" name="safeguardId" value="${safeguardID}">
@@ -1146,11 +1148,49 @@ function activeeditboxSafeguard(button){
         <input class="input-information" type="text" id="" name="" value="${safeguardSafeguardTypeName}" readonly>
       </div>
 
+      <div class="input-form">
+        <label for="addsafeguards">Agregar salvaguardas</label><br>
+        <br>
+        <div id="addsafeguards"></div>
+      </div>
+
       <div class="buttons-end">
         <input type="button" class="buttoncancel" value="Cerrar" onclick="desactiveeditboxSafeguard()">
         <button type="submit" class="buttonsave">Editar información</button>
       </div>
       `
+
+      fetch(`/home/get-safeguards/${safeguardSafeguardTypeId}`)
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById("addsafeguards");
+
+          container.innerHTML = "";
+
+          for (let i = 0; i < data.length; i++) {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'selectedSafeguards';
+            checkbox.value = data[i].id;
+            checkbox.id = `safeguard${data[i].id}`;
+
+            const label = document.createElement('label');
+            label.htmlFor = `safeguard${data[i].id}`;
+            label.appendChild(document.createTextNode(`[${data[i].code}] ${data[i].name}`));
+
+            container.appendChild(checkbox);
+            container.appendChild(label);
+            container.appendChild(document.createElement('br'));
+
+            const isIdInSubRisks = safeguars.includes(data[i].id.toString());
+
+            // Marcar el checkbox si el ID está en subRisksIds
+            if (isIdInSubRisks) {
+              checkbox.checked = true;
+            }
+          }
+        })
+        .catch(error => console.error('Error:', error));
 
       document.getElementById('overlay').style.display = 'block';
       document.getElementById('edit-campus').style.display = 'block';

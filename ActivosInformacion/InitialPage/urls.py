@@ -23,6 +23,7 @@ urlpatterns = [
     path('enterSafeguards/', views.enterSafeguards, name='enterSafeguards'),
     path('tableSafeguards/', views.tableSafeguards, name='tableSafeguards'),
     path('deleteTableSafeguards/<str:id>', views.deleteTableSafeguards, name='deleteTableSafeguards'),
+    path('editTableSafeguards/', views.editTableSafeguards, name='editTableSafeguards'),
     path('get-subtypes/<int:type_id>/', views.get_subtypes, name='get_subtypes'),
     path('get-workloads/', views.get_workloads, name='get_workloads'),
     path('get-departments/', views.get_departments, name='get_departments'),

@@ -1357,6 +1357,47 @@ def deleteTableSafeguards(request, id):
         })
     else:
         return HttpResponseRedirect(reverse("user:login_view"))
+    
+def editTableSafeguards(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            safeguardId = request.POST.get("safeguardId")
+            asset = request.POST.get("asset")
+            selectedSafeguards = request.POST.getlist("selectedSafeguards")
+            safeguards = []
+
+            if asset == "" or asset == None:
+                return render(request, "home/enterSafeguards.html",{
+                    "assetsRisk": AssetsRisk.objects.all(),
+                    "Safeguards": Safeguards.objects.all(),
+                    "message": "Seleccione el activo"
+                })
+            
+            if selectedSafeguards == "" or selectedSafeguards == None:
+                return render(request, "home/enterSafeguards.html",{
+                    "assetsRisk": AssetsRisk.objects.all(),
+                    "Safeguards": Safeguards.objects.all(),
+                    "message": "Seleccione las salvaguardas"
+                })
+
+            for selectedSafeguard in selectedSafeguards:
+                safeguards.append(Safeguards.objects.get(pk=selectedSafeguard))
+
+            try:
+                safeguardAssetRisk = SafeguardsRisk.objects.get(pk=safeguardId)
+                safeguardAssetRisk.safeguard.set(safeguards)
+            except Exception as e:
+                return render(request, "home/enterSafeguards.html", {
+                    "assetsRisk": AssetsRisk.objects.all(),
+                    "Safeguards": Safeguards.objects.all(),
+                    "message": f"Error al ingresar la salvaguarda {e}"
+                })
+            
+            return render(request, "tables/safeguards.html", {
+                "Safeguards": SafeguardsRisk.objects.all(),
+            })
+    else:
+        return HttpResponseRedirect(reverse("user:login_view"))
 
 def get_subtypes(request, type_id):
     subtypes = SubtypeAssets.objects.filter(type_id=type_id).values('id', 'name')

@@ -61,8 +61,8 @@
                     </td>
                     <td>
                         {% for safeguardname in safeguard.safeguard.all %}
-                            <span data-safeguard-options-id="{{ safeguard.id }}"></span>
-                            {{ safeguardname.name }}
+                            <span data-safeguard-options-id="{{ safeguardname.id }}"></span>
+                            [{{ safeguardname.code }}] {{ safeguardname.name }}
                             {% if not forloop.last %},{% endif %}<br>
                         {% endfor %}
                     </td>
@@ -103,7 +103,7 @@
 </section>
 
 <div class="overlay" id="overlay"></div>
-<form action="{% url 'home:editTableRisks' %}" method="post">
+<form action="{% url 'home:editTableSafeguards' %}" method="post">
     {% csrf_token %}
     <div class="edit-campus" id="edit-campus">
     </div>
