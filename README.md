@@ -27,3 +27,6 @@
 ## Funcionalidad del envAct
 > - env\Script\activate //Sirve para activar el entorno virtual para windows
 > - source env/bin/activate //Sirve para activar el entorno virtual para linux
+
+## Funcionalidad de Docker
+> - docker build -t seguridad .
