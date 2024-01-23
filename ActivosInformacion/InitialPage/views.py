@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib.auth import authenticate
 
 from InitialPage.models import Departments, Assets, AssetsDependence, AssetsValue, TypeAssets, SubtypeAssets, Risk, AssetsRisk, RiskType, Safeguards, SafeguardsRisk, SafeguardsTypes
 from Users.models import User, Workload
@@ -716,7 +717,7 @@ def enterUsers(request):
             username = f"{firstname}.{lastname}.{idlastUser.id}"
 
             try:
-                user = User(
+                user = User.objects.create_user(
                     first_name = firstname,
                     last_name = lastname,
                     email = email,
