@@ -187,6 +187,13 @@ html, body{
   margin-bottom: 10%;
 }
 
+.message {
+  color: white;
+  font-family: "IbmPlexSans-Light", sans-serif;
+  font-size: 100%;
+  font-weight: 300;
+}
+
 /*Responsive*/
 
 @media screen and (max-width: 1024px){

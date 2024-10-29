@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from .models import User
 
 # Create your views here.
 def login_view(request):
@@ -22,6 +22,31 @@ def login_view(request):
             })
 
     return render(request, "login/login.html")
+
+def register_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        confirm = request.POST.get("password2")
+        email = request.POST.get("email")
+
+        if password == confirm:
+            try:
+                user = User.objects.create_user(username, password=password, email=email)
+                user.save()
+                return render(request, "login/login.html", {
+                    "message": "Usuario creado correctamente"
+                })
+            except:
+                return render(request, "register/register.html", {
+                    "message": "El usuario ya existe"
+                })
+        else:
+            return render(request, "register/register.html", {
+                "message": "Las contraseñas no coinciden"
+            })
+        
+    return render(request, "register/register.html")
 
 def logout_view(request):
     logout(request)
