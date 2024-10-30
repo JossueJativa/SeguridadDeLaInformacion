@@ -1,0 +1,48 @@
+{% extends 'layoutHome.html' %}
+{% load static %}
+
+{% block action1 %} style="color:#4BAAF7" {% endblock %}
+
+{% block body %}
+<section id="bodyform" class="container my-5">
+    <h2 class="text-center mb-4">Perfil de Usuario</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ user.username }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ user.first_name }} {{ user.last_name }}</h6>
+            <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+            <p class="card-text"><strong>Miembro desde:</strong> {{ user.date_joined | date:"d/m/Y" }}</p>
+
+            {% if not user.mfa_enabled %}
+                {% if message %}
+                    <div class="alert alert-danger mt-4">
+                        {{ message }}
+                    </div>
+                {% endif %}
+                
+                <div class="alert alert-warning mt-4">
+                    <h4 class="alert-heading">¡Activa el doble factor de autenticación!</h4>
+                    <p>Para mejorar la seguridad de tu cuenta, activa el doble factor de autenticación.</p>
+                    <br>
+                    <div class="text-center">
+                        <img src="{{ qr_code }}" alt="{{ img_path }}" class="img-fluid" width="50%">
+
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="input-form">
+                                <label for="lastname">Código OTP</label><br>
+                                <input class="input-information" type="text" id="otp" name="otp" placeholder="Ingresa el numero OTP">
+                            </div>
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+
+                            <div class="buttons-end">
+                                <button type="submit" class="buttonsave">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

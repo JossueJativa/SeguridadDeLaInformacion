@@ -36,4 +36,6 @@ urlpatterns = [
     path('get-risktypes/', views.get_risktypes, name='get_risktypes'),
     path('get-safeguardstypes/', views.get_safeguardstypes, name='get_safeguardstypes'),
     path('get-safeguards/<int:safeguardstype_id>/', views.get_safeguards, name='get_safeguards'),
+
+    path('profile/', views.userProfile, name='userProfile'),
 ]

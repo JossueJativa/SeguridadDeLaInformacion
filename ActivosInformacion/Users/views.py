@@ -1,3 +1,5 @@
+import pyotp
+
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from .models import User
@@ -7,9 +9,16 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
+        otp = request.POST.get("otp")
 
         try:
             userlogin = authenticate(request, username=username, password=password)
+            totp = pyotp.TOTP(userlogin.mfa_secret)
+            if userlogin.mfa_enabled and not totp.verify(otp):
+                return render(request, "login/login.html", {
+                    "message": "Código de autenticación incorrecto"
+                })
+            
         except:
             userlogin = None
 

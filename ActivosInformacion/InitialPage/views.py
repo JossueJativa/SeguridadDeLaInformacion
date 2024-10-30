@@ -1,3 +1,8 @@
+import base64
+import io
+import pyotp
+import qrcode
+
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -26,6 +31,54 @@ def generate_asset_code():
         new_code = "AA0001"
 
     return new_code
+
+def userProfile(request):
+    if request.method == "POST":
+        user_id = request.POST.get("user_id")
+        otp = request.POST.get("otp")
+
+        try:
+            user = User.objects.get(pk=user_id)
+            totp = pyotp.TOTP(user.mfa_secret)
+            if totp.verify(otp):
+                user.mfa_enabled = True
+                user.save()
+                return render(request, "user/perfil.html", {
+                    "user": user,
+                    "message": "Autenticación de dos factores activada"
+                })
+        except User.DoesNotExist:
+            return render(request, "user/perfil.html", {
+                "message": "Usuario no encontrado"
+            })
+        except pyotp.TOTPError:
+            return render(request, "user/perfil.html", {
+                "message": "Código de autenticación inválido"
+            })
+
+    else:
+        user = User.objects.get(pk=request.user.id)
+        if not user.mfa_secret:
+            user.mfa_secret = pyotp.random_base32()
+            user.save()
+
+        otp_uri = pyotp.totp.TOTP(user.mfa_secret).provisioning_uri(
+            name=user.username,
+            issuer_name="Activos Información"
+        )
+
+        qr = qrcode.make(otp_uri)
+        buffer = io.BytesIO()
+        qr.save(buffer, format="PNG")
+
+        buffer.seek(0)
+        qr_code = base64.b64encode(buffer.getvalue()).decode("utf-8")
+        qr_code_data_uri = f"data:image/png;base64,{qr_code}"
+
+        return render(request, "user/perfil.html", {
+            "user": user,
+            "qr_code": qr_code_data_uri
+        })
 
 def enterAsset(request):
     if request.user.is_authenticated:

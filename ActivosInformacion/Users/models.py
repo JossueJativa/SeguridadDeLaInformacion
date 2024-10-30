@@ -9,3 +9,5 @@ class User(AbstractUser):
     celular = models.CharField(max_length=10, null=False)
     department = models.CharField(max_length=20, null=True)
     workload = models.ForeignKey(Workload, on_delete=models.CASCADE, null=True)
+    mfa_secret = models.CharField(max_length=16, null=True)
+    mfa_enabled = models.BooleanField(default=False)
