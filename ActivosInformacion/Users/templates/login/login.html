@@ -51,6 +51,9 @@
                 <label for="text">Código OTP</label><br>
                 <input type="text" name="otp" id="otp" placeholder="Ingresa su código OTP" required>
             </div>
+
+            <!-- Google button login -->
+            <a href="{% url 'social:begin' 'google-oauth2' %}" class="input-form">Iniciar sesión con Google</a>
     
             <div class="buttons-align-between">
                 <button class="button-login" type="submit">

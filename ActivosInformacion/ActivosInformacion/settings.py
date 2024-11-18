@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-7gh(548g0&x$b1tdsfi8@h^x*8-h*k953s=f&i$c$$numefx!!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'mysite.com']
 
 
 # Application definition
@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     # Installed Apps
     'Users',
     'InitialPage',
+
+    'django_extensions',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +131,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User configuration
 AUTH_USER_MODEL = 'Users.User'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',  # Correcto
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'GOOGLE_OAUTH2_KEY'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'GOOGLE_OAUTH2_SECRET'
+SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = 'https://mysite.com/auth/complete/google-oauth2/'
+
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = '/home/'
