@@ -30,3 +30,6 @@
 
 ## Funcionalidad de Docker
 > - docker build -t seguridad .
+
+## Activar cert para SSL
+> - python.exe .\manage.py runserver_plus --cert-file cert.crt
