@@ -38,4 +38,6 @@ urlpatterns = [
     path('get-safeguards/<int:safeguardstype_id>/', views.get_safeguards, name='get_safeguards'),
 
     path('profile/', views.userProfile, name='userProfile'),
+    path('encrypt/', views.encrypt_data, name='encrypt_data'),
+    path('create_typeAsset/', views.create_typeAsset, name='create_typeAsset'),
 ]

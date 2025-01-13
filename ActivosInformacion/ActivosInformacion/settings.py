@@ -44,16 +44,53 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'social_django',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# Configuraciones de CORS
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://mysite.com:8000",  # Producción
+]
+
+# Permitir credenciales
+CORS_ALLOW_CREDENTIALS = True
+
+# Opcional: Permitir todos los métodos HTTP
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+# Opcional: Permitir todos los encabezados
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "authorization",
+    "content-type",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "https://mysite.com:8000",
 ]
 
 ROOT_URLCONF = 'ActivosInformacion.urls'
@@ -137,8 +174,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'GOOGLE_OAUTH2_KEY'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'GOOGLE_OAUTH2_SECRET'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '824399605893-3cm92l8vv0uhgvdfvbk8r9bqjofghu5g.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = 'https://mysite.com/auth/complete/google-oauth2/'
 
 LOGIN_URL = 'login'

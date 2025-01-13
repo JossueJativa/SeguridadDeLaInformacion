@@ -1,15 +1,33 @@
 import base64
 import io
+import json
 import pyotp
 import qrcode
+
+from google.cloud import kms
+from google.oauth2 import service_account
 
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
 
 from InitialPage.models import Departments, Assets, AssetsDependence, AssetsValue, TypeAssets, SubtypeAssets, Risk, AssetsRisk, RiskType, Safeguards, SafeguardsRisk, SafeguardsTypes
 from Users.models import User, Workload
+
+from google.oauth2 import service_account
+from google.cloud import kms
+
+credential_path = "C://Users//user//GitRepositories//UDLA//SeguridadDeLaInformacion//ActivosInformacion//InitialPage//mysiteseg-d844acd475b8.json"
+credentials = service_account.Credentials.from_service_account_file(credential_path)
+kms_client = kms.KeyManagementServiceClient(credentials=credentials)
+
+# Configuración del proyecto y la clave
+project_id = "mysiteseg"
+location_id = "global"
+key_ring_id = "activos-informacion"
+crypto_key_id = "activos-informacion"
 
 # Create your views here.
 def generate_asset_code():
@@ -1504,3 +1522,66 @@ def get_safeguardstypes(request):
 def get_safeguards(request, safeguardstype_id):
     safeguards = Safeguards.objects.filter(type=safeguardstype_id).values('id', 'code', 'name')
     return JsonResponse(list(safeguards), safe=False)
+
+def decrypt_with_kms(ciphertext):
+    try:
+        ciphertext_bytes = base64.b64decode(ciphertext)
+
+        key_name = kms_client.crypto_key_path(
+            project_id, location_id, key_ring_id, crypto_key_id
+        )
+
+        response = kms_client.decrypt(
+            request={"name": key_name, "ciphertext": ciphertext_bytes}
+        )
+
+        return response.plaintext.decode("utf-8")
+    except Exception as e:
+        raise ValueError(f"Error al desencriptar los datos: {e}")
+
+@csrf_exempt
+def encrypt_data(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode("utf-8"))
+            plaintext_data = data.get('plaintextData')
+            if not plaintext_data:
+                return JsonResponse({'error': 'El campo data es obligatorio.'}, status=400)
+            
+            key_name = kms_client.crypto_key_path(
+                project_id, location_id, key_ring_id, crypto_key_id
+            )
+
+            response = kms_client.encrypt(
+                request={"name": key_name, "plaintext": plaintext_data.encode("utf-8")}
+            )
+
+            data_encrypted = response.ciphertext
+            encrypted_base64 = base64.b64encode(data_encrypted).decode('utf-8')
+
+            return JsonResponse({'encryptedData': encrypted_base64}, status=200)
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Solicitud inválida. Formato JSON incorrecto.'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': f'Error al encriptar los datos: {e}'}, status=500)
+        
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)
+
+@csrf_exempt
+def create_typeAsset(request):
+    if request.method == 'POST':
+        try:
+            # Desencriptar los datos
+            encrypted_data = request.body.decode('utf-8')
+            decrypted_data = decrypt_with_kms(encrypted_data)
+            
+            if not decrypted_data:
+                return JsonResponse({'error': 'El nombre es obligatorio.'}, status=400)
+
+            new_type_asset = TypeAssets.objects.create(name=decrypted_data)
+            return JsonResponse({'message': 'Tipo de activo creado con éxito.', 'id': new_type_asset.id}, status=201)
+        
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Solicitud inválida. Formato JSON incorrecto.'}, status=400)
+
+    return JsonResponse({'error': 'Método no permitido.'}, status=405)
