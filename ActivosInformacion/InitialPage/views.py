@@ -12,7 +12,6 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_http_methods
 
 from InitialPage.models import Departments, Assets, AssetsDependence, AssetsValue, TypeAssets, SubtypeAssets, Risk, AssetsRisk, RiskType, Safeguards, SafeguardsRisk, SafeguardsTypes
 from Users.models import User, Workload
@@ -1541,7 +1540,6 @@ def decrypt_with_kms(ciphertext):
         raise ValueError(f"Error al desencriptar los datos: {e}")
 
 @csrf_exempt
-@require_http_methods(["POST"])
 def encrypt_data(request):
     if request.method == 'POST':
         try:
@@ -1570,7 +1568,6 @@ def encrypt_data(request):
     return JsonResponse({'error': 'Método no permitido.'}, status=405)
 
 @csrf_exempt
-@require_http_methods(["POST"])
 def create_typeAsset(request):
     if request.method == 'POST':
         try:
