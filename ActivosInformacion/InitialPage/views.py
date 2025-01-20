@@ -1539,7 +1539,7 @@ def decrypt_with_kms(ciphertext):
     except Exception as e:
         raise ValueError(f"Error al desencriptar los datos: {e}")
 
-# @csrf_exempt
+@csrf_exempt
 def encrypt_data(request):
     if request.method == 'POST':
         try:
@@ -1567,7 +1567,7 @@ def encrypt_data(request):
         
     return JsonResponse({'error': 'Método no permitido.'}, status=405)
 
-# @csrf_exempt
+@csrf_exempt
 def create_typeAsset(request):
     if request.method == 'POST':
         try:
