@@ -27,8 +27,7 @@ jobs:
 
       - name: Run tests and generate coverage report
         run: |
-          export DJANGO_SETTINGS_MODULE=config.settings
-          coverage run --source='.' -m pytest ActivosInformacion/InitialPage/tests.py
+          coverage run --source='.' -m pytest --ds=config.settings ActivosInformacion/InitialPage/tests.py
           coverage xml -o coverage.xml
 
       - name: SonarCloud Scan
