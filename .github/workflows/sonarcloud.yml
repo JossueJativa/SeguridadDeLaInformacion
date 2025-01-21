@@ -27,7 +27,7 @@ jobs:
 
       - name: Run tests and generate coverage report
         run: |
-          export DJANGO_SETTINGS_MODULE=config.settings
+          $env:DJANGO_SETTINGS_MODULE="ActivosInformacion.ActivosInformacion.settings"
           coverage run --source='.' -m pytest ActivosInformacion/InitialPage/tests.py
           coverage xml -o coverage.xml
 
