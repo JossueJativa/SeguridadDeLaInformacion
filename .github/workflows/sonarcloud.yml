@@ -37,7 +37,7 @@ jobs:
             args: >
                 -Dsonar.organization=JossueJativa 
                 -Dsonar.projectKey=JossueJativa_SeguridadDeLaInformacion
-                -Dsonar.sources=ActivosInformacion/
+                -Dsonar.sources=ActivosInformacion/InitialPage/
                 -Dsonar.tests=tests
                 -Dsonar.host.url=https://sonarcloud.io
                 -Dsonar.login=${{ secrets.SONAR_TOKEN }}
