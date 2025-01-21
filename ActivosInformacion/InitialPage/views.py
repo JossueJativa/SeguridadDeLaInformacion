@@ -1571,7 +1571,7 @@ def encrypt_data(request):
 
 # @csrf_exempt
 @require_http_methods(["POST"])
-def create_typeAsset(request):
+def create_typeAsset(request): 
     if request.method == 'POST':
         try:
             # Desencriptar los datos
