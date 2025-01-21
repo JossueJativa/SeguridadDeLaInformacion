@@ -27,7 +27,8 @@ jobs:
 
       - name: Run tests and generate coverage report
         run: |
-          coverage run --source='.' -m pytest --ds=config.settings ActivosInformacion/InitialPage/tests.py
+          $env:DJANGO_SETTINGS_MODULE="ActivosInformacion.ActivosInformacion.settings"
+          coverage run --source='.' -m pytest ActivosInformacion/InitialPage/tests.py
           coverage xml -o coverage.xml
 
       - name: SonarCloud Scan
