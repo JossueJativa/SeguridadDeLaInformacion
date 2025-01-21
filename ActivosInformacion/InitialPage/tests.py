@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ..models import (
+from .models import (
     TypeAssets, SubtypeAssets, Departments, RiskType, Risk,
     Assets, AssetsDependence, AssetsValue, AssetsRisk,
     SafeguardsTypes, Safeguards, SafeguardsRisk
